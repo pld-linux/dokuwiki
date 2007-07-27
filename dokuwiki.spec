@@ -6,7 +6,7 @@ License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
 # Source0-md5:	84e9b5e8e617658bb0264aa3836f23b3
-URL:		http://phpwiki.sourceforge.net/
+URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	webapps
 Requires:	webserver(php) >= 4.0.6
