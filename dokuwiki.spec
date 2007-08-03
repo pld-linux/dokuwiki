@@ -1,4 +1,5 @@
 Summary:	PHP-based Wiki webapplication
+Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	20070626b
 Release:	0.1
@@ -24,7 +25,16 @@ creating documentation of any kind. It is targeted at developer teams,
 workgroups and small companies. It has a simple but powerful syntax
 which makes sure the datafiles remain readable outside the Wiki and
 eases the creation of structured texts. All data is stored in plain
-text files – no database is required.
+text files - no database is required.
+
+%description -l pl.UTF-8
+DokuWiki to zgodne ze standardami i proste w użyciu Wiki, przeznaczone
+głównie do tworzenia dokumentów wszelkiego rodzaju. Jest przeznaczone
+dla zespołów programistów, grup roboczych i małych firm. Ma prostą,
+ale mającą duże możliwości składnię, dzięki której pliki danych
+pozostają czytelne poza Wiki, a także ułatwiającą tworzenie tekstów
+strukturalnych. Wszystkie dane są przechowywane w plikach tekstowych -
+nie jest wymagana baza danych.
 
 %prep
 %setup -q -n %{name}-2007-06-26b
