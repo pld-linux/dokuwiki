@@ -1,12 +1,15 @@
+%define		_snap	2007-08-17
+%define		_ver	%(echo %{_snap} | tr -d -)
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
-Version:	20070626b
+Version:	%{_ver}
 Release:	0.1
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
-# Source0-md5:	84e9b5e8e617658bb0264aa3836f23b3
+#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
+Source0:	http://dev.splitbrain.org/download/snapshots/%{name}-%{_snap}.tgz
+# Source0-md5:	660771d046665b2a8a03b9b334bd8f91
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	webapps
@@ -37,13 +40,12 @@ strukturalnych. Wszystkie dane są przechowywane w plikach tekstowych -
 nie jest wymagana baza danych.
 
 %prep
-%setup -q -n %{name}-2007-06-26b
+%setup -q -n %{name}
 
 cat > apache.conf <<EOF
 Alias /%{_webapp} %{_appdir}
 <Directory %{_appdir}/>
-Deny from all
-Allow from 127.0.0.1
+	Allow from all
 </Directory>
 EOF
 
@@ -53,7 +55,6 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir},/var/lib/%{name}}
 
 cp -a *.php $RPM_BUILD_ROOT%{_appdir}
 cp -a bin conf data inc lib $RPM_BUILD_ROOT%{_appdir}
-#cp -a conf/* $RPM_BUILD_ROOT%{_sysconfdir}
 install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
 install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 
@@ -74,7 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc COPYING README VERSION
+%doc README
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
