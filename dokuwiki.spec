@@ -2,7 +2,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	20070626b
-Release:	0.1
+Release:	0.6
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
@@ -18,6 +18,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_webapp		%{name}
 %define		_sysconfdir	%{_webapps}/%{_webapp}
 %define		_appdir		%{_datadir}/%{_webapp}
+%define		_localstatedir	/var/lib/%{name}
 
 %description
 DokuWiki is a standards compliant, simple to use Wiki, mainly aimed at
@@ -42,18 +43,20 @@ nie jest wymagana baza danych.
 cat > apache.conf <<EOF
 Alias /%{_webapp} %{_appdir}
 <Directory %{_appdir}/>
-Deny from all
-Allow from 127.0.0.1
+	Allow from all
 </Directory>
 EOF
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir},/var/lib/%{name}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir},%{_localstatedir}}
 
 cp -a *.php $RPM_BUILD_ROOT%{_appdir}
-cp -a bin conf data inc lib $RPM_BUILD_ROOT%{_appdir}
-#cp -a conf/* $RPM_BUILD_ROOT%{_sysconfdir}
+cp -a bin inc lib $RPM_BUILD_ROOT%{_appdir}
+cp -a conf/* $RPM_BUILD_ROOT%{_sysconfdir}
+cp -a data/* $RPM_BUILD_ROOT%{_localstatedir}
+ln -s %{_localstatedir} $RPM_BUILD_ROOT%{_appdir}/data
+ln -s %{_sysconfdir} $RPM_BUILD_ROOT%{_appdir}/conf
 install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
 install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 
@@ -72,11 +75,57 @@ rm -rf $RPM_BUILD_ROOT
 %triggerun -- apache < 2.2.0, apache-base
 %webapp_unregister httpd %{_webapp}
 
+%pretrans
+if [ -d %{_appdir}/data -a ! -L %{_appdir}/data ]; then
+	mv -f %{_appdir}/data/* %{_localstatedir}
+	rm -rf %{_appdir}/data
+fi
+if [ -d %{_appdir}/conf -a ! -L %{_appdir}/conf ]; then
+	mv -f %{_appdir}/conf/* %{_sysconfdir}
+	rm -rf %{_appdir}/conf
+fi
+exit 0
+
 %files
 %defattr(644,root,root,755)
-%doc COPYING README VERSION
+%doc README VERSION
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
-%attr(670,root,http) %{_appdir}
-%dir %attr(770,root,http) /var/lib/%{name}
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acl.auth.php.dist
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/entities.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/interwiki.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.php.dist
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mediameta.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/msg
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mysql.conf.php.example
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/users.auth.php.dist
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/wordblock.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/words.aspell.dist
+
+%{_appdir}
+
+%dir %attr(770,root,http) %{_localstatedir}
+%dir %attr(770,root,http) %{_localstatedir}/attic
+%dir %attr(770,root,http) %{_localstatedir}/cache
+%dir %attr(770,root,http) %{_localstatedir}/index
+%dir %attr(770,root,http) %{_localstatedir}/locks
+%dir %attr(770,root,http) %{_localstatedir}/media
+%dir %attr(770,root,http) %{_localstatedir}/media/wiki
+%dir %attr(770,root,http) %{_localstatedir}/meta
+%dir %attr(770,root,http) %{_localstatedir}/pages
+%dir %attr(770,root,http) %{_localstatedir}/pages/playground
+%dir %attr(770,root,http) %{_localstatedir}/pages/wiki
+%attr(770,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/attic/_dummy
+%attr(770,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/cache/_dummy
+%attr(770,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/index/_dummy
+%attr(770,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/locks/_dummy
+%attr(770,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/media/wiki/dokuwiki-128.png
+%attr(770,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/meta/_dummy
+%attr(770,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
+%attr(770,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
+%attr(770,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
