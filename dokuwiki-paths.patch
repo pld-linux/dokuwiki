@@ -1,0 +1,37 @@
+--- dokuwiki/install.php	2007-08-06 21:55:56.000000000 +0300
++++ dokuwiki/install.php	2007-08-19 19:35:23.079790781 +0300
+@@ -6,8 +6,9 @@
+  */
+ 
+ if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__)).'/');
+-if(!defined('DOKU_CONF')) define('DOKU_CONF',DOKU_INC.'conf/');
+-if(!defined('DOKU_LOCAL')) define('DOKU_LOCAL',DOKU_INC.'conf/');
++if(!defined('DOKU_CONF')) define('DOKU_CONF','/etc/webapps/dokuwiki/');
++if(!defined('DOKU_LOCAL')) define('DOKU_LOCAL',DOKU_CONF);
++if(!defined('DOKU_DATA')) define('DOKU_DATA','/var/lib/dokuwiki');
+ 
+ // check for error reporting override or set error reporting to sane values
+ if (!defined('DOKU_E_LEVEL')) { error_reporting(E_ALL ^ E_NOTICE); }
+@@ -388,14 +389,14 @@
+ 
+     $dirs = array(
+         'conf'      => DOKU_LOCAL,
+-        'data'      => DOKU_INC.'data',
+-        'pages'     => DOKU_INC.'data/pages',
+-        'attic'     => DOKU_INC.'data/attic',
+-        'media'     => DOKU_INC.'data/media',
+-        'meta'      => DOKU_INC.'data/meta',
+-        'cache'     => DOKU_INC.'data/cache',
+-        'locks'     => DOKU_INC.'data/locks',
+-        'index'     => DOKU_INC.'data/index',
++        'data'      => DOKU_DATA,
++        'pages'     => DOKU_DATA.'/pages',
++        'attic'     => DOKU_DATA.'/attic',
++        'media'     => DOKU_DATA.'/media',
++        'meta'      => DOKU_DATA.'/meta',
++        'cache'     => DOKU_DATA.'/cache',
++        'locks'     => DOKU_DATA.'/locks',
++        'index'     => DOKU_DATA.'/index',
+     );
+ 
+     $ok = true;
