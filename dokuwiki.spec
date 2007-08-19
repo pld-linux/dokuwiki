@@ -12,6 +12,7 @@ Source2:	%{name}-lighttpd.conf
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	webapps
+Requires:	webserver(alias)
 Requires:	webserver(php) >= 4.0.6
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
