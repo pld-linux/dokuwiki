@@ -2,7 +2,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	20070626b
-Release:	0.14
+Release:	0.16
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
@@ -63,6 +63,9 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch0 -p1
 %patch1 -p1
 
+# safe file
+mv conf/words.aspell{.dist,}
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_localstatedir},%{_appdir}/{bin,inc,lib}}
@@ -76,6 +79,9 @@ cp -a data/* $RPM_BUILD_ROOT%{_localstatedir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
+
+ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,issue}.gif
+ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -128,20 +134,23 @@ exit 0
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
 
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/entities.conf
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/interwiki.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mediameta.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/msg
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/words.aspell
+
+# use local.php for local changes
+%attr(640,root,http) %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
+# use interwiki.local.conf for local changes
+%attr(640,root,http) %verify(not md5 mtime size) %{_sysconfdir}/interwiki.conf
 
 %attr(640,root,http) %{_sysconfdir}/mysql.conf.php.example
 %attr(640,root,http) %{_sysconfdir}/acl.auth.php.dist
 %attr(640,root,http) %{_sysconfdir}/wordblock.conf
 %attr(640,root,http) %{_sysconfdir}/local.php.dist
 %attr(640,root,http) %{_sysconfdir}/users.auth.php.dist
-%attr(640,root,http) %{_sysconfdir}/words.aspell.dist
 
 %dir %{_appdir}
 %dir %{_appdir}/bin
