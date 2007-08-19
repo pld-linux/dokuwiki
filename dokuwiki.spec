@@ -142,9 +142,9 @@ exit 0
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/words.aspell
 
 # use local.php for local changes
-%attr(640,root,http) %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
 # use interwiki.local.conf for local changes
-%attr(640,root,http) %verify(not md5 mtime size) %{_sysconfdir}/interwiki.conf
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/interwiki.conf
 
 %attr(640,root,http) %{_sysconfdir}/mysql.conf.php.example
 %attr(640,root,http) %{_sysconfdir}/acl.auth.php.dist
