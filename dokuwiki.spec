@@ -2,13 +2,15 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	20070626b
-Release:	0.8
+Release:	0.14
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
 # Source0-md5:	84e9b5e8e617658bb0264aa3836f23b3
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
+Patch0:		%{name}-paths.patch
+Patch1:		%{name}-config.patch
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	webapps
@@ -40,25 +42,53 @@ pozostają czytelne poza Wiki, a także ułatwiającą tworzenie tekstów
 strukturalnych. Wszystkie dane są przechowywane w plikach tekstowych -
 nie jest wymagana baza danych.
 
+%package setup
+Summary:	Dokuwiki setup package
+Summary(pl.UTF-8):	Pakiet do wstępnej konfiguracji Dokuwiki
+Group:		Applications/WWW
+Requires:	%{name} = %{version}-%{release}
+
+%description setup
+Install this package to configure initial Dokuwiki installation. You
+should uninstall this package when you're done, as it considered
+insecure to keep the setup files in place.
+
+%description setup -l pl.UTF-8
+Ten pakiet należy zainstalować w celu wstępnej konfiguracji Dokuwiki
+po pierwszej instalacji. Potem należy go odinstalować, jako że
+pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
+
 %prep
 %setup -q -n %{name}-2007-06-26b
+%patch0 -p1
+%patch1 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir},%{_localstatedir}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_localstatedir},%{_appdir}/{bin,inc,lib}}
 
 cp -a *.php $RPM_BUILD_ROOT%{_appdir}
-cp -a bin inc lib $RPM_BUILD_ROOT%{_appdir}
+cp -a bin/* $RPM_BUILD_ROOT%{_appdir}/bin
+cp -a inc/* $RPM_BUILD_ROOT%{_appdir}/inc
+cp -a lib/* $RPM_BUILD_ROOT%{_appdir}/lib
 cp -a conf/* $RPM_BUILD_ROOT%{_sysconfdir}
 cp -a data/* $RPM_BUILD_ROOT%{_localstatedir}
-ln -s %{_localstatedir} $RPM_BUILD_ROOT%{_appdir}/data
-ln -s %{_sysconfdir} $RPM_BUILD_ROOT%{_appdir}/conf
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post setup
+chmod 770 %{_sysconfdir}
+chmod 660 %{_sysconfdir}/dokuwiki.php
+
+%postun setup
+if [ "$1" = "0" ]; then
+	chmod 750 %{_sysconfdir}
+	chmod 640 %{_sysconfdir}/dokuwiki.php
+fi
 
 %triggerin -- apache1 < 1.3.37-3, apache1-base
 %webapp_register apache %{_webapp}
@@ -113,7 +143,16 @@ exit 0
 %attr(640,root,http) %{_sysconfdir}/users.auth.php.dist
 %attr(640,root,http) %{_sysconfdir}/words.aspell.dist
 
-%{_appdir}
+%dir %{_appdir}
+%dir %{_appdir}/bin
+%attr(755,root,root) %{_appdir}/bin/dwpage.php
+%attr(755,root,root) %{_appdir}/bin/indexer.php
+%attr(755,root,root) %{_appdir}/bin/wantedpages.php
+%{_appdir}/inc
+%{_appdir}/lib
+%{_appdir}/doku.php
+%{_appdir}/feed.php
+%{_appdir}/index.php
 
 %dir %attr(770,root,http) %{_localstatedir}
 %dir %attr(770,root,http) %{_localstatedir}/attic
@@ -135,3 +174,7 @@ exit 0
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
+
+%files setup
+%defattr(644,root,root,755)
+%{_appdir}/install.php
