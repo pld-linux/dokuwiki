@@ -2,11 +2,13 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	20070626b
-Release:	0.7
+Release:	0.8
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
 # Source0-md5:	84e9b5e8e617658bb0264aa3836f23b3
+Source1:	%{name}-apache.conf
+Source2:	%{name}-lighttpd.conf
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	webapps
@@ -40,13 +42,6 @@ nie jest wymagana baza danych.
 %prep
 %setup -q -n %{name}-2007-06-26b
 
-cat > apache.conf <<EOF
-Alias /%{_webapp} %{_appdir}
-<Directory %{_appdir}/>
-	Allow from all
-</Directory>
-EOF
-
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir},%{_localstatedir}}
@@ -57,8 +52,9 @@ cp -a conf/* $RPM_BUILD_ROOT%{_sysconfdir}
 cp -a data/* $RPM_BUILD_ROOT%{_localstatedir}
 ln -s %{_localstatedir} $RPM_BUILD_ROOT%{_appdir}/data
 ln -s %{_sysconfdir} $RPM_BUILD_ROOT%{_appdir}/conf
-install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
-install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -74,6 +70,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %triggerun -- apache < 2.2.0, apache-base
 %webapp_unregister httpd %{_webapp}
+
+%triggerin -- lighttpd
+%webapp_register lighttpd %{_webapp}
+
+%triggerun -- lighttpd
+%webapp_unregister lighttpd %{_webapp}
 
 %pretrans
 if [ -d %{_appdir}/data -a ! -L %{_appdir}/data ]; then
@@ -92,6 +94,8 @@ exit 0
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
+
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/entities.conf
