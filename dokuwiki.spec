@@ -15,6 +15,7 @@ Patch2:		%{name}-mysqlauth.patch
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	geshi >= 1.0.7.19
+Requires:	php(xml)
 Requires:	webapps
 Requires:	webserver(alias)
 Requires:	webserver(php) >= 4.3.3
