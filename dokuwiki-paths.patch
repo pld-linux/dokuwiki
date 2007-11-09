@@ -35,3 +35,14 @@
      );
  
      $ok = true;
+--- dokuwiki/inc/init.php~	2007-06-26 21:27:15.000000000 +0300
++++ dokuwiki/inc/init.php	2007-08-19 19:37:26.734809055 +0300
+@@ -14,7 +14,7 @@
+   if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../').'/');
+ 
+   // define config path (packagers may want to change this to /etc/dokuwiki/)
+-  if(!defined('DOKU_CONF')) define('DOKU_CONF',DOKU_INC.'conf/');
++  if(!defined('DOKU_CONF')) define('DOKU_CONF','/etc/webapps/dokuwiki/');
+ 
+   // check for error reporting override or set error reporting to sane values
+   if (!defined('DOKU_E_LEVEL') && @file_exists(DOKU_CONF.'report_e_all')) {
