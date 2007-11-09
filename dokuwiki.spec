@@ -17,7 +17,8 @@ BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	geshi >= 1.0.7.19
 Requires:	webapps
 Requires:	webserver(alias)
-Requires:	webserver(php) >= 4.0.6
+Requires:	webserver(php) >= 4.3.3
+Suggests:	php(gd)
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
