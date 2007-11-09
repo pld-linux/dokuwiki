@@ -2,7 +2,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	20070626b
-Release:	0.16
+Release:	0.21
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
@@ -13,6 +13,7 @@ Patch0:		%{name}-paths.patch
 Patch1:		%{name}-config.patch
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.268
+Requires:	geshi >= 1.0.7.19
 Requires:	webapps
 Requires:	webserver(alias)
 Requires:	webserver(php) >= 4.0.6
@@ -24,6 +25,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_sysconfdir	%{_webapps}/%{_webapp}
 %define		_appdir		%{_datadir}/%{_webapp}
 %define		_localstatedir	/var/lib/%{name}
+%define		_phpdir	/usr/share/php
 
 %description
 DokuWiki is a standards compliant, simple to use Wiki, mainly aimed at
@@ -65,6 +67,13 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 # safe file
 mv conf/words.aspell{.dist,}
+
+# use system geshi package
+cat <<'EOF' > inc/geshi.php
+<?php
+require_once '%{_phpdir}/geshi.php';
+EOF
+rm -rf inc/geshi
 
 %install
 rm -rf $RPM_BUILD_ROOT
