@@ -2,7 +2,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	20070626b
-Release:	0.22
+Release:	0.23
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
@@ -12,6 +12,7 @@ Source2:	%{name}-lighttpd.conf
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-mysqlauth.patch
+Patch3:		%{name}-config-allow-require.patch
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	geshi >= 1.0.7.19
@@ -68,6 +69,7 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 # safe file
 mv conf/words.aspell{.dist,}
