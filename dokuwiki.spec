@@ -2,13 +2,14 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	20070626b
-Release:	0.28
+Release:	0.29
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
 # Source0-md5:	84e9b5e8e617658bb0264aa3836f23b3
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
+Source3:	%{name}-find-lang.sh
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-mysqlauth.patch
@@ -103,27 +104,7 @@ ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,issue}.gif
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
 
 # find locales
-> %{name}.lang
-find $RPM_BUILD_ROOT%{_appdir} -type d -name lang | while read dir; do
-	echo "%dir ${dir#$RPM_BUILD_ROOT}" >> %{name}.lang
-	for dir in $dir/*; do
-		lang=${dir##*/}
-		dir=${dir#$RPM_BUILD_ROOT}
-		case "$lang" in
-		zh-tw)
-			lang=zh_TW
-		;;
-		pt-br)
-			lang=pt_BR
-		;;
-		*-*)
-			: Need mapping for $lang!
-			exit 1
-		;;
-		esac
-		echo "%lang($lang) ${dir#$RPM_BUILD_ROOT}" >> %{name}.lang
-	done
-done
+sh %{SOURCE3} %{name}.lang
 
 %clean
 rm -rf $RPM_BUILD_ROOT
