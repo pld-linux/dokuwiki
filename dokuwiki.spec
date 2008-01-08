@@ -2,7 +2,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	20070626b
-Release:	0.27
+Release:	0.28
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
@@ -75,6 +75,7 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch4 -p1
 %patch5 -p1
 
+rm -f inc/lang/.htaccess
 # safe file
 mv conf/words.aspell{.dist,}
 
@@ -100,6 +101,29 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/local.protected.php
 
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,issue}.gif
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
+
+# find locales
+> %{name}.lang
+find $RPM_BUILD_ROOT%{_appdir} -type d -name lang | while read dir; do
+	echo "%dir ${dir#$RPM_BUILD_ROOT}" >> %{name}.lang
+	for dir in $dir/*; do
+		lang=${dir##*/}
+		dir=${dir#$RPM_BUILD_ROOT}
+		case "$lang" in
+		zh-tw)
+			lang=zh_TW
+		;;
+		pt-br)
+			lang=pt_BR
+		;;
+		*-*)
+			: Need mapping for $lang!
+			exit 1
+		;;
+		esac
+		echo "%lang($lang) ${dir#$RPM_BUILD_ROOT}" >> %{name}.lang
+	done
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -143,7 +167,7 @@ if [ -d %{_appdir}/conf -a ! -L %{_appdir}/conf ]; then
 fi
 exit 0
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc README VERSION
 %dir %attr(750,root,http) %{_sysconfdir}
@@ -173,15 +197,42 @@ exit 0
 %attr(640,root,http) %{_sysconfdir}/users.auth.php.dist
 
 %dir %{_appdir}
+%{_appdir}/doku.php
+%{_appdir}/feed.php
+%{_appdir}/index.php
 %dir %{_appdir}/bin
 %attr(755,root,root) %{_appdir}/bin/dwpage.php
 %attr(755,root,root) %{_appdir}/bin/indexer.php
 %attr(755,root,root) %{_appdir}/bin/wantedpages.php
-%{_appdir}/inc
-%{_appdir}/lib
-%{_appdir}/doku.php
-%{_appdir}/feed.php
-%{_appdir}/index.php
+
+%dir %{_appdir}/inc
+%{_appdir}/inc/*.php
+%{_appdir}/inc/auth
+%{_appdir}/inc/parser
+
+%dir %{_appdir}/lib
+%dir %{_appdir}/lib/plugins
+%dir %{_appdir}/lib/plugins/acl
+%{_appdir}/lib/plugins/acl/*.*
+%dir %{_appdir}/lib/plugins/config
+%{_appdir}/lib/plugins/config/*.*
+%{_appdir}/lib/plugins/config/settings
+%dir %{_appdir}/lib/plugins/plugin
+%{_appdir}/lib/plugins/plugin/*.*
+%dir %{_appdir}/lib/plugins/revert
+%{_appdir}/lib/plugins/revert/*.*
+%dir %{_appdir}/lib/plugins/usermanager
+%{_appdir}/lib/plugins/usermanager/*.*
+%{_appdir}/lib/plugins/usermanager/images
+%{_appdir}/lib/plugins/importoldchangelog
+%{_appdir}/lib/plugins/importoldindex
+%{_appdir}/lib/plugins/info
+%{_appdir}/lib/plugins/*.php
+%{_appdir}/lib/images
+%{_appdir}/lib/scripts
+%{_appdir}/lib/styles
+%{_appdir}/lib/tpl
+%{_appdir}/lib/exe
 
 %dir %attr(770,root,http) %{_localstatedir}
 %dir %attr(770,root,http) %{_localstatedir}/attic
