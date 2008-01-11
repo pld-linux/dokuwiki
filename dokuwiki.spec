@@ -52,18 +52,18 @@ strukturalnych. Wszystkie dane są przechowywane w plikach tekstowych -
 nie jest wymagana baza danych.
 
 %package setup
-Summary:	Dokuwiki setup package
-Summary(pl.UTF-8):	Pakiet do wstępnej konfiguracji Dokuwiki
+Summary:	DokuWiki setup package
+Summary(pl.UTF-8):	Pakiet do wstępnej konfiguracji DokuWiki
 Group:		Applications/WWW
 Requires:	%{name} = %{version}-%{release}
 
 %description setup
-Install this package to configure initial Dokuwiki installation. You
+Install this package to configure initial DokuWiki installation. You
 should uninstall this package when you're done, as it considered
 insecure to keep the setup files in place.
 
 %description setup -l pl.UTF-8
-Ten pakiet należy zainstalować w celu wstępnej konfiguracji Dokuwiki
+Ten pakiet należy zainstalować w celu wstępnej konfiguracji DokuWiki
 po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
