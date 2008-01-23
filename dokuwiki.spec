@@ -24,6 +24,8 @@ Requires:	webapps
 Requires:	webserver(alias)
 Requires:	webserver(php) >= 4.3.3
 Suggests:	php(gd)
+# can use gz compression to store attic pages
+Suggests:	php(zlib)
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
