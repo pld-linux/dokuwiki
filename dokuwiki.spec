@@ -2,7 +2,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	20070626b
-Release:	0.29
+Release:	0.30
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
@@ -101,6 +101,11 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/local.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/local.protected.php
+touch $RPM_BUILD_ROOT%{_sysconfdir}/acronyms.local.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/entities.local.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/interwiki.local.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/mime.local.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
 
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,issue}.gif
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
@@ -158,21 +163,27 @@ exit 0
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
 
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/entities.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mediameta.php
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/msg
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/words.aspell
+
 %attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.protected.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/entities.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/interwiki.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.local.conf
 
-# use local.php,local.protected.php for local changes
+# use local.php,local.protected.php, etc for local changes
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
-# use interwiki.local.conf for local changes
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/entities.conf
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/interwiki.conf
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/mime.conf
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/smileys.conf
 
+# samples. perhaps move to %doc instead?
 %attr(640,root,http) %{_sysconfdir}/mysql.conf.php.example
 %attr(640,root,http) %{_sysconfdir}/acl.auth.php.dist
 %attr(640,root,http) %{_sysconfdir}/wordblock.conf
