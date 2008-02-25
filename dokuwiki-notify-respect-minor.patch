@@ -1,0 +1,10 @@
+--- dokuwiki/inc/common.php~	2007-06-26 21:27:15.000000000 +0300
++++ dokuwiki/inc/common.php	2008-02-25 20:39:15.516789317 +0200
+@@ -831,6 +831,7 @@
+   // decide if there is something to do
+   if($who == 'admin'){
+     if(empty($conf['notify'])) return; //notify enabled?
++    if($conf['useacl'] && $_SERVER['REMOTE_USER'] && $minor) return; //skip minors
+     $text = rawLocale('mailtext');
+     $to   = $conf['notify'];
+     $bcc  = '';
