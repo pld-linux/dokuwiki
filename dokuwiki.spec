@@ -2,7 +2,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	20070626b
-Release:	0.34
+Release:	0.35
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
@@ -11,6 +11,7 @@ Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	%{name}-find-lang.sh
 Source4:	jude.png
+Source5:	eventum.gif
 # Source4-md5:	623344128960e18f86097dfee213ad4a
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-config.patch
@@ -115,9 +116,9 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/interwiki.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/mime.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
 
-ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,issue}.gif
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
 cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons
+cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
 
 # find locales
 sh %{SOURCE3} %{name}.lang
