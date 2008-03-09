@@ -12,7 +12,6 @@ Source2:	%{name}-lighttpd.conf
 Source3:	%{name}-find-lang.sh
 Source4:	jude.png
 Source5:	eventum.gif
-# Source4-md5:	623344128960e18f86097dfee213ad4a
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-mysqlauth.patch
