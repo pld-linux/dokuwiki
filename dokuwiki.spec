@@ -1,4 +1,4 @@
-%define		_snap	2007-08-17
+%define		_snap	2008-03-09
 %define		_ver	%(echo %{_snap} | tr -d -)
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
@@ -9,7 +9,7 @@ License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
 Source0:	http://dev.splitbrain.org/download/snapshots/%{name}-%{_snap}.tgz
-# Source0-md5:	660771d046665b2a8a03b9b334bd8f91
+# Source0-md5:	5af7c55a79688a3bc38bca6865fb3bef
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	webapps
