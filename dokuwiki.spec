@@ -64,7 +64,7 @@ nie jest wymagana baza danych.
 
 %package setup
 Summary:	DokuWiki setup package
-Summary(pl.UTF-8):	Pakiet do wstêpnej konfiguracji DokuWiki
+Summary(pl.UTF-8):	Pakiet do wstÄ™pnej konfiguracji DokuWiki
 Group:		Applications/WWW
 Requires:	%{name} = %{version}-%{release}
 
@@ -74,9 +74,9 @@ should uninstall this package when you're done, as it considered
 insecure to keep the setup files in place.
 
 %description setup -l pl.UTF-8
-Ten pakiet nale¿y zainstalowaæ w celu wstêpnej konfiguracji DokuWiki
-po pierwszej instalacji. Potem nale¿y go odinstalowaæ, jako ¿e
-pozostawienie plików instalacyjnych mog³oby byæ niebezpieczne.
+Ten pakiet naleÅ¼y zainstalowaÄ‡ w celu wstÄ™pnej konfiguracji DokuWiki
+po pierwszej instalacji. Potem naleÅ¼y go odinstalowaÄ‡, jako Å¼e
+pozostawienie plikÃ³w instalacyjnych mogÅ‚oby byÄ‡ niebezpieczne.
 
 %prep
 %setup -q -n %{name}
