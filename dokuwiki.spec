@@ -13,8 +13,9 @@ Source0:	http://dev.splitbrain.org/download/snapshots/%{name}-%{_snap}.tgz
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	%{name}-find-lang.sh
-#Source4:	jude.png
+Source4:	jude.png
 Source5:	eventum.gif
+# Source4-md5:	623344128960e18f86097dfee213ad4a
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-mysqlauth.patch
@@ -32,6 +33,8 @@ Requires:	webapps
 Requires:	webserver(alias)
 Requires:	webserver(php) >= 4.3.3
 Suggests:	php(gd)
+# can use gz compression to store attic pages
+Suggests:	php(zlib)
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -100,7 +103,9 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_localstatedir},%{_appdir}/{bin,inc,lib}}
 
 cp -a *.php $RPM_BUILD_ROOT%{_appdir}
-cp -a bin inc lib $RPM_BUILD_ROOT%{_appdir}
+cp -a bin/* $RPM_BUILD_ROOT%{_appdir}/bin
+cp -a inc/* $RPM_BUILD_ROOT%{_appdir}/inc
+cp -a lib/* $RPM_BUILD_ROOT%{_appdir}/lib
 cp -a conf/* $RPM_BUILD_ROOT%{_sysconfdir}
 cp -a data/* $RPM_BUILD_ROOT%{_localstatedir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
@@ -115,13 +120,11 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/mime.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
 
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
-#cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons
+cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons
 cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
 
 # find locales
 sh %{SOURCE3} %{name}.lang
-ln -s %{_localstatedir} $RPM_BUILD_ROOT%{_appdir}/data
-ln -s %{_sysconfdir} $RPM_BUILD_ROOT%{_appdir}/conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
