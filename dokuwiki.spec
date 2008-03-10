@@ -224,6 +224,7 @@ exit 0
 %dir %{_appdir}/lib/plugins
 %dir %{_appdir}/lib/plugins/acl
 %{_appdir}/lib/plugins/acl/*.*
+%{_appdir}/lib/plugins/acl/pix
 %dir %{_appdir}/lib/plugins/config
 %{_appdir}/lib/plugins/config/*.*
 %{_appdir}/lib/plugins/config/settings
@@ -237,6 +238,8 @@ exit 0
 %{_appdir}/lib/plugins/importoldchangelog
 %{_appdir}/lib/plugins/importoldindex
 %{_appdir}/lib/plugins/info
+%dir %{_appdir}/lib/plugins/popularity
+%{_appdir}/lib/plugins/popularity/*.*
 %{_appdir}/lib/plugins/*.php
 %{_appdir}/lib/images
 %{_appdir}/lib/scripts
@@ -254,6 +257,7 @@ exit 0
 %dir %attr(770,root,http) %{_localstatedir}/meta
 %dir %attr(770,root,http) %{_localstatedir}/pages
 %dir %attr(770,root,http) %{_localstatedir}/pages/wiki
+%dir %attr(770,root,http) %{_localstatedir}/tmp
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/attic/_dummy
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/cache/_dummy
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/index/_dummy
@@ -262,6 +266,7 @@ exit 0
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/meta/_dummy
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/tmp/_dummy
 
 %files setup
 %defattr(644,root,root,755)
