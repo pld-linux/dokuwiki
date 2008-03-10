@@ -1,4 +1,4 @@
-%define		_snap	2008-03-09
+%define		_snap	2008-03-10
 %define		_ver	%(echo %{_snap} | tr -d -)
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
@@ -9,11 +9,29 @@ License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
 Source0:	http://dev.splitbrain.org/download/snapshots/%{name}-%{_snap}.tgz
-# Source0-md5:	5af7c55a79688a3bc38bca6865fb3bef
+# Source0-md5:	497479c4210c4427474516b4638b5d88
+Source1:	%{name}-apache.conf
+Source2:	%{name}-lighttpd.conf
+Source3:	%{name}-find-lang.sh
+#Source4:	jude.png
+Source5:	eventum.gif
+Patch0:		%{name}-paths.patch
+Patch1:		%{name}-config.patch
+Patch2:		%{name}-mysqlauth.patch
+Patch3:		%{name}-config-allow-require.patch
+Patch4:		%{name}-geshi.patch
+Patch5:		%{name}-http_auth-option.patch
+Patch6:		%{name}-nice_exit.patch
+Patch7:		%{name}-mail-headerencodequotes.patch
+Patch8:		%{name}-notify-respect-minor.patch
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.268
+Requires:	geshi >= 1.0.7.19
+Requires:	php(xml)
 Requires:	webapps
-Requires:	webserver(php) >= 4.0.6
+Requires:	webserver(alias)
+Requires:	webserver(php) >= 4.3.3
+Suggests:	php(gd)
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -21,6 +39,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_webapp		%{name}
 %define		_sysconfdir	%{_webapps}/%{_webapp}
 %define		_appdir		%{_datadir}/%{_webapp}
+%define		_localstatedir	/var/lib/%{name}
+%define		_phpdir	/usr/share/php
 
 %description
 DokuWiki is a standards compliant, simple to use Wiki, mainly aimed at
@@ -39,27 +59,82 @@ pozostajÄ… czytelne poza Wiki, a takÅ¼e uÅ‚atwiajÄ…cÄ… tworzenie tekstÃ³w
 strukturalnych. Wszystkie dane sÄ… przechowywane w plikach tekstowych -
 nie jest wymagana baza danych.
 
+%package setup
+Summary:	DokuWiki setup package
+Summary(pl.UTF-8):	Pakiet do wstêpnej konfiguracji DokuWiki
+Group:		Applications/WWW
+Requires:	%{name} = %{version}-%{release}
+
+%description setup
+Install this package to configure initial DokuWiki installation. You
+should uninstall this package when you're done, as it considered
+insecure to keep the setup files in place.
+
+%description setup -l pl.UTF-8
+Ten pakiet nale¿y zainstalowaæ w celu wstêpnej konfiguracji DokuWiki
+po pierwszej instalacji. Potem nale¿y go odinstalowaæ, jako ¿e
+pozostawienie plików instalacyjnych mog³oby byæ niebezpieczne.
+
 %prep
 %setup -q -n %{name}
+#%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
 
-cat > apache.conf <<EOF
-Alias /%{_webapp} %{_appdir}
-<Directory %{_appdir}/>
-	Allow from all
-</Directory>
-EOF
+rm -f inc/lang/.htaccess
+# safe file
+mv conf/words.aspell{.dist,}
+
+# use system geshi package
+rm -f inc/geshi.php
+rm -rf inc/geshi
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_appdir},/var/lib/%{name}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_localstatedir},%{_appdir}/{bin,inc,lib}}
 
 cp -a *.php $RPM_BUILD_ROOT%{_appdir}
-cp -a bin conf data inc lib $RPM_BUILD_ROOT%{_appdir}
-install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
-install apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+cp -a bin inc lib $RPM_BUILD_ROOT%{_appdir}
+cp -a conf/* $RPM_BUILD_ROOT%{_sysconfdir}
+cp -a data/* $RPM_BUILD_ROOT%{_localstatedir}
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/local.php
+touch $RPM_BUILD_ROOT%{_sysconfdir}/local.protected.php
+touch $RPM_BUILD_ROOT%{_sysconfdir}/acronyms.local.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/entities.local.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/interwiki.local.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/mime.local.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
+
+ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
+#cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons
+cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
+
+# find locales
+sh %{SOURCE3} %{name}.lang
+ln -s %{_localstatedir} $RPM_BUILD_ROOT%{_appdir}/data
+ln -s %{_sysconfdir} $RPM_BUILD_ROOT%{_appdir}/conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post setup
+chmod 770 %{_sysconfdir}
+chmod 660 %{_sysconfdir}/dokuwiki.php
+
+%postun setup
+if [ "$1" = "0" ]; then
+	chmod 750 %{_sysconfdir}
+	chmod 640 %{_sysconfdir}/dokuwiki.php
+fi
 
 %triggerin -- apache1 < 1.3.37-3, apache1-base
 %webapp_register apache %{_webapp}
@@ -73,11 +148,115 @@ rm -rf $RPM_BUILD_ROOT
 %triggerun -- apache < 2.2.0, apache-base
 %webapp_unregister httpd %{_webapp}
 
-%files
+%triggerin -- lighttpd
+%webapp_register lighttpd %{_webapp}
+
+%triggerun -- lighttpd
+%webapp_unregister lighttpd %{_webapp}
+
+%pretrans
+if [ -d %{_appdir}/data -a ! -L %{_appdir}/data ]; then
+	mv -f %{_appdir}/data/* %{_localstatedir}
+	rm -rf %{_appdir}/data
+fi
+if [ -d %{_appdir}/conf -a ! -L %{_appdir}/conf ]; then
+	mv -f %{_appdir}/conf/* %{_sysconfdir}
+	rm -rf %{_appdir}/conf
+fi
+exit 0
+
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc README
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
-%attr(670,root,http) %{_appdir}
-%dir %attr(770,root,http) /var/lib/%{name}
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
+
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mediameta.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/msg
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/words.aspell
+
+%attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.protected.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/entities.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/interwiki.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.local.conf
+
+# use local.php,local.protected.php, etc for local changes
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/entities.conf
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/interwiki.conf
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/mime.conf
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/smileys.conf
+
+# samples. perhaps move to %doc instead?
+%attr(640,root,http) %{_sysconfdir}/mysql.conf.php.example
+%attr(640,root,http) %{_sysconfdir}/acl.auth.php.dist
+%attr(640,root,http) %{_sysconfdir}/wordblock.conf
+%attr(640,root,http) %{_sysconfdir}/local.php.dist
+%attr(640,root,http) %{_sysconfdir}/users.auth.php.dist
+
+%dir %{_appdir}
+%{_appdir}/doku.php
+%{_appdir}/feed.php
+%{_appdir}/index.php
+%dir %{_appdir}/bin
+%attr(755,root,root) %{_appdir}/bin/dwpage.php
+%attr(755,root,root) %{_appdir}/bin/indexer.php
+%attr(755,root,root) %{_appdir}/bin/wantedpages.php
+
+%dir %{_appdir}/inc
+%{_appdir}/inc/*.php
+%{_appdir}/inc/auth
+%{_appdir}/inc/parser
+
+%dir %{_appdir}/lib
+%dir %{_appdir}/lib/plugins
+%dir %{_appdir}/lib/plugins/acl
+%{_appdir}/lib/plugins/acl/*.*
+%dir %{_appdir}/lib/plugins/config
+%{_appdir}/lib/plugins/config/*.*
+%{_appdir}/lib/plugins/config/settings
+%dir %{_appdir}/lib/plugins/plugin
+%{_appdir}/lib/plugins/plugin/*.*
+%dir %{_appdir}/lib/plugins/revert
+%{_appdir}/lib/plugins/revert/*.*
+%dir %{_appdir}/lib/plugins/usermanager
+%{_appdir}/lib/plugins/usermanager/*.*
+%{_appdir}/lib/plugins/usermanager/images
+%{_appdir}/lib/plugins/importoldchangelog
+%{_appdir}/lib/plugins/importoldindex
+%{_appdir}/lib/plugins/info
+%{_appdir}/lib/plugins/*.php
+%{_appdir}/lib/images
+%{_appdir}/lib/scripts
+%{_appdir}/lib/styles
+%{_appdir}/lib/tpl
+%{_appdir}/lib/exe
+
+%dir %attr(770,root,http) %{_localstatedir}
+%dir %attr(770,root,http) %{_localstatedir}/attic
+%dir %attr(770,root,http) %{_localstatedir}/cache
+%dir %attr(770,root,http) %{_localstatedir}/index
+%dir %attr(770,root,http) %{_localstatedir}/locks
+%dir %attr(770,root,http) %{_localstatedir}/media
+%dir %attr(770,root,http) %{_localstatedir}/media/wiki
+%dir %attr(770,root,http) %{_localstatedir}/meta
+%dir %attr(770,root,http) %{_localstatedir}/pages
+%dir %attr(770,root,http) %{_localstatedir}/pages/wiki
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/attic/_dummy
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/cache/_dummy
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/index/_dummy
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/locks/_dummy
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/media/wiki/dokuwiki-128.png
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/meta/_dummy
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
+
+%files setup
+%defattr(644,root,root,755)
+%{_appdir}/install.php
