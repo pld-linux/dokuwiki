@@ -23,6 +23,7 @@ Patch5:		%{name}-http_auth-option.patch
 Patch6:		%{name}-nice_exit.patch
 Patch7:		%{name}-mail-headerencodequotes.patch
 Patch8:		%{name}-notify-respect-minor.patch
+Patch9:		%{name}-media-userinfo.patch
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	geshi >= 1.0.7.19
@@ -87,6 +88,7 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 rm -f inc/lang/.htaccess
 # safe file

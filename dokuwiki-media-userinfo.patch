@@ -1,0 +1,21 @@
+--- dokuwiki/inc/media.php~	2008-03-11 17:01:47.000000000 +0200
++++ dokuwiki/inc/media.php	2008-03-11 17:01:51.038533362 +0200
+@@ -301,6 +301,7 @@
+ function media_notify($id,$file,$mime){
+     global $lang;
+     global $conf;
++    global $USERINFO;
+     if(empty($conf['notify'])) return; //notify enabled?
+ 
+     $text = rawLocale('uploadmail');
+@@ -316,8 +317,8 @@
+ 
+     $from = $conf['mailfrom'];
+     $from = str_replace('@USER@',$_SERVER['REMOTE_USER'],$from);
+-    $from = str_replace('@NAME@',$INFO['userinfo']['name'],$from);
+-    $from = str_replace('@MAIL@',$INFO['userinfo']['mail'],$from);
++    $from = str_replace('@NAME@',$USERINFO['name'],$from);
++    $from = str_replace('@MAIL@',$USERINFO['mail'],$from);
+ 
+     $subject = '['.$conf['title'].'] '.$lang['mail_upload'].' '.$id;
+ 
