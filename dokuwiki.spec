@@ -1,5 +1,6 @@
-%define		_snap	2008-03-10
-%define		_ver	%(echo %{_snap} | tr -d -)
+%define		ver	2008-03-31
+%define		subver	rc
+%define		_ver	%(echo %{ver} | tr -d -)
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
@@ -8,14 +9,14 @@ Release:	0.1
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
-Source0:	http://dev.splitbrain.org/download/snapshots/%{name}-%{_snap}.tgz
-# Source0-md5:	497479c4210c4427474516b4638b5d88
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}%{ver}.tgz
+# Source0-md5:	771993236742dd37d57f2e88a0ee76cc
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	%{name}-find-lang.sh
 Source4:	jude.png
-Source5:	eventum.gif
 # Source4-md5:	623344128960e18f86097dfee213ad4a
+Source5:	eventum.gif
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-mysqlauth.patch
@@ -79,7 +80,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}
+%setup -q -n %{name}-%{?subver}%{ver}
 #%patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -257,6 +258,7 @@ exit 0
 %dir %attr(770,root,http) %{_localstatedir}/meta
 %dir %attr(770,root,http) %{_localstatedir}/pages
 %dir %attr(770,root,http) %{_localstatedir}/pages/wiki
+%dir %attr(770,root,http) %{_localstatedir}/pages/playground
 %dir %attr(770,root,http) %{_localstatedir}/tmp
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/attic/_dummy
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/cache/_dummy
@@ -266,6 +268,7 @@ exit 0
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/meta/_dummy
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/tmp/_dummy
 
 %files setup
