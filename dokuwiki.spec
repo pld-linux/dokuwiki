@@ -5,7 +5,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{_ver}
-Release:	0.1
+Release:	0.2
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
@@ -81,7 +81,7 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
 %setup -q -n %{name}-%{?subver}%{ver}
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
