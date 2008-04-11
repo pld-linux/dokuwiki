@@ -1,16 +1,16 @@
-%define		ver	2008-03-31
+%define		ver	2008-04-11
 %define		subver	rc
 %define		_ver	%(echo %{ver} | tr -d -)
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{_ver}
-Release:	0.2
+Release:	0.1
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}%{ver}.tgz
-# Source0-md5:	771993236742dd37d57f2e88a0ee76cc
+# Source0-md5:	0b557dc8235f4125a761d76bd685d048
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	%{name}-find-lang.sh
