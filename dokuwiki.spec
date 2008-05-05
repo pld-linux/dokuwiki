@@ -1,16 +1,14 @@
-%define		ver	2008-04-11
-%define		subver	rc
-%define		_ver	%(echo %{ver} | tr -d -)
+%define		subver	2008-05-05
+%define		ver	%(echo %{subver} | tr -d -)
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
-Version:	%{_ver}
+Version:	%{ver}
 Release:	0.1
 License:	GPL v2
 Group:		Applications/WWW
-#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}%{ver}.tgz
-# Source0-md5:	0b557dc8235f4125a761d76bd685d048
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+# Source0-md5:	1a70a2ab847b704b629cbbe212ce9a00
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	%{name}-find-lang.sh
@@ -80,7 +78,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-%{?subver}%{ver}
+%setup -q -n %{name}-%{subver}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
