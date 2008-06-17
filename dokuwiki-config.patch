@@ -19,7 +19,7 @@ you need to update checksum when you modify docuwiki.php
      '2007-06-26'   => 'b3ca19c7a654823144119980be73cd77',
      '2008-05-04'   => '1e5c42eac3219d9e21927c39e3240aad',
 +	# md5sum -b conf/dokuwiki.php
-+    '2008-05-04-pld'   => 'b3f453c8e68e7a06c312c230f35bcdd3',
++    '2008-05-04-pld'   => '12f43c697bd6405854685c2cb4aaeaad',
  );
  
  
