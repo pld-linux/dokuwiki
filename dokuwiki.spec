@@ -43,7 +43,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_sysconfdir	%{_webapps}/%{_webapp}
 %define		_appdir		%{_datadir}/%{_webapp}
 %define		_localstatedir	/var/lib/%{name}
-%define		_phpdir	/usr/share/php
 
 %description
 DokuWiki is a standards compliant, simple to use Wiki, mainly aimed at
