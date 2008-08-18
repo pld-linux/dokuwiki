@@ -1,12 +1,14 @@
+%define		subver	2008-05-05
+%define		ver	%(echo %{subver} | tr -d -)
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
-Version:	20070626b
-Release:	3
+Version:	%{ver}
+Release:	0.3
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-2007-06-26b.tgz
-# Source0-md5:	84e9b5e8e617658bb0264aa3836f23b3
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+# Source0-md5:	1a70a2ab847b704b629cbbe212ce9a00
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	%{name}-find-lang.sh
@@ -78,7 +80,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-2007-06-26b
+%setup -q -n %{name}-%{subver}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -98,6 +100,9 @@ mv conf/words.aspell{.dist,}
 # use system geshi package
 rm -f inc/geshi.php
 rm -rf inc/geshi
+
+# cleanup backups after patching
+find . '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -171,7 +176,7 @@ exit 0
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc README VERSION
+%doc README
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
@@ -222,6 +227,7 @@ exit 0
 %dir %{_appdir}/lib/plugins
 %dir %{_appdir}/lib/plugins/acl
 %{_appdir}/lib/plugins/acl/*.*
+%{_appdir}/lib/plugins/acl/pix
 %dir %{_appdir}/lib/plugins/config
 %{_appdir}/lib/plugins/config/*.*
 %{_appdir}/lib/plugins/config/settings
@@ -235,6 +241,8 @@ exit 0
 %{_appdir}/lib/plugins/importoldchangelog
 %{_appdir}/lib/plugins/importoldindex
 %{_appdir}/lib/plugins/info
+%dir %{_appdir}/lib/plugins/popularity
+%{_appdir}/lib/plugins/popularity/*.*
 %{_appdir}/lib/plugins/*.php
 %{_appdir}/lib/images
 %{_appdir}/lib/scripts
@@ -251,17 +259,19 @@ exit 0
 %dir %attr(770,root,http) %{_localstatedir}/media/wiki
 %dir %attr(770,root,http) %{_localstatedir}/meta
 %dir %attr(770,root,http) %{_localstatedir}/pages
-%dir %attr(770,root,http) %{_localstatedir}/pages/playground
 %dir %attr(770,root,http) %{_localstatedir}/pages/wiki
+%dir %attr(770,root,http) %{_localstatedir}/pages/playground
+%dir %attr(770,root,http) %{_localstatedir}/tmp
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/attic/_dummy
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/cache/_dummy
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/index/_dummy
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/locks/_dummy
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/media/wiki/dokuwiki-128.png
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/meta/_dummy
-%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/tmp/_dummy
 
 %files setup
 %defattr(644,root,root,755)
