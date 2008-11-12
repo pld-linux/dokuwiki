@@ -1,0 +1,80 @@
+--- dokuwiki-2008-05-05/inc/common.php~	2008-11-12 16:45:56.298338127 +0200
++++ dokuwiki-2008-05-05/inc/common.php	2008-11-12 16:56:31.711609436 +0200
+@@ -902,6 +902,34 @@
+   return $date;
+ }
+ 
++
++/**
++ * Returns notify address for page $id
++ *
++ * @param  string  $id       The changed page
++ * @param  mixed   $notify   The address (string) or rules where to notify
++ *
++ * @author Elan Ruusamäe <glen@delfi.ee>
++ */
++function notifyNS($id, $notify) {
++  if (empty($notify)) {
++    return '';
++  }
++
++  if (is_string($notify)) {
++    return $notify;
++  }
++
++  // process $notify for pages
++  foreach ($notify as $rule => $address) {
++    if (preg_match('/'.$rule.'/ui',':'.$id)) {
++      return $address;
++    }
++  }
++
++  return '';
++}
++
+ /**
+  * Sends a notify mail on page change
+  *
+@@ -924,7 +952,7 @@
+     if(empty($conf['notify'])) return; //notify enabled?
+     if($conf['useacl'] && $_SERVER['REMOTE_USER'] && $minor) return; //skip minors
+     $text = rawLocale('mailtext');
+-    $to   = $conf['notify'];
++    $to   = notifyNS($id, $conf['notify']);
+     $bcc  = '';
+   }elseif($who == 'subscribers'){
+     if(!$conf['subscribers']) return; //subscribers enabled?
+@@ -936,7 +964,7 @@
+   }elseif($who == 'register'){
+     if(empty($conf['registernotify'])) return;
+     $text = rawLocale('registermail');
+-    $to   = $conf['registernotify'];
++    $to   = notifyNS($id, $conf['registernotify']);
+     $bcc  = '';
+   }else{
+     return; //just to be safe
+@@ -921,10 +949,10 @@
+ 
+   // decide if there is something to do
+   if($who == 'admin'){
+-    if(empty($conf['notify'])) return; //notify enabled?
+     if($conf['useacl'] && $_SERVER['REMOTE_USER'] && $minor) return; //skip minors
++    $to   = notifyNS($id, $conf['notify']);
++    if(empty($to)) return; //notify enabled?
+     $text = rawLocale('mailtext');
+-    $to   = $conf['notify'];
+     $bcc  = '';
+   }elseif($who == 'subscribers'){
+     if(!$conf['subscribers']) return; //subscribers enabled?
+@@ -934,9 +962,9 @@
+     $to   = '';
+     $text = rawLocale('subscribermail');
+   }elseif($who == 'register'){
+-    if(empty($conf['registernotify'])) return;
++    $to   = notifyNS($id, $conf['registernotify']);
++    if(empty($to)) return;
+     $text = rawLocale('registermail');
+-    $to   = $conf['registernotify'];
+     $bcc  = '';
+   }else{
+     return; //just to be safe
