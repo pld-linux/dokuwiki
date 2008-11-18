@@ -32,6 +32,7 @@ BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	geshi >= 1.0.7.19
 Requires:	php(xml)
 Requires:	webapps
+Requires:	webserver(access)
 Requires:	webserver(alias)
 Requires:	webserver(php) >= 4.3.3
 Suggests:	php(gd)
