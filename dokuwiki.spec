@@ -4,7 +4,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -27,6 +27,7 @@ Patch7:		%{name}-mail-headerencodequotes.patch
 Patch8:		%{name}-notify-respect-minor.patch
 Patch9:		%{name}-media-userinfo.patch
 Patch10:	%{name}-mailtext.patch
+Patch11:	%{name}-notifyns.patch
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	geshi >= 1.0.7.19
@@ -93,6 +94,7 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 rm -f inc/lang/.htaccess
 # safe file
@@ -142,8 +144,10 @@ chmod 660 %{_sysconfdir}/dokuwiki.php
 
 %postun setup
 if [ "$1" = "0" ]; then
-	chmod 750 %{_sysconfdir}
-	chmod 640 %{_sysconfdir}/dokuwiki.php
+	if [ -f %{_sysconfdir}/dokuwiki.php ]; then
+		chmod 750 %{_sysconfdir}
+		chmod 640 %{_sysconfdir}/dokuwiki.php
+	fi
 fi
 
 %triggerin -- apache1 < 1.3.37-3, apache1-base
