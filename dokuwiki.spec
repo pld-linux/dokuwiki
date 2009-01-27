@@ -1,14 +1,15 @@
-%define		subver	2008-05-05
+%define		subver	2009-01-26
 %define		ver	%(echo %{subver} | tr -d -)
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	3
+Release:	0.3
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	1a70a2ab847b704b629cbbe212ce9a00
+#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
+# Source0-md5:	1d4f6cf1bf0062cf83a3d915c5b7077e
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	%{name}-find-lang.sh
@@ -83,7 +84,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-%{subver}
+%setup -q -n %{name}-rc%{subver}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -98,6 +99,9 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch11 -p1
 %patch12 -p1
 
+find -name _dummy | xargs rm
+rm -f lib/index.html lib/plugins/index.html
+
 rm -f inc/lang/.htaccess
 # safe file
 mv conf/words.aspell{.dist,}
@@ -105,6 +109,9 @@ mv conf/words.aspell{.dist,}
 # use system geshi package
 rm -f inc/geshi.php
 rm -rf inc/geshi
+
+# our plugins dir is not writable anyway, nothing to convert
+rm -rf lib/plugins/upgradeplugindirectory
 
 # cleanup backups after patching
 find . '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
@@ -122,11 +129,12 @@ cp -a data/* $RPM_BUILD_ROOT%{_localstatedir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
-touch $RPM_BUILD_ROOT%{_sysconfdir}/local.php
-touch $RPM_BUILD_ROOT%{_sysconfdir}/local.protected.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/acronyms.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/entities.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/interwiki.local.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/license.local.php
+touch $RPM_BUILD_ROOT%{_sysconfdir}/local.php
+touch $RPM_BUILD_ROOT%{_sysconfdir}/local.protected.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/mime.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
 
@@ -192,20 +200,23 @@ exit 0
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mediameta.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/msg
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/words.aspell
+%attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/scheme.conf
 
-%attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.php
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.protected.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/entities.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/interwiki.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/license.local.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.protected.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.local.conf
+%attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.php
 
 # use local.php,local.protected.php, etc for local changes
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/entities.conf
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/interwiki.conf
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/license.php
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/mime.conf
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/smileys.conf
 
@@ -245,8 +256,6 @@ exit 0
 %dir %{_appdir}/lib/plugins/usermanager
 %{_appdir}/lib/plugins/usermanager/*.*
 %{_appdir}/lib/plugins/usermanager/images
-%{_appdir}/lib/plugins/importoldchangelog
-%{_appdir}/lib/plugins/importoldindex
 %{_appdir}/lib/plugins/info
 %dir %{_appdir}/lib/plugins/popularity
 %{_appdir}/lib/plugins/popularity/*.*
@@ -269,16 +278,10 @@ exit 0
 %dir %attr(770,root,http) %{_localstatedir}/pages/wiki
 %dir %attr(770,root,http) %{_localstatedir}/pages/playground
 %dir %attr(770,root,http) %{_localstatedir}/tmp
-%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/attic/_dummy
-%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/cache/_dummy
-%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/index/_dummy
-%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/locks/_dummy
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/media/wiki/dokuwiki-128.png
-%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/meta/_dummy
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
-%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/tmp/_dummy
 
 %files setup
 %defattr(644,root,root,755)

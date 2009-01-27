@@ -1,14 +1,14 @@
---- dokuwiki-2008-05-05/inc/parserutils.php~	2008-05-05 21:34:23.000000000 +0300
-+++ dokuwiki-2008-05-05/inc/parserutils.php	2008-05-05 21:37:11.549493756 +0300
-@@ -642,16 +642,16 @@
+--- dokuwiki-rc2009-01-26/inc/parserutils.php~	2009-01-27 12:53:30.000000000 +0200
++++ dokuwiki-rc2009-01-26/inc/parserutils.php	2009-01-27 12:56:10.256418763 +0200
+@@ -640,16 +640,16 @@
    $cache = getCacheName($language.$code,".code");
    $ctime = @filemtime($cache);
    if($ctime && !$_REQUEST['purge'] &&
--     $ctime > filemtime(DOKU_INC.'inc/geshi.php') &&
--     $ctime > @filemtime(DOKU_INC.'inc/geshi/'.$language.'.php') &&
-+     $ctime > filemtime('/usr/share/php/geshi.php') &&
-+     $ctime > @filemtime('/usr/share/php/geshi/'.$language.'.php') &&
-      $ctime > filemtime(DOKU_CONF.'dokuwiki.php')){
+-     $ctime > filemtime(DOKU_INC.'inc/geshi.php') &&                 // geshi changed
+-     $ctime > @filemtime(DOKU_INC.'inc/geshi/'.$language.'.php') &&  // language syntax definition changed
++     $ctime > filemtime('/usr/share/php/geshi.php') &&                 // geshi changed
++     $ctime > @filemtime('/usr/share/php/geshi/'.$language.'.php') &&  // language syntax definition changed
+      $ctime > filemtime(reset($config_cascade['main']['default']))){ // dokuwiki changed
      $highlighted_code = io_readFile($cache, false);
  
    } else {
