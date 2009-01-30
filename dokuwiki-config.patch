@@ -12,14 +12,14 @@ you need to update checksum when you modify docuwiki.php
  $conf['allowdebug']  = 0;                 //allow debug output, enable if needed 0|1
  
  /* Display Options */
---- dokuwiki-rc2009-01-26/install.php~	2009-01-27 12:52:00.000000000 +0200
-+++ dokuwiki-rc2009-01-26/install.php	2009-01-27 12:52:51.349556857 +0200
+--- dokuwiki-rc2009-01-30/install.php~	2009-01-30 16:14:52.000000000 +0200
++++ dokuwiki-rc2009-01-30/install.php	2009-01-30 16:15:55.089651967 +0200
 @@ -46,6 +46,8 @@
      '2007-06-26'   => 'b3ca19c7a654823144119980be73cd77',
      '2008-05-04'   => '1e5c42eac3219d9e21927c39e3240aad',
-     'rc2009-01-26' => 'ec8c04210732a14fdfce0f7f6eead865',
+     'rc2009-01-30' => 'ec8c04210732a14fdfce0f7f6eead865',
 +	# md5sum -b conf/dokuwiki.php
-+	'rc2009-01-26-pld' => 'b6a09aaed22c1865ba154ec11021997e',
++	'rc2009-01-30-pld' => 'b6a09aaed22c1865ba154ec11021997e',
  );
  
  
