@@ -1,4 +1,4 @@
-%define		subver	2009-01-30
+%define		subver	2009-02-06
 %define		ver	%(echo %{subver} | tr -d -)
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
@@ -9,7 +9,7 @@ License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
-# Source0-md5:	16c07630fea33407244ce2053ca88988
+# Source0-md5:	6eeae1adfbd080636a22543c575a208e
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	%{name}-find-lang.sh
