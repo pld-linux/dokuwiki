@@ -1,4 +1,3 @@
-diff -ur dokuwiki-rc2009-02-06/conf/dokuwiki.php dokuwiki-rc2009-02-06.new/conf/dokuwiki.php
 --- dokuwiki-rc2009-02-06/conf/dokuwiki.php	2009-02-06 09:10:44.000000000 +0100
 +++ dokuwiki-rc2009-02-06.new/conf/dokuwiki.php	2009-02-07 10:53:46.339771628 +0100
 @@ -18,7 +18,7 @@
@@ -11,15 +10,13 @@ diff -ur dokuwiki-rc2009-02-06/conf/dokuwiki.php dokuwiki-rc2009-02-06.new/conf/
  
  /* Display Options */
 Tylko w dokuwiki-rc2009-02-06.new/conf: dokuwiki.php~
-diff -ur dokuwiki-rc2009-02-06/install.php dokuwiki-rc2009-02-06.new/install.php
 --- dokuwiki-rc2009-02-06/install.php	2009-02-06 09:10:45.000000000 +0100
 +++ dokuwiki-rc2009-02-06.new/install.php	2009-02-07 10:55:11.166843399 +0100
 @@ -45,6 +45,7 @@
      '2007-06-26'   => 'b3ca19c7a654823144119980be73cd77',
      '2008-05-04'   => '1e5c42eac3219d9e21927c39e3240aad',
      'rc2009-02-06' => 'ec8c04210732a14fdfce0f7f6eead865',
-+    'rc2009-02-06-pld' => 'b6a09aaed22c1865ba154ec11021997e',
++    'rc2009-02-06-pld' => 'b6a09aaed22c1865ba154ec11021997e', # md5sum -b conf/dokuwiki.php
  );
  
  
-Tylko w dokuwiki-rc2009-02-06.new/: install.php~
