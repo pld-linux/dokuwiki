@@ -16,6 +16,8 @@ Source4:	jude.png
 # Source4-md5:	623344128960e18f86097dfee213ad4a
 Source5:	eventum.gif
 # Source5-md5:	cac3d0f82591a33eda2afa8ae5fe65cb
+Source6:	http://forum.skype.com/style_emoticons/skype/skype.png
+# Source6-md5:	25c355be038267dc9fdb724b628000b9
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-mysqlauth.patch
@@ -142,6 +144,7 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
 cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons
 cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
+cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/skype.gif
 
 # find locales
 sh %{SOURCE3} %{name}.lang
