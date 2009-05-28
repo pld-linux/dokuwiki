@@ -16,7 +16,7 @@ Tylko w dokuwiki-rc2009-02-06.new/conf: dokuwiki.php~
      '2007-06-26'   => 'b3ca19c7a654823144119980be73cd77',
      '2008-05-04'   => '1e5c42eac3219d9e21927c39e3240aad',
      'rc2009-02-06' => 'ec8c04210732a14fdfce0f7f6eead865',
-+    'rc2009-02-06-pld' => 'b6a09aaed22c1865ba154ec11021997e', # md5sum -b conf/dokuwiki.php
++    'rc2009-02-06-pld' => '1544625eba520a785fe663839b88596f', # md5sum -b conf/dokuwiki.php
  );
  
  
