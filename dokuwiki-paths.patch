@@ -1,16 +1,19 @@
---- dokuwiki-rc2008-03-31/inc/init.php	2008-03-31 20:11:17.000000000 +0200
-+++ dokuwiki-rc2008-03-31.new/inc/init.php	2008-04-01 09:44:54.001374243 +0200
-@@ -14,7 +14,7 @@
+--- dokuwiki-2009-02-14-paths/inc/init.php	2009-05-26 17:54:37.000000000 +0300
++++ dokuwiki-2009-02-14/inc/init.php	2009-06-15 19:18:30.845283082 +0300
+@@ -21,7 +21,10 @@
    if(!defined('DOKU_INC')) define('DOKU_INC',fullpath(dirname(__FILE__).'/../').'/');
  
    // define config path (packagers may want to change this to /etc/dokuwiki/)
 -  if(!defined('DOKU_CONF')) define('DOKU_CONF',DOKU_INC.'conf/');
 +  if(!defined('DOKU_CONF')) define('DOKU_CONF','/etc/webapps/dokuwiki/');
++
++  // define path where variable data is saved (packagers may want to change this to /var/lib/dokuwiki/)
++  if(!defined('DOKU_DATA')) define('DOKU_DATA','/var/lib/dokuwiki/');
  
    // check for error reporting override or set error reporting to sane values
    if (!defined('DOKU_E_LEVEL') && @file_exists(DOKU_CONF.'report_e_all')) {
---- dokuwiki-rc2008-03-31.new/install.php	2008-04-01 09:44:43.367532550 +0200
-+++ dokuwiki-2008-05-05/install.php	2008-05-05 22:20:26.943391311 +0300
+--- dokuwiki-2009-02-14-paths/install.php	2009-02-14 14:13:25.000000000 +0200
++++ dokuwiki-2009-02-14/install.php	2009-06-15 19:18:30.845283082 +0300
 @@ -6,8 +6,9 @@
   */
  
@@ -23,7 +26,7 @@
  
  // check for error reporting override or set error reporting to sane values
  if (!defined('DOKU_E_LEVEL')) { error_reporting(E_ALL ^ E_NOTICE); }
-@@ -389,15 +390,15 @@
+@@ -392,15 +393,15 @@
  
      $dirs = array(
          'conf'      => DOKU_LOCAL,
