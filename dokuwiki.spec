@@ -11,13 +11,12 @@ Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tg
 # Source0-md5:	c75c4781b8698041c3c9b6b0fec2ac2e
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
-Source3:	%{name}-find-lang.sh
-Source4:	jude.png
-# Source4-md5:	623344128960e18f86097dfee213ad4a
-Source5:	eventum.gif
-# Source5-md5:	cac3d0f82591a33eda2afa8ae5fe65cb
-Source6:	http://forum.skype.com/style_emoticons/skype/skype.png
-# Source6-md5:	25c355be038267dc9fdb724b628000b9
+Source3:	jude.png
+# Source3-md5:	623344128960e18f86097dfee213ad4a
+Source4:	eventum.gif
+# Source4-md5:	cac3d0f82591a33eda2afa8ae5fe65cb
+Source5:	http://forum.skype.com/style_emoticons/skype/skype.png
+# Source5-md5:	25c355be038267dc9fdb724b628000b9
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-mysqlauth.patch
@@ -33,7 +32,7 @@ Patch11:	%{name}-notifyns.patch
 Patch12:	%{name}-mailthreads.patch
 Patch13:	%{name}-media-directlink.patch
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
-BuildRequires:	rpmbuild(macros) >= 1.268
+BuildRequires:	rpmbuild(macros) >= 1.520
 Requires:	geshi >= 1.0.7.19
 Requires:	php(xml)
 Requires:	webapps
@@ -51,6 +50,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_sysconfdir	%{_webapps}/%{_webapp}
 %define		_appdir		%{_datadir}/%{_webapp}
 %define		_localstatedir	/var/lib/%{name}
+%define		find_lang 	%{_usrlibrpm}/dokuwiki-find-lang.sh %{buildroot}
 
 %description
 DokuWiki is a standards compliant, simple to use Wiki, mainly aimed at
@@ -142,12 +142,12 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/mime.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
 
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
-cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons
-cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
-cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/skype.gif
+cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons
+cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
+cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/skype.gif
 
 # find locales
-sh %{SOURCE3} %{name}.lang
+%find_lang %{name}.lang
 
 %clean
 rm -rf $RPM_BUILD_ROOT
