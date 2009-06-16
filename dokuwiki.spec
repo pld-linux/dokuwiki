@@ -4,7 +4,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -140,6 +140,7 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/local.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/local.protected.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/mime.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/userstyle.css
 
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
 cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons
@@ -213,6 +214,7 @@ exit 0
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.protected.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/userstyle.css
 %attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.php
 
 # use local.php,local.protected.php, etc for local changes
