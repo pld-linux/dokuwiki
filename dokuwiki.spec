@@ -4,7 +4,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	3
+Release:	4
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -149,6 +149,16 @@ cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/skype.gif
 
 # find locales
 %find_lang %{name}.lang
+
+# make inc/lang/en/edit.txt as %config
+%{__sed} -i -e '
+/%%lang([^)]\+) \/usr\/share\/dokuwiki\/inc\/lang\/[^/]\+/{
+	# make entry as %%dir
+	s/^/%%dir /; p
+
+	# add files inside the %dir
+	s/^%%dir /%%config(noreplace) %%verify(not md5 mtime size) /; s/$/\/*.*/
+}' %{name}.lang
 
 %clean
 rm -rf $RPM_BUILD_ROOT
