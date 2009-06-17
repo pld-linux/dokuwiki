@@ -1,0 +1,42 @@
+--- sidebar/layout.css	2009-01-27 04:40:10.000000000 +0200
++++ sidebar/layout.css	2009-01-27 17:20:21.075995761 +0200
+@@ -11,7 +11,7 @@
+ }
+ 
+ div.dokuwiki .pagename {
+-  float: left;
++  float: right;
+   font-size: 200%;
+   font-weight: bolder;
+   color: __background_alt__;
+@@ -25,10 +25,10 @@
+ }
+ 
+ div.dokuwiki .logo {
+-  float: right;
++  float: left;
+   font-size: 220%;
+   font-weight: bolder;
+-  text-align: right;
++  text-align: left;
+   vertical-align: middle;
+ }
+ 
+--- sidebar/main.php	2009-01-27 04:40:10.000000000 +0200
++++ sidebar/main.php	2009-01-27 17:20:32.584616202 +0200
+@@ -47,12 +47,12 @@
+   <div class="stylehead">
+ 
+     <div class="header">
+-      <div class="pagename">
+-        [[<?php tpl_link(wl($ID,'do=backlink'),tpl_pagetitle($ID,true),'title="'.$lang['btn_backlink'].'"')?>]]
+-      </div>
+       <div class="logo">
+         <?php tpl_link(wl(),$conf['title'],'name="dokuwiki__top" id="dokuwiki__top" accesskey="h" title="[H]"')?>
+       </div>
++      <div class="pagename">
++        [[<?php tpl_link(wl($ID,'do=backlink'),tpl_pagetitle($ID,true),'title="'.$lang['btn_backlink'].'"')?>]]
++      </div>
+ 
+       <div class="clearer"></div>
+     </div>
