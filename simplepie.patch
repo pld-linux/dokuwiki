@@ -1,0 +1,11 @@
+--- dokuwiki/inc/FeedParser.php~	2009-02-14 14:13:24.000000000 +0200
++++ dokuwiki/inc/FeedParser.php	2009-08-03 18:14:02.790174263 +0300
+@@ -7,7 +7,7 @@
+ 
+ if(!defined('DOKU_INC')) die('meh.');
+ require_once(DOKU_INC.'inc/HTTPClient.php');
+-require_once(DOKU_INC.'inc/SimplePie.php');
++require_once 'simplepie.inc';
+ 
+ 
+ /**

@@ -4,7 +4,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	5
+Release:	6
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -32,9 +32,11 @@ Patch11:	%{name}-notifyns.patch
 Patch12:	%{name}-mailthreads.patch
 Patch13:	%{name}-media-directlink.patch
 Patch14:	interwiki-outputonly.patch
+Patch15:	simplepie.patch
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.520
 Requires:	geshi >= 1.0.7.19
+Requires:	php-simplepie >= 1.0.1
 Requires:	php(xml)
 Requires:	webapps
 Requires:	webserver(access)
@@ -103,6 +105,7 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch15 -p1
 
 find -name _dummy | xargs rm
 rm -f lib/index.html lib/plugins/index.html
@@ -114,6 +117,9 @@ mv conf/words.aspell{.dist,}
 # use system geshi package
 rm -f inc/geshi.php
 rm -rf inc/geshi
+
+# use system simplepie package
+rm -f inc/SimplePie.php
 
 # our plugins dir is not writable anyway, nothing to convert
 rm -rf lib/plugins/upgradeplugindirectory
