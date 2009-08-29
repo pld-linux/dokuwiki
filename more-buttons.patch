@@ -1,0 +1,31 @@
+--- sidebar/main.php	2009-08-30 00:00:33.098142092 +0300
++++ sidebar/main.php	2009-08-29 23:53:54.718210429 +0300
+@@ -63,6 +63,28 @@
+       <div class="bar-left" id="bar__topleft">
+         <?php tpl_button('edit')?>
+         <?php tpl_button('history')?>
++		<?php
++		$pdf_plugin = &plugin_load('action','html2pdf');
++		if ($pdf_plugin && !plugin_isdisabled($pdf_plugin->getPluginName())) { ?>
++		<form class="button" method="get" action="<?php wl($ID)?>">
++		  <div class="no">
++			<input type="submit" value="Export to PDF" class="button" />
++			<input type="hidden" name="do" value="export_pdf" />
++			<input type="hidden" name="id" value="<?php echo $ID?>" />
++		  </div>
++		</form>
++		<?php } ?>
++		<?php
++		$odt_plugin = &plugin_load('renderer','odt');
++		if ($pdf_plugin && !plugin_isdisabled($pdf_plugin->getPluginName())) { ?>
++		<form class="button" method="get" action="<?php wl($ID)?>">
++		  <div class="no">
++			<input type="submit" value="Export to ODT" class="button" />
++			<input type="hidden" name="do" value="export_odt" />
++			<input type="hidden" name="id" value="<?php echo $ID?>" />
++		  </div>
++		</form>
++		<?php } ?>
+       </div>
+ 
+       <div class="bar-right" id="bar__topright">
