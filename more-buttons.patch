@@ -1,6 +1,15 @@
---- sidebar/main.php    2009-08-30 00:00:33.098142092 +0300
+--- sidebar/main.php    2009-08-29 23:53:54.718210429 +0300
 +++ sidebar/main.php    2009-08-29 23:53:54.718210429 +0300
-@@ -63,6 +63,28 @@
+@@ -18,6 +18,8 @@
+ // must be run from within DokuWiki
+ if (!defined('DOKU_INC')) die();
+ 
++global $REV;
++
+ // include functions that provide sidebar functionality
+ @require_once(dirname(__FILE__).'/tplfn_sidebar.php');
+ ?>
+@@ -63,6 +65,30 @@
        <div class="bar-left" id="bar__topleft">
          <?php tpl_button('edit')?>
          <?php tpl_button('history')?>
@@ -12,6 +21,7 @@
 +            <input type="submit" value="Export to PDF" class="button" />
 +            <input type="hidden" name="do" value="export_pdf" />
 +            <input type="hidden" name="id" value="<?php echo $ID?>" />
++            <input type="hidden" name="rev" value="<?php echo $REV ?>" />
 +          </div>
 +        </form>
 +        <?php } ?>
@@ -23,6 +33,7 @@
 +            <input type="submit" value="Export to ODT" class="button" />
 +            <input type="hidden" name="do" value="export_odt" />
 +            <input type="hidden" name="id" value="<?php echo $ID?>" />
++            <input type="hidden" name="rev" value="<?php echo $REV ?>" />
 +          </div>
 +        </form>
 +        <?php } ?>
