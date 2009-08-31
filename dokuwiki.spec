@@ -33,6 +33,7 @@ Patch12:	%{name}-mailthreads.patch
 Patch13:	%{name}-media-directlink.patch
 Patch14:	interwiki-outputonly.patch
 Patch15:	simplepie.patch
+Patch16:	cliapps.patch
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.520
 Requires:	geshi >= 1.0.7.19
@@ -106,6 +107,7 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch16 -p1
 
 find -name _dummy | xargs rm
 rm -f lib/index.html lib/plugins/index.html

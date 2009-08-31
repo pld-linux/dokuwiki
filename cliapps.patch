@@ -1,0 +1,26 @@
+--- dokuwiki/bin/dwpage.php	2009-02-14 14:13:24.000000000 +0200
++++ dokuwiki/bin/dwpage.php	2009-08-07 15:09:50.000000000 +0300
+@@ -1,8 +1,9 @@
+ #!/usr/bin/php -d short_open_tag=on
+ <?php
+-#------------------------------------------------------------------------------
+ if ('cli' != php_sapi_name()) die();
+ 
++#------------------------------------------------------------------------------
++ini_set('memory_limit','128M');
+ if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../').'/');
+ require_once DOKU_INC.'inc/init.php';
+ require_once DOKU_INC.'inc/common.php';
+--- dokuwiki/bin/indexer.php	2009-02-14 14:13:24.000000000 +0200
++++ dokuwiki/bin/indexer.php	2009-08-07 15:04:00.000000000 +0300
+@@ -1,7 +1,9 @@
+-#!/usr/bin/php
++#!/usr/bin/php -d short_open_tag=on
+ <?php
+ if ('cli' != php_sapi_name()) die();
+ 
++#------------------------------------------------------------------------------
++ini_set('memory_limit','128M');
+ if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../').'/');
+ require_once(DOKU_INC.'inc/init.php');
+ require_once(DOKU_INC.'inc/common.php');
