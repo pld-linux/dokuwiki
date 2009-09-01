@@ -1,4 +1,4 @@
---- sidebar/main.php    2009-08-29 23:53:54.718210429 +0300
+--- sidebar/main.php    2009-09-01 12:51:33.000000000 +0300
 +++ sidebar/main.php    2009-09-01 12:51:33.000000000 +0300
 @@ -18,6 +18,8 @@
  // must be run from within DokuWiki
@@ -9,13 +9,12 @@
  // include functions that provide sidebar functionality
  @require_once(dirname(__FILE__).'/tplfn_sidebar.php');
  ?>
-@@ -66,6 +68,30 @@
+@@ -66,6 +68,28 @@
        </div>
  
        <div class="bar-right" id="bar__topright">
 +        <?php
-+        $pdf_plugin = &plugin_load('action','html2pdf');
-+        if ($pdf_plugin && !plugin_isdisabled($pdf_plugin->getPluginName())) { ?>
++        if (!plugin_isdisabled('html2pdf')) { ?>
 +        <form class="button" method="get" action="<?php wl($ID)?>">
 +          <div class="no">
 +            <input type="submit" value="Export to PDF" class="button" />
@@ -26,8 +25,7 @@
 +        </form>
 +        <?php } ?>
 +        <?php
-+        $odt_plugin = &plugin_load('renderer','odt');
-+        if ($odt_plugin && !plugin_isdisabled($odt_plugin->getPluginName())) { ?>
++        if (!plugin_isdisabled('odt')) { ?>
 +        <form class="button" method="get" action="<?php wl($ID)?>">
 +          <div class="no">
 +            <input type="submit" value="Export to ODT" class="button" />
