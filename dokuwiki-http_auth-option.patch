@@ -8,14 +8,14 @@
  $conf['securecookie'] = 1;               //never send HTTPS cookies via HTTP
  
  /* Advanced Options */
---- dokuwiki-2007-06-26b/inc/auth.php~	2007-06-26 21:27:15.000000000 +0300
-+++ dokuwiki-2007-06-26b/inc/auth.php	2007-12-19 00:40:14.598022033 +0200
-@@ -60,7 +60,7 @@
-       if (!isset($_REQUEST['r'])) $_REQUEST['r'] = '';
+--- dokuwiki/inc/auth.php~	2009-11-10 15:27:25.000000000 +0200
++++ dokuwiki/inc/auth.php	2009-11-10 15:28:31.494299548 +0200
+@@ -68,7 +68,7 @@
+         }
  
-       // if no credentials were given try to use HTTP auth (for SSO)
--      if(empty($_REQUEST['u']) && empty($_COOKIE[DOKU_COOKIE]) && !empty($_SERVER['PHP_AUTH_USER'])){
-+      if($conf['http_auth'] && empty($_REQUEST['u']) && empty($_COOKIE[DOKU_COOKIE]) && !empty($_SERVER['PHP_AUTH_USER'])){
-         $_REQUEST['u'] = $_SERVER['PHP_AUTH_USER'];
-         $_REQUEST['p'] = $_SERVER['PHP_AUTH_PW'];
-       }
+         // if no credentials were given try to use HTTP auth (for SSO)
+-        if(empty($_REQUEST['u']) && empty($_COOKIE[DOKU_COOKIE]) && !empty($_SERVER['PHP_AUTH_USER'])){
++        if($conf['http_auth'] && empty($_REQUEST['u']) && empty($_COOKIE[DOKU_COOKIE]) && !empty($_SERVER['PHP_AUTH_USER'])){
+             $_REQUEST['u'] = $_SERVER['PHP_AUTH_USER'];
+             $_REQUEST['p'] = $_SERVER['PHP_AUTH_PW'];
+             $_REQUEST['http_credentials'] = true;

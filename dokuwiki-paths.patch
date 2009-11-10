@@ -1,17 +1,17 @@
---- dokuwiki-2009-02-14-paths/inc/init.php	2009-05-26 17:54:37.000000000 +0300
-+++ dokuwiki-2009-02-14/inc/init.php	2009-06-15 19:18:30.845283082 +0300
+--- dokuwiki/inc/init.php~	2009-11-10 15:19:36.000000000 +0200
++++ dokuwiki/inc/init.php	2009-11-10 15:19:38.080947917 +0200
 @@ -21,7 +21,10 @@
-   if(!defined('DOKU_INC')) define('DOKU_INC',fullpath(dirname(__FILE__).'/../').'/');
+ if(!defined('DOKU_INC')) define('DOKU_INC',fullpath(dirname(__FILE__).'/../').'/');
  
-   // define config path (packagers may want to change this to /etc/dokuwiki/)
--  if(!defined('DOKU_CONF')) define('DOKU_CONF',DOKU_INC.'conf/');
-+  if(!defined('DOKU_CONF')) define('DOKU_CONF','/etc/webapps/dokuwiki/');
+ // define config path (packagers may want to change this to /etc/dokuwiki/)
+-if(!defined('DOKU_CONF')) define('DOKU_CONF',DOKU_INC.'conf/');
++if(!defined('DOKU_CONF')) define('DOKU_CONF','/etc/webapps/dokuwiki/');
 +
-+  // define path where variable data is saved (packagers may want to change this to /var/lib/dokuwiki/)
-+  if(!defined('DOKU_DATA')) define('DOKU_DATA','/var/lib/dokuwiki/');
++// define path where variable data is saved (packagers may want to change this to /var/lib/dokuwiki/)
++if(!defined('DOKU_DATA')) define('DOKU_DATA','/var/lib/dokuwiki/');
  
-   // check for error reporting override or set error reporting to sane values
-   if (!defined('DOKU_E_LEVEL') && @file_exists(DOKU_CONF.'report_e_all')) {
+ // check for error reporting override or set error reporting to sane values
+ if (!defined('DOKU_E_LEVEL') && @file_exists(DOKU_CONF.'report_e_all')) {
 --- dokuwiki-2009-02-14-paths/install.php	2009-02-14 14:13:25.000000000 +0200
 +++ dokuwiki-2009-02-14/install.php	2009-06-15 19:18:30.845283082 +0300
 @@ -6,8 +6,9 @@
@@ -22,7 +22,7 @@
 -if(!defined('DOKU_LOCAL')) define('DOKU_LOCAL',DOKU_INC.'conf/');
 +if(!defined('DOKU_CONF')) define('DOKU_CONF','/etc/webapps/dokuwiki/');
 +if(!defined('DOKU_LOCAL')) define('DOKU_LOCAL',DOKU_CONF);
-+if(!defined('DOKU_DATA')) define('DOKU_DATA','/var/lib/dokuwiki');
++if(!defined('DOKU_DATA')) define('DOKU_DATA','/var/lib/dokuwiki/');
  
  // check for error reporting override or set error reporting to sane values
  if (!defined('DOKU_E_LEVEL')) { error_reporting(E_ALL ^ E_NOTICE); }
@@ -40,14 +40,14 @@
 -        'index'     => DOKU_INC.'data/index',
 -        'tmp'       => DOKU_INC.'data/tmp'
 +        'data'      => DOKU_DATA,
-+        'pages'     => DOKU_DATA.'/pages',
-+        'attic'     => DOKU_DATA.'/attic',
-+        'media'     => DOKU_DATA.'/media',
-+        'meta'      => DOKU_DATA.'/meta',
-+        'cache'     => DOKU_DATA.'/cache',
-+        'locks'     => DOKU_DATA.'/locks',
-+        'index'     => DOKU_DATA.'/index',
-+        'tmp'       => DOKU_DATA.'/tmp'
++        'pages'     => DOKU_DATA.'pages',
++        'attic'     => DOKU_DATA.'attic',
++        'media'     => DOKU_DATA.'media',
++        'meta'      => DOKU_DATA.'meta',
++        'cache'     => DOKU_DATA.'cache',
++        'locks'     => DOKU_DATA.'locks',
++        'index'     => DOKU_DATA.'index',
++        'tmp'       => DOKU_DATA.'tmp'
      );
  
      $ok = true;

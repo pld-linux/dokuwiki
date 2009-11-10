@@ -1,23 +1,23 @@
---- dokuwiki-rc2009-01-26/inc/parserutils.php~	2009-01-27 12:53:30.000000000 +0200
-+++ dokuwiki-rc2009-01-26/inc/parserutils.php	2009-01-27 12:56:10.256418763 +0200
-@@ -640,16 +640,16 @@
-   $cache = getCacheName($language.$code,".code");
-   $ctime = @filemtime($cache);
-   if($ctime && !$_REQUEST['purge'] &&
--     $ctime > filemtime(DOKU_INC.'inc/geshi.php') &&                 // geshi changed
--     $ctime > @filemtime(DOKU_INC.'inc/geshi/'.$language.'.php') &&  // language syntax definition changed
-+     $ctime > filemtime('/usr/share/php/geshi.php') &&                 // geshi changed
-+     $ctime > @filemtime('/usr/share/php/geshi/'.$language.'.php') &&  // language syntax definition changed
-      $ctime > filemtime(reset($config_cascade['main']['default']))){ // dokuwiki changed
-     $highlighted_code = io_readFile($cache, false);
+--- dokuwiki/inc/parserutils.php~	2009-11-10 15:25:28.000000000 +0200
++++ dokuwiki/inc/parserutils.php	2009-11-10 15:26:29.134232633 +0200
+@@ -641,16 +641,16 @@
+     $cache = getCacheName($language.$code,".code");
+     $ctime = @filemtime($cache);
+     if($ctime && !$_REQUEST['purge'] &&
+-            $ctime > filemtime(DOKU_INC.'inc/geshi.php') &&                 // geshi changed
+-            $ctime > @filemtime(DOKU_INC.'inc/geshi/'.$language.'.php') &&  // language syntax definition changed
++            $ctime > filemtime('/usr/share/php/geshi.php') &&                 // geshi changed
++            $ctime > @filemtime('/usr/share/php/geshi/'.$language.'.php') &&  // language syntax definition changed
+             $ctime > filemtime(reset($config_cascade['main']['default']))){ // dokuwiki changed
+         $highlighted_code = io_readFile($cache, false);
  
-   } else {
+     } else {
  
--    require_once(DOKU_INC . 'inc/geshi.php');
-+    require_once '/usr/share/php/geshi.php';
+-        require_once(DOKU_INC . 'inc/geshi.php');
++        require_once '/usr/share/php/geshi.php';
  
--    $geshi = new GeSHi($code, $language, DOKU_INC . 'inc/geshi');
-+    $geshi = new GeSHi($code, $language);
-     $geshi->set_encoding('utf-8');
-     $geshi->enable_classes();
-     $geshi->set_header_type(GESHI_HEADER_PRE);
+-        $geshi = new GeSHi($code, $language, DOKU_INC . 'inc/geshi');
++        $geshi = new GeSHi($code, $language);
+         $geshi->set_encoding('utf-8');
+         $geshi->enable_classes();
+         $geshi->set_header_type(GESHI_HEADER_PRE);
