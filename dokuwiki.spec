@@ -15,6 +15,8 @@ Source4:	eventum.gif
 # Source4-md5:	cac3d0f82591a33eda2afa8ae5fe65cb
 Source5:	http://forum.skype.com/style_emoticons/skype/skype.png
 # Source5-md5:	25c355be038267dc9fdb724b628000b9
+Source6:	pld_button.png
+# Source6-md5:	185afa921e81bd726b9f0f9f0909dc6e
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
 Patch2:		%{name}-mysqlauth.patch
@@ -32,6 +34,7 @@ Patch13:	%{name}-media-directlink.patch
 Patch14:	interwiki-outputonly.patch
 Patch15:	simplepie.patch
 Patch18:	install.patch
+Patch19:	pld-branding.patch
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.520
 Requires:	geshi >= 1.0.7.19
@@ -165,6 +168,7 @@ ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
 cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/jide.png
 cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
 cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/skype.gif
+cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/tpl/default/images/button-pld.png
 
 # find locales
 %find_lang %{name}.lang
