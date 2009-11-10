@@ -1,11 +1,13 @@
+%define		subver	2009-11-10
+%define		ver	%(echo %{subver} | tr -d -)
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
-Version:	20091110
-Release:	0.8
+Version:	%{ver}
+Release:	0.9
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://dev.splitbrain.org/download/snapshots/dokuwiki-latest.tgz
+Source0:	http://dev.splitbrain.org/download/snapshots/%{name}-%{subver}.tgz
 # Source0-md5:	9da3e5c3a7b40b5a229b38e52b6fcf70
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
@@ -39,8 +41,8 @@ Patch20:	fixprivilegeescalationbug.diff
 URL:		http://www.dokuwiki.org/dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.520
 Requires:	geshi >= 1.0.7.19
-Requires:	php-simplepie >= 1.0.1
 Requires:	php(xml)
+Requires:	php-simplepie >= 1.0.1
 Requires:	webapps
 Requires:	webserver(access)
 Requires:	webserver(alias)
