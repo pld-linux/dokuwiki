@@ -35,6 +35,7 @@ Patch14:	interwiki-outputonly.patch
 Patch15:	simplepie.patch
 Patch16:	cliapps.patch
 Patch17:	plugin_exists-check.patch
+Patch18:	install.patch
 URL:		http://wiki.splitbrain.org/wiki:dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.520
 Requires:	geshi >= 1.0.7.19
@@ -110,6 +111,7 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch15 -p1
 %patch16 -p1
 %patch17 -p1
+%patch18 -p1
 
 find -name _dummy | xargs rm
 rm -f lib/index.html lib/plugins/index.html
