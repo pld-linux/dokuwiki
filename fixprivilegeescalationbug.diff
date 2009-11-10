@@ -1,0 +1,18 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## fixprivilegeescalationbug.dpatch by Matti Pöllä <mpo@iki.fi>
+##
+## DP: Hotfix for privilege escalation bug.
+
+@DPATCH@
+Index: dokuwiki-0.0.20090214/inc/actions.php
+===================================================================
+--- dokuwiki-0.0.20090214.orig/inc/actions.php	2009-02-14 13:13:25.000000000 +0100
++++ dokuwiki-0.0.20090214/inc/actions.php	2009-02-14 19:19:32.000000000 +0100
+@@ -141,6 +141,7 @@
+     act_redirect($ID,$preact);
+   }
+ 
++  $ACT = act_permcheck($ACT);
+   //call template FIXME: all needed vars available?
+   $headers[] = 'Content-Type: text/html; charset=utf-8';
+   trigger_event('ACTION_HEADERS_SEND',$headers,'act_sendheaders');
