@@ -15,7 +15,6 @@ Source2:	%{name}-lighttpd.conf
 Source3:	jude.png
 # Source3-md5:	623344128960e18f86097dfee213ad4a
 Source4:	eventum.gif
-# Source4-md5:	cac3d0f82591a33eda2afa8ae5fe65cb
 Source5:	http://forum.skype.com/style_emoticons/skype/skype.png
 # Source5-md5:	25c355be038267dc9fdb724b628000b9
 Source6:	pld_button.png
