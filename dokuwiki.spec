@@ -41,15 +41,16 @@ Patch20:	fixprivilegeescalationbug.diff
 URL:		http://www.dokuwiki.org/dokuwiki
 BuildRequires:	rpmbuild(macros) >= 1.520
 Requires:	geshi >= 1.0.7.19
-Requires:	php(xml)
+Requires:	php-common >= 4:5.1.2
 Requires:	php-simplepie >= 1.0.1
+Requires:	php-xml
 Requires:	webapps
 Requires:	webserver(access)
 Requires:	webserver(alias)
-Requires:	webserver(php) >= 4.3.3
-Suggests:	php(gd)
+Requires:	webserver(php)
+Suggests:	php-gd
 # can use gz compression to store attic pages
-Suggests:	php(zlib)
+Suggests:	php-zlib
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
