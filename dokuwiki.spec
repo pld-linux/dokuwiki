@@ -1,4 +1,4 @@
-%define		subver	2009-11-10
+%define		subver	2009-11-16
 %define		ver	%(echo %{subver} | tr -d -)
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
@@ -7,8 +7,9 @@ Version:	%{ver}
 Release:	0.9
 License:	GPL v2
 Group:		Applications/WWW
+# Source0Download: http://dev.splitbrain.org/browse/snapshots/
 Source0:	http://dev.splitbrain.org/download/snapshots/%{name}-%{subver}.tgz
-# Source0-md5:	9da3e5c3a7b40b5a229b38e52b6fcf70
+# Source0-md5:	8d6d90362650cbd3ad8979b4e22c43ae
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	jude.png
@@ -94,7 +95,8 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}
+%setup -qc
+mv %{name}/* .
 %patch0 -p1
 %patch2 -p1
 %patch3 -p1
@@ -117,7 +119,6 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch66 -p1
 
 find -name _dummy | xargs rm
-find -name '*-darcs-backup*' | xargs rm
 rm lib/index.html lib/plugins/index.html inc/lang/.htaccess
 
 # safe file
