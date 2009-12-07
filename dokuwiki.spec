@@ -1,4 +1,4 @@
-%define		subver	2009-11-16
+%define		subver	2009-12-02
 %define		ver	%(echo %{subver} | tr -d -)
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
@@ -7,9 +7,8 @@ Version:	%{ver}
 Release:	0.9
 License:	GPL v2
 Group:		Applications/WWW
-# Source0Download: http://dev.splitbrain.org/browse/snapshots/
-Source0:	http://dev.splitbrain.org/download/snapshots/%{name}-%{subver}.tgz
-# Source0-md5:	8d6d90362650cbd3ad8979b4e22c43ae
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
+# Source0-md5:	65e0a7a496e1fd49fb12477211053b55
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	jude.png
@@ -95,8 +94,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -qc
-mv %{name}/* .
+%setup -q -n %{name}-rc%{subver}
 %patch0 -p1
 %patch2 -p1
 %patch3 -p1
@@ -327,6 +325,7 @@ exit 0
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/media/wiki/dokuwiki-128.png
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
 
 %files setup
 %defattr(644,root,root,755)
