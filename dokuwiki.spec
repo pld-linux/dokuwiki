@@ -1,10 +1,11 @@
 %define		subver	2009-12-02
 %define		ver	%(echo %{subver} | tr -d -)
+%include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.9
+Release:	0.10
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
@@ -39,6 +40,7 @@ Patch18:	install.patch
 Patch19:	pld-branding.patch
 Patch20:	fixprivilegeescalationbug.diff
 URL:		http://www.dokuwiki.org/dokuwiki
+BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.520
 Requires:	geshi >= 1.0.7.19
 Requires:	php-common >= 4:5.1.2
@@ -60,6 +62,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_appdir		%{_datadir}/%{_webapp}
 %define		_localstatedir	/var/lib/%{name}
 %define		find_lang 	%{_usrlibrpm}/dokuwiki-find-lang.sh %{buildroot}
+
+# bad depsolver
+%define		_noautoreq	'pear(/usr/share/php/geshi.php)'
 
 %description
 DokuWiki is a standards compliant, simple to use Wiki, mainly aimed at
