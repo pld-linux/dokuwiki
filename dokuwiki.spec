@@ -1,11 +1,12 @@
 %define		subver	2009-12-02
 %define		ver	%(echo %{subver} | tr -d -)
+%define		php_min_version 5.1.2
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.10
+Release:	0.15
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
@@ -41,8 +42,8 @@ Patch20:	fixprivilegeescalationbug.diff
 URL:		http://www.dokuwiki.org/dokuwiki
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.520
-Requires:	geshi >= 1.0.7.19
-Requires:	php-common >= 4:5.1.2
+Requires:	php-common >= 4:%{php_min_version}
+Requires:	php-geshi >= 1.0.7.19
 Requires:	php-simplepie >= 1.0.1
 Requires:	php-xml
 Requires:	webapps
@@ -63,7 +64,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		find_lang 	%{_usrlibrpm}/dokuwiki-find-lang.sh %{buildroot}
 
 # bad depsolver
-%define		_noautoreq	'pear(/usr/share/php/geshi.php)'
+%define		_noautopear	'pear(/usr/share/php/geshi.php)'
+
+# exclude optional php dependencies
+%define		_noautophp	'php(bzip2)' php(zip) php(date) php(ftp) php(hash) php(ldap) php(mbstring) php(mysql) php(pgsql) php(tokenizer)
+
+# we don't want php(xxx) being resolved to php-xxx
+%define		_noautoreqdep	'^php(.*)'
+
+%define		_noautoreq	%{_noautophp} %{_noautopear}
 
 %description
 DokuWiki is a standards compliant, simple to use Wiki, mainly aimed at
