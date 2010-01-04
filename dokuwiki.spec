@@ -1,16 +1,18 @@
-%define		subver	2009-12-02
-%define		ver	%(echo %{subver} | tr -d -)
+# TODO
+# - external: http://adldap.sourceforge.net/
+%define		subver	2009-12-25
+%define		ver		%(echo %{subver} | tr -d -)
 %define		php_min_version 5.1.2
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.15
+Release:	0.16
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
-# Source0-md5:	65e0a7a496e1fd49fb12477211053b55
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+# Source0-md5:	1428c896de83bd2a754efd18919d0594
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	jude.png
@@ -108,7 +110,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-rc%{subver}
+%setup -q -n %{name}-%{subver}
 %patch0 -p1
 %patch2 -p1
 %patch3 -p1
