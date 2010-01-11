@@ -5,7 +5,7 @@
   */
  
 -require_once(DOKU_INC.'inc/adLDAP.php');
-+require_once 'adLDAP.php';
++require_once '/usr/share/php/adLDAP.php';
  
  class auth_ad extends auth_basic {
      var $cnf = null;
