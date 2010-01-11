@@ -6,7 +6,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.18
+Release:	0.19
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -70,7 +70,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautopear	'pear(/usr/share/php/geshi.php)' 'pear(/usr/share/php/adLDAP.php)'
 
 # exclude optional php dependencies
-%define		_noautophp	'php(bzip2)' php(zip) php(date) php(ftp) php(hash) php(ldap) php(mbstring) php(mysql) php(pgsql) php(tokenizer)
+%define		_noautophp	php(bzip2) php(bcmath) php(zip) php(date) php(ftp) php(hash) php(ldap) php(mbstring) php(mysql) php(pgsql) php(tokenizer)
 
 # we don't want php(xxx) being resolved to php-xxx
 %define		_noautoreqdep	'^php(.*)'
