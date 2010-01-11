@@ -14,3 +14,14 @@
          $rev1 = (int) $_REQUEST['rev2'][0];
          $rev2 = (int) $_REQUEST['rev2'][1];
  
+--- dokuwiki/inc/common.php~	2010-01-11 14:48:54.000000000 +0200
++++ dokuwiki/inc/common.php	2010-01-11 14:48:58.213308444 +0200
+@@ -1128,6 +1128,8 @@
+   }elseif($rev){
+     $subject = $lang['mail_changed'].' '.$id;
+     $text = str_replace('@OLDPAGE@',wl($id,"rev=$rev",true,'&'),$text);
++    $rev2 = $INFO['meta']['date']['modified'];
++    $text = str_replace('@DIFFPAGE@',wl($id,"do=diff&r1=$rev&r2=$rev2",true,'&'),$text);
+     require_once(DOKU_INC.'inc/DifferenceEngine.php');
+     $df  = new Diff(explode("\n",rawWiki($id,$rev)),
+                     explode("\n",rawWiki($id)));
