@@ -67,7 +67,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		find_lang 	%{_usrlibrpm}/dokuwiki-find-lang.sh %{buildroot}
 
 # bad depsolver
-%define		_noautopear	'pear(/usr/share/php/geshi.php)'
+%define		_noautopear	'pear(/usr/share/php/geshi.php)' 'pear(/usr/share/php/adLDAP.php)'
 
 # exclude optional php dependencies
 %define		_noautophp	'php(bzip2)' php(zip) php(date) php(ftp) php(hash) php(ldap) php(mbstring) php(mysql) php(pgsql) php(tokenizer)
