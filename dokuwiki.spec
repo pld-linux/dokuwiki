@@ -41,6 +41,7 @@ Patch15:	simplepie.patch
 Patch18:	install.patch
 Patch19:	pld-branding.patch
 Patch20:	fixprivilegeescalationbug.diff
+Patch21:	task-1821.patch
 URL:		http://www.dokuwiki.org/dokuwiki
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.520
@@ -129,6 +130,7 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch18 -p1
 %patch19 -p1
 %patch20 -p1
+%patch21 -p1
 
 %patch66 -p1
 

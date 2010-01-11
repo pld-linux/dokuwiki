@@ -1,0 +1,16 @@
+--- dokuwiki/inc/html.php~	2010-01-11 14:35:04.000000000 +0200
++++ dokuwiki/inc/html.php	2010-01-11 14:35:07.213389784 +0200
+@@ -862,8 +862,12 @@
+     // given as rev and rev2 parameters, with rev2 being optional. Or in an
+     // array in rev2.
+     $rev1 = $REV;
++	// handle $r1 + $r2, see DW #1821
++	if (isset($_REQUEST['r1']) && isset($_REQUEST['r2'])) {
++        $rev1 = (int) $_REQUEST['r1'];
++        $rev2 = (int) $_REQUEST['r2'];
+ 
+-    if(is_array($_REQUEST['rev2'])){
++	} else if(is_array($_REQUEST['rev2'])){
+         $rev1 = (int) $_REQUEST['rev2'][0];
+         $rev2 = (int) $_REQUEST['rev2'][1];
+ 
