@@ -1,0 +1,11 @@
+--- dokuwiki-2009-12-25/inc/auth/ad.class.php~	2009-12-25 12:14:41.000000000 +0200
++++ dokuwiki-2009-12-25/inc/auth/ad.class.php	2010-01-11 14:46:38.446655609 +0200
+@@ -32,7 +32,7 @@
+  *  @author  Andreas Gohr <andi@splitbrain.org>
+  */
+ 
+-require_once(DOKU_INC.'inc/adLDAP.php');
++require_once 'adLDAP.php';
+ 
+ class auth_ad extends auth_basic {
+     var $cnf = null;

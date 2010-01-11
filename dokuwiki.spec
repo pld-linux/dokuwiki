@@ -1,5 +1,3 @@
-# TODO
-# - external: http://adldap.sourceforge.net/
 %define		subver	2009-12-25
 %define		ver		%(echo %{subver} | tr -d -)
 %define		php_min_version 5.1.2
@@ -8,7 +6,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.16
+Release:	0.18
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -42,6 +40,7 @@ Patch18:	install.patch
 Patch19:	pld-branding.patch
 Patch20:	fixprivilegeescalationbug.diff
 Patch21:	task-1821.patch
+Patch22:	adldap.patch
 URL:		http://www.dokuwiki.org/dokuwiki
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.520
@@ -53,6 +52,7 @@ Requires:	webapps
 Requires:	webserver(access)
 Requires:	webserver(alias)
 Requires:	webserver(php)
+Suggests:	php-adldap >= 3.3.1
 Suggests:	php-gd
 # can use gz compression to store attic pages
 Suggests:	php-zlib
@@ -131,6 +131,7 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch19 -p1
 %patch20 -p1
 %patch21 -p1
+%patch22 -p1
 
 %patch66 -p1
 
@@ -143,6 +144,9 @@ mv conf/words.aspell{.dist,}
 # use system geshi package
 rm -f inc/geshi.php
 rm -rf inc/geshi
+
+# use system adldap package
+rm -f inc/adLDAP.php
 
 # use system simplepie package
 rm -f inc/SimplePie.php
