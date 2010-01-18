@@ -6,7 +6,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}c.tgz
@@ -160,7 +160,7 @@ find . '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 %build
 md5=$(md5sum -b conf/dokuwiki.php | awk '{print $1}')
 if ! grep $md5 install.php; then
-	: update %{name}-config.patch oudated
+	: update %{name}-config.patch -- it is outdated
 	exit 1
 fi
 
@@ -339,6 +339,7 @@ exit 0
 %dir %attr(770,root,http) %{_localstatedir}/media/wiki
 %dir %attr(770,root,http) %{_localstatedir}/meta
 %dir %attr(770,root,http) %{_localstatedir}/pages
+%dir %attr(770,root,http) %{_localstatedir}/pages/playground
 %dir %attr(770,root,http) %{_localstatedir}/pages/wiki
 %dir %attr(770,root,http) %{_localstatedir}/tmp
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/media/wiki/dokuwiki-128.png
