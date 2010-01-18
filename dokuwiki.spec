@@ -6,11 +6,11 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	1428c896de83bd2a754efd18919d0594
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}c.tgz
+# Source0-md5:	2649b6fecbcb273374f5be8f0a2edf02
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	jude.png
@@ -70,10 +70,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautopear	'pear(/usr/share/php/geshi.php)' 'pear(/usr/share/php/adLDAP.php)'
 
 # exclude optional php dependencies
-%define		_noautophp	php(bzip2) php(bcmath) php(zip) php(date) php(ftp) php(hash) php(ldap) php(mbstring) php(mysql) php(pgsql) php(tokenizer)
-
-# we don't want php(xxx) being resolved to php-xxx
-%define		_noautoreqdep	'^php(.*)'
+%define		_noautophp	php-bzip2 php-bcmath php-zip php-date php-ftp php-hash php-ldap php-mbstring php-mysql php-pgsql php-tokenizer
 
 %define		_noautoreq	%{_noautophp} %{_noautopear}
 
