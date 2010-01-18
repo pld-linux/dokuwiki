@@ -188,7 +188,7 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/userstyle.css
 
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
-cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/jide.png
+cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/jude.png
 cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
 cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/skype.gif
 cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/tpl/default/images/button-pld.png
