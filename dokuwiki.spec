@@ -6,7 +6,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	3
+Release:	4
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}c.tgz
@@ -169,6 +169,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_localstatedir},%{_appdir}/{bin,inc,lib}}
 
 cp -a *.php $RPM_BUILD_ROOT%{_appdir}
+cp -a VERSION $RPM_BUILD_ROOT%{_appdir}
 cp -a bin/* $RPM_BUILD_ROOT%{_appdir}/bin
 cp -a inc/* $RPM_BUILD_ROOT%{_appdir}/inc
 cp -a lib/* $RPM_BUILD_ROOT%{_appdir}/lib
@@ -290,6 +291,7 @@ exit 0
 %attr(640,root,http) %{_sysconfdir}/users.auth.php.dist
 
 %dir %{_appdir}
+%{_appdir}/VERSION
 %{_appdir}/doku.php
 %{_appdir}/feed.php
 %{_appdir}/index.php
