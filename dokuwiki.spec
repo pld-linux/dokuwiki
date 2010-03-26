@@ -6,7 +6,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	5
+Release:	6
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}c.tgz
@@ -22,6 +22,8 @@ Source6:	pld_button.png
 # Source6-md5:	185afa921e81bd726b9f0f9f0909dc6e
 Source7:	cacti.gif
 Source8:	nagios.gif
+Source9:	http://trac.edgewall.org/export/9404/trunk/doc/trac_icon_16x16.png
+# Source9-md5:	0c19ed35bf677f33f6bea14b3a8a2e10
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
 Patch2:		%{name}-mysqlauth.patch
@@ -196,6 +198,7 @@ cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
 cp -a %{SOURCE7} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/cacti.gif
 cp -a %{SOURCE8} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/nagios.gif
 cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/skype.png
+cp -a %{SOURCE9} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/trac.png
 cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/tpl/default/images/button-pld.png
 
 # find locales
