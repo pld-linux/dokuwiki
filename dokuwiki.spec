@@ -6,7 +6,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	6
+Release:	7
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}c.tgz
@@ -45,6 +45,7 @@ Patch19:	pld-branding.patch
 Patch20:	fixprivilegeescalationbug.diff
 Patch21:	task-1821.patch
 Patch22:	adldap.patch
+Patch23:	smblink.patch
 URL:		http://www.dokuwiki.org/dokuwiki
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.520
@@ -133,6 +134,7 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
+%patch23 -p1
 
 %patch66 -p1
 
