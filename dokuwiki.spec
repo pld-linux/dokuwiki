@@ -6,7 +6,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	9
+Release:	10
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}c.tgz
@@ -53,6 +53,7 @@ BuildRequires:	rpmbuild(macros) >= 1.520
 Requires:	php-common >= 4:%{php_min_version}
 Requires:	php-geshi >= 1.0.7.19
 Requires:	php-simplepie >= 1.0.1
+Requires:	php-session
 Requires:	php-xml
 Requires:	webapps
 Requires:	webserver(access)
