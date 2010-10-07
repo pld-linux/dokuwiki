@@ -1,4 +1,4 @@
-%define		subver	2009-12-25
+%define		subver	2010-10-07
 %define		ver		%(echo %{subver} | tr -d -)
 %define		php_min_version 5.1.2
 %include	/usr/lib/rpm/macros.php
@@ -6,11 +6,11 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	10
+Release:	0.2
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}c.tgz
-# Source0-md5:	2649b6fecbcb273374f5be8f0a2edf02
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
+# Source0-md5:	888aef56735e21a4094180dac57030f0
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	jude.png
@@ -23,8 +23,8 @@ Source6:	pld_button.png
 Source7:	cacti.gif
 Source8:	nagios.gif
 Source9:	http://trac.edgewall.org/export/9404/trunk/doc/trac_icon_16x16.png
-Source10:	pld.gif
 # Source9-md5:	0c19ed35bf677f33f6bea14b3a8a2e10
+Source10:	pld.gif
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
 Patch2:		%{name}-mysqlauth.patch
@@ -46,14 +46,13 @@ Patch19:	pld-branding.patch
 Patch20:	fixprivilegeescalationbug.diff
 Patch21:	task-1821.patch
 Patch22:	adldap.patch
-Patch23:	smblink.patch
 URL:		http://www.dokuwiki.org/dokuwiki
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.520
 Requires:	php-common >= 4:%{php_min_version}
 Requires:	php-geshi >= 1.0.7.19
-Requires:	php-simplepie >= 1.0.1
 Requires:	php-session
+Requires:	php-simplepie >= 1.0.1
 Requires:	php-xml
 Requires:	webapps
 Requires:	webserver(access)
@@ -115,7 +114,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-%{subver}
+%setup -q -n %{name}-rc%{subver}
 %patch0 -p1
 %patch2 -p1
 %patch3 -p1
@@ -136,7 +135,6 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
-%patch23 -p1
 
 %patch66 -p1
 
@@ -272,7 +270,6 @@ exit 0
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
 
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mediameta.php
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/msg
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/words.aspell
 %attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/scheme.conf
 
@@ -310,6 +307,7 @@ exit 0
 %dir %{_appdir}/bin
 %attr(755,root,root) %{_appdir}/bin/dwpage.php
 %attr(755,root,root) %{_appdir}/bin/indexer.php
+%attr(755,root,root) %{_appdir}/bin/render.php
 %attr(755,root,root) %{_appdir}/bin/wantedpages.php
 
 %dir %{_appdir}/inc
@@ -360,6 +358,8 @@ exit 0
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/security.png
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/security.xcf
 
 %files setup
 %defattr(644,root,root,755)

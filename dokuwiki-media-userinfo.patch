@@ -1,13 +1,15 @@
---- dokuwiki/inc/media.php~	2008-03-11 17:01:47.000000000 +0200
-+++ dokuwiki/inc/media.php	2008-03-11 17:01:51.038533362 +0200
-@@ -301,6 +301,7 @@
- function media_notify($id,$file,$mime){
+CHECKME: possibly outdated now?
+
+--- dokuwiki-rc2010-10-07/inc/media.php~	2010-10-07 21:28:44.000000000 +0300
++++ dokuwiki-rc2010-10-07/inc/media.php	2010-10-07 21:30:12.262536013 +0300
+@@ -392,6 +392,7 @@
      global $lang;
      global $conf;
+     global $INFO;
 +    global $USERINFO;
      if(empty($conf['notify'])) return; //notify enabled?
  
-     $text = rawLocale('uploadmail');
+     $ip = clientIP();
 @@ -316,8 +317,8 @@
  
      $from = $conf['mailfrom'];

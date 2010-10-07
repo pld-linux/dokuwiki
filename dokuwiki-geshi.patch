@@ -1,6 +1,6 @@
---- dokuwiki/inc/parserutils.php~	2009-11-10 15:25:28.000000000 +0200
-+++ dokuwiki/inc/parserutils.php	2009-11-10 15:26:29.134232633 +0200
-@@ -641,16 +641,16 @@
+--- dokuwiki-rc2010-10-07/inc/parserutils.php~	2010-10-07 21:21:37.000000000 +0300
++++ dokuwiki-rc2010-10-07/inc/parserutils.php	2010-10-07 21:24:30.142987536 +0300
+@@ -634,14 +634,14 @@
      $cache = getCacheName($language.$code,".code");
      $ctime = @filemtime($cache);
      if($ctime && !$_REQUEST['purge'] &&
@@ -13,11 +13,19 @@
  
      } else {
  
--        require_once(DOKU_INC . 'inc/geshi.php');
-+        require_once '/usr/share/php/geshi.php';
- 
 -        $geshi = new GeSHi($code, $language, DOKU_INC . 'inc/geshi');
 +        $geshi = new GeSHi($code, $language);
          $geshi->set_encoding('utf-8');
          $geshi->enable_classes();
          $geshi->set_header_type(GESHI_HEADER_PRE);
+--- dokuwiki-rc2010-10-07/inc/load.php~	2010-10-07 11:08:13.000000000 +0300
++++ dokuwiki-rc2010-10-07/inc/load.php	2010-10-07 21:23:57.072781806 +0300
+@@ -68,7 +68,7 @@
+         'IXR_Client'            => DOKU_INC.'inc/IXR_Library.php',
+         'IXR_IntrospectionServer' => DOKU_INC.'inc/IXR_Library.php',
+         'Doku_Plugin_Controller'=> DOKU_INC.'inc/plugincontroller.class.php',
+-        'GeSHi'                 => DOKU_INC.'inc/geshi.php',
++        'GeSHi'                 => '/usr/share/php/geshi.php',
+         'TarLib'                => DOKU_INC.'inc/TarLib.class.php',
+         'ZipLib'                => DOKU_INC.'inc/ZipLib.class.php',
+         'DokuWikiFeedCreator'   => DOKU_INC.'inc/feedcreator.class.php',

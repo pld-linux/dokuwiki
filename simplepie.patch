@@ -1,11 +1,11 @@
---- dokuwiki/inc/FeedParser.php~	2009-02-14 14:13:24.000000000 +0200
-+++ dokuwiki/inc/FeedParser.php	2009-08-03 18:14:02.790174263 +0300
-@@ -7,7 +7,7 @@
- 
- if(!defined('DOKU_INC')) die('meh.');
- require_once(DOKU_INC.'inc/HTTPClient.php');
--require_once(DOKU_INC.'inc/SimplePie.php');
-+require_once 'simplepie.inc';
- 
- 
- /**
+--- dokuwiki-rc2010-10-07/inc/load.php~	2010-10-07 21:36:43.000000000 +0300
++++ dokuwiki-rc2010-10-07/inc/load.php	2010-10-07 21:37:38.245824556 +0300
+@@ -62,7 +62,7 @@
+         'Doku_Event_Handler'    => DOKU_INC.'inc/events.php',
+         'EmailAddressValidator' => DOKU_INC.'inc/EmailAddressValidator.php',
+         'JpegMeta'              => DOKU_INC.'inc/JpegMeta.php',
+-        'SimplePie'             => DOKU_INC.'inc/SimplePie.php',
++        'SimplePie'             => '/usr/share/php/simplepie.inc',
+         'FeedParser'            => DOKU_INC.'inc/FeedParser.php',
+         'IXR_Server'            => DOKU_INC.'inc/IXR_Library.php',
+         'IXR_Client'            => DOKU_INC.'inc/IXR_Library.php',

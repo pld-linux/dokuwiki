@@ -14,22 +14,22 @@
          $rev1 = (int) $_REQUEST['rev2'][0];
          $rev2 = (int) $_REQUEST['rev2'][1];
  
---- dokuwiki/inc/common.php	2010-01-11 14:48:58.213308444 +0200
-+++ dokuwiki/inc/common.php	2010-01-12 12:18:39.000000000 +0200
-@@ -1128,6 +1128,8 @@
-   }elseif($rev){
-     $subject = $lang['mail_changed'].' '.$id;
-     $text = str_replace('@OLDPAGE@',wl($id,"rev=$rev",true,'&'),$text);
-+    $rev2 = $INFO['meta']['date']['modified'];
-+    $text = str_replace('@DIFFPAGE@',wl($id,"do=diff&r1=$rev&r2=$rev2",true,'&'),$text);
-     require_once(DOKU_INC.'inc/DifferenceEngine.php');
-     $df  = new Diff(explode("\n",rawWiki($id,$rev)),
-                     explode("\n",rawWiki($id)));
-@@ -1136,6 +1138,7 @@
-   }else{
-     $subject=$lang['mail_newpage'].' '.$id;
-     $text = str_replace('@OLDPAGE@','none',$text);
-+    $text = str_replace('@DIFFPAGE@','none',$text);
-     $diff = rawWiki($id);
-   }
-   $text = str_replace('@DIFF@',$diff,$text);
+--- dokuwiki-rc2010-10-07/inc/common.php~	2010-10-07 21:41:20.000000000 +0300
++++ dokuwiki-rc2010-10-07/inc/common.php	2010-10-07 21:45:00.639114275 +0300
+@@ -1147,6 +1147,8 @@
+     }elseif($rev){
+         $subject = $lang['mail_changed'].' '.$id;
+         $text = str_replace('@OLDPAGE@',wl($id,"rev=$rev",true,'&'),$text);
++        $rev2 = $INFO['meta']['date']['modified'];
++        $text = str_replace('@DIFFPAGE@',wl($id,"do=diff&r1=$rev&r2=$rev2",true,'&'),$text);
+         $df  = new Diff(explode("\n",rawWiki($id,$rev)),
+                         explode("\n",rawWiki($id)));
+         $dformat = new UnifiedDiffFormatter();
+@@ -1154,6 +1156,7 @@
+     }else{
+         $subject=$lang['mail_newpage'].' '.$id;
+         $text = str_replace('@OLDPAGE@','none',$text);
++        $text = str_replace('@DIFFPAGE@','none',$text);
+         $diff = rawWiki($id);
+     }
+     $text = str_replace('@DIFF@',$diff,$text);

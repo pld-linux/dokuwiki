@@ -4,15 +4,13 @@
 ## DP: Hotfix for privilege escalation bug.
 
 @DPATCH@
-Index: dokuwiki-0.0.20090214/inc/actions.php
-===================================================================
---- dokuwiki-0.0.20090214.orig/inc/actions.php	2009-02-14 13:13:25.000000000 +0100
-+++ dokuwiki-0.0.20090214/inc/actions.php	2009-02-14 19:19:32.000000000 +0100
-@@ -141,6 +141,7 @@
-     act_redirect($ID,$preact);
-   }
+--- dokuwiki-rc2010-10-07/inc/actions.php~	2010-10-07 21:38:37.000000000 +0300
++++ dokuwiki-rc2010-10-07/inc/actions.php	2010-10-07 21:40:42.379139693 +0300
+@@ -149,6 +149,7 @@
+     global $conf;
+     global $license;
  
-+  $ACT = act_permcheck($ACT);
-   //call template FIXME: all needed vars available?
-   $headers[] = 'Content-Type: text/html; charset=utf-8';
-   trigger_event('ACTION_HEADERS_SEND',$headers,'act_sendheaders');
++    $ACT = act_permcheck($ACT);
+     //call template FIXME: all needed vars available?
+     $headers[] = 'Content-Type: text/html; charset=utf-8';
+     trigger_event('ACTION_HEADERS_SEND',$headers,'act_sendheaders');
