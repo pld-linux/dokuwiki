@@ -6,14 +6,14 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.1
+Release:	0.2
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/dokuwiki-rc2010-10-27.tgz
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
 # Source0-md5:	9c87390cb4acda65d7b6002b8f7cceeb
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
-Source3:	jude.png
+Source3:	http://glen.alkohol.ee/pld/jude.png
 # Source3-md5:	623344128960e18f86097dfee213ad4a
 Source4:	eventum.gif
 Source5:	http://forum.skype.com/style_emoticons/skype/skype.png
@@ -25,6 +25,8 @@ Source8:	nagios.gif
 Source9:	http://trac.edgewall.org/export/9404/trunk/doc/trac_icon_16x16.png
 # Source9-md5:	0c19ed35bf677f33f6bea14b3a8a2e10
 Source10:	pld.gif
+Source11:	http://glen.alkohol.ee/pld/astah.png
+# Source11-md5:	b1c999e6988440c9e2af6a12e9a56451
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
 Patch2:		%{name}-mysqlauth.patch
@@ -47,6 +49,7 @@ Patch20:	fixprivilegeescalationbug.diff
 Patch21:	task-1821.patch
 Patch22:	adldap.patch
 URL:		http://www.dokuwiki.org/dokuwiki
+BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.520
 Requires:	php-common >= 4:%{php_min_version}
@@ -195,14 +198,20 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/userstyle.css
 
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
-cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/jude.png
 cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
 cp -a %{SOURCE7} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/cacti.gif
 cp -a %{SOURCE8} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/nagios.gif
 cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/skype.png
 cp -a %{SOURCE9} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/trac.png
 cp -a %{SOURCE10} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/pld.gif
+
+cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/jude.png
+cp -a %{SOURCE11} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/asta.png
+
 cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/tpl/default/images/button-pld.png
+
+# hardlink identical icons.
+findup -m $RPM_BUILD_ROOT
 
 # find locales
 %find_lang %{name}.lang
