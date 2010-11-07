@@ -1,4 +1,4 @@
-%define		subver	2010-10-27
+%define		subver	2010-11-07
 %define		ver		%(echo %{subver} | tr -d -)
 %define		php_min_version 5.1.2
 %include	/usr/lib/rpm/macros.php
@@ -6,11 +6,11 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.2
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
-# Source0-md5:	9c87390cb4acda65d7b6002b8f7cceeb
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+# Source0-md5:	b590c45049605e86bc2474a1d04fb4ba
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -36,7 +36,6 @@ Patch5:		%{name}-http_auth-option.patch
 Patch6:		%{name}-nice_exit.patch
 Patch7:		%{name}-mail-headerencodequotes.patch
 Patch8:		%{name}-notify-respect-minor.patch
-Patch9:		%{name}-media-userinfo.patch
 Patch10:	%{name}-mailtext.patch
 Patch11:	%{name}-notifyns.patch
 Patch12:	%{name}-mailthreads.patch
@@ -117,7 +116,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-rc%{subver}
+%setup -q -n %{name}-%{subver}
 %patch0 -p1
 %patch2 -p1
 %patch3 -p1
@@ -126,7 +125,6 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1

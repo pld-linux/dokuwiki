@@ -1,10 +1,10 @@
---- dokuwiki-rc2010-10-07/inc/common.php~	2010-10-07 21:34:10.000000000 +0300
-+++ dokuwiki-rc2010-10-07/inc/common.php	2010-10-07 21:36:02.099167786 +0300
-@@ -1168,7 +1168,20 @@
-     $from = str_replace('@NAME@',$INFO['userinfo']['name'],$from);
-     $from = str_replace('@MAIL@',$INFO['userinfo']['mail'],$from);
+--- dokuwiki-2010-11-07/inc/common.php~	2010-11-07 22:38:45.000000000 +0200
++++ dokuwiki-2010-11-07/inc/common.php	2010-11-07 22:41:54.567137751 +0200
+@@ -1163,7 +1163,20 @@
+         $subject = '['.utf8_substr($conf['title'], 0, 20).'...] '.$subject;
+     }
  
--    mail_send($to,$subject,$text,$from,'',$bcc);
+-    mail_send($to,$subject,$text,$conf['mailfrom'],'',$bcc);
 +    $headers = array();
 +    // add mail headers to identify page changes in same mail thread
 +    $file = wikiFN($id);
@@ -18,7 +18,7 @@
 +        $h .= sprintf("%s: %s%s", $k, $v, MAILHEADER_EOL);
 +    }
 +
-+    mail_send($to,$subject,$text,$from,'' ,$bcc, $h);
++    mail_send($to,$subject,$text,$conf['mailfrom'],'',$bcc,$h);
  }
  
  /**

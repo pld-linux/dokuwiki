@@ -18,14 +18,14 @@
  $conf['fullpath']    = 0;                 //show full path of the document or relative to datadir only? 0|1
  $conf['recent']      = 20;                //how many entries to show in recent
  $conf['breadcrumbs'] = 10;                //how many recent visited pages to show
---- dokuwiki-rc2010-10-27/install.php~	2010-10-28 14:13:32.000000000 +0300
-+++ dokuwiki-rc2010-10-27/install.php	2010-10-28 14:14:01.379367387 +0300
+--- dokuwiki-2010-11-07/install.php~	2010-11-07 22:42:18.000000000 +0200
++++ dokuwiki-2010-11-07/install.php	2010-11-07 22:42:40.066936206 +0200
 @@ -47,7 +47,7 @@
      '2008-05-04'   => '1e5c42eac3219d9e21927c39e3240aad',
      '2009-02-14'   => 'ec8c04210732a14fdfce0f7f6eead865',
      '2009-12-25'   => '993c4b2b385643efe5abf8e7010e11f4',
--    '2010-10-27rc' => '7921d48195f4db21b8ead6d9bea801b8'
-+    '2010-10-27pld' => 'e5d9d0fc37a774e37587e84e91dc84bc'
+-    '2010-11-07'   => '7921d48195f4db21b8ead6d9bea801b8'
++    '2010-11-07'   => 'e5d9d0fc37a774e37587e84e91dc84bc'
  );
  
  
