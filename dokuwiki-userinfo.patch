@@ -1,0 +1,29 @@
+--- dokuwiki-2010-11-07/inc/mail.php	2010-11-29 20:50:39.364391752 +0200
++++ dokuwiki/inc/mail.php	2010-11-08 22:22:55.929653976 +0200
+@@ -37,12 +37,12 @@
+  */
+ function mail_setup(){
+     global $conf;
+-    global $INFO;
++    global $USERINFO;
+ 
+     $replace = array();
+ 
+-    if(!empty($INFO['userinfo']['mail'])){
+-        $replace['@MAIL@'] = $INFO['userinfo']['mail'];
++    if(!empty($USERINFO['mail'])){
++        $replace['@MAIL@'] = $USERINFO['mail'];
+     }else{
+         $replace['@MAIL@'] = 'noreply@'.parse_url(DOKU_URL,PHP_URL_HOST);
+     }
+@@ -53,8 +53,8 @@
+         $replace['@USER@'] = 'noreply';
+     }
+ 
+-    if(!empty($INFO['userinfo']['name'])){
+-        $replace['@NAME@'] = $INFO['userinfo']['name'];
++    if(!empty($USERINFO['name'])){
++        $replace['@NAME@'] = $USERINFO['name'];
+     }else{
+         $replace['@NAME@'] = '';
+     }
