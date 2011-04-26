@@ -14,17 +14,19 @@
          $rev1 = (int) $_REQUEST['rev2'][0];
          $rev2 = (int) $_REQUEST['rev2'][1];
  
---- dokuwiki/inc/html.php~	2010-10-07 21:48:30.000000000 +0300
-+++ dokuwiki/inc/html.php	2010-10-18 17:28:03.106448956 +0300
-@@ -997,7 +997,7 @@
-     if($intro) print p_locale_xhtml('diff');
+--- dokuwiki-20110329/inc/html.php~	2011-03-29 09:20:42.000000000 +0300
++++ dokuwiki-20110329/inc/html.php	2011-03-29 09:21:51.507042136 +0300
+@@ -1030,8 +1030,8 @@
  
-     if (!$text) {
--        $diffurl = wl($ID, array('do'=>'diff', 'rev2[0]'=>$l_rev, 'rev2[1]'=>$r_rev));
-+        $diffurl = wl($ID, array('do'=>'diff', 'r1'=>$l_rev, 'r2'=>$r_rev));
-         ptln('<p class="difflink">');
-         ptln('  <a class="wikilink1" href="'.$diffurl.'">'.$lang['difflink'].'</a>');
-         ptln('</p>');
+         $diffurl = wl($ID, array(
+                         'do'       => 'diff',
+-                        'rev2[0]'  => $l_rev,
+-                        'rev2[1]'  => $r_rev,
++                        'r1'       => $l_rev,
++                        'r2'       => $r_rev,
+                         'difftype' => $type,
+                       ));
+         ptln('<br /><a class="wikilink1" href="'.$diffurl.'">'.$lang['difflink'].'</a>');
 --- dokuwiki-rc2010-10-07/inc/common.php~	2010-10-07 21:41:20.000000000 +0300
 +++ dokuwiki-rc2010-10-07/inc/common.php	2010-10-07 21:45:00.639114275 +0300
 @@ -1147,6 +1147,8 @@

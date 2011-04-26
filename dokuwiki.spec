@@ -1,6 +1,6 @@
 # TODO
 # - remove %config from lang files: https://github.com/splitbrain/dokuwiki/commit/e6cecb0872ef457f44529edbc736aba3dc3ac258
-%define		subver	2010-11-07a
+%define		subver	2011-04-22
 %define		ver		%(echo %{subver} | tr -d -)
 %define		php_min_version 5.1.2
 %include	/usr/lib/rpm/macros.php
@@ -8,11 +8,13 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	1
+Release:	0.4
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	de2b5bbecdae610a2ecaf53d5e55453b
+#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+#Source0:	https://github.com/splitbrain/dokuwiki/tarball/master#/%{name}.tgz
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
+# Source0-md5:	a6230a2f626d26aed7fa61370789d0a5
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -31,12 +33,10 @@ Source11:	http://glen.alkohol.ee/pld/astah.png
 # Source11-md5:	b1c999e6988440c9e2af6a12e9a56451
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
-Patch2:		%{name}-mysqlauth.patch
 Patch3:		%{name}-config-allow-require.patch
 Patch4:		%{name}-geshi.patch
 Patch5:		%{name}-http_auth-option.patch
 Patch6:		%{name}-nice_exit.patch
-Patch7:		%{name}-mail-headerencodequotes.patch
 Patch8:		%{name}-notify-respect-minor.patch
 Patch10:	%{name}-mailtext.patch
 Patch11:	%{name}-notifyns.patch
@@ -49,7 +49,6 @@ Patch19:	pld-branding.patch
 Patch20:	fixprivilegeescalationbug.diff
 Patch21:	task-1821.patch
 Patch22:	adldap.patch
-Patch23:	dokuwiki-userinfo.patch
 URL:		http://www.dokuwiki.org/dokuwiki
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
@@ -119,14 +118,12 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-%{subver}
+%setup -q -n %{name}-rc%{subver}
 %patch0 -p1
-%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 %patch8 -p1
 %patch10 -p1
 %patch11 -p1
@@ -139,30 +136,29 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
-%patch23 -p1
 
 %patch66 -p1
 
 find -name _dummy | xargs rm
 rm lib/index.html lib/plugins/index.html inc/lang/.htaccess
 
+# we just don't package deleted files, so these get removed automatically on rpm upgrades
+%{__rm} data/deleted.files
+
 # safe file
-mv conf/words.aspell{.dist,}
+#mv conf/words.aspell{.dist,}
 
 # use system geshi package
-rm -f inc/geshi.php
-rm -rf inc/geshi
+%{__rm} inc/geshi.php
+%{__rm} -r inc/geshi
 
 # use system adldap package
-rm -f inc/adLDAP.php
+%{__rm} inc/adLDAP.php
 
 # use system simplepie package
-rm -f inc/SimplePie.php
+%{__rm} inc/SimplePie.php
 
-# our plugins dir is not writable anyway, nothing to convert
-rm -rf lib/plugins/upgradeplugindirectory
-
-# flash source
+# flash source on git tarballs
 rm -rf lib/_fla
 
 # cleanup backups after patching
@@ -180,7 +176,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_localstatedir},%{_appdir}/{bin,inc,lib}}
 
 cp -a *.php $RPM_BUILD_ROOT%{_appdir}
-cp -a VERSION $RPM_BUILD_ROOT%{_appdir}
+cp -p VERSION $RPM_BUILD_ROOT%{_appdir}
 cp -a bin/* $RPM_BUILD_ROOT%{_appdir}/bin
 cp -a inc/* $RPM_BUILD_ROOT%{_appdir}/inc
 cp -a lib/* $RPM_BUILD_ROOT%{_appdir}/lib
@@ -281,7 +277,7 @@ exit 0
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
 
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mediameta.php
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/words.aspell
+#%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/words.aspell
 %attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/scheme.conf
 
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.local.conf
@@ -320,6 +316,7 @@ exit 0
 %attr(755,root,root) %{_appdir}/bin/indexer.php
 %attr(755,root,root) %{_appdir}/bin/render.php
 %attr(755,root,root) %{_appdir}/bin/wantedpages.php
+%attr(755,root,root) %{_appdir}/bin/striplangs.php
 
 %dir %{_appdir}/inc
 %{_appdir}/inc/*.php
@@ -340,10 +337,13 @@ exit 0
 %{_appdir}/lib/plugins/plugin/classes
 %dir %{_appdir}/lib/plugins/revert
 %{_appdir}/lib/plugins/revert/*.*
+%dir %{_appdir}/lib/plugins/safefnrecode
+%{_appdir}/lib/plugins/safefnrecode/*.*
 %dir %{_appdir}/lib/plugins/usermanager
 %{_appdir}/lib/plugins/usermanager/*.*
 %{_appdir}/lib/plugins/usermanager/images
-%{_appdir}/lib/plugins/info
+%dir %{_appdir}/lib/plugins/info
+%{_appdir}/lib/plugins/info/*.*
 %dir %{_appdir}/lib/plugins/popularity
 %{_appdir}/lib/plugins/popularity/*.*
 %{_appdir}/lib/plugins/*.php
