@@ -1,6 +1,6 @@
 # TODO
 # - remove %config from lang files: https://github.com/splitbrain/dokuwiki/commit/e6cecb0872ef457f44529edbc736aba3dc3ac258
-%define		subver	2011-05-25
+%define		subver	2011-05-25a
 %define		ver		%(echo %{subver} | tr -d -)
 %define		php_min_version 5.1.2
 %include	/usr/lib/rpm/macros.php
@@ -8,13 +8,13 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	2
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
 #Source0:	https://github.com/splitbrain/dokuwiki/tarball/master#/%{name}.tgz
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	ac7f14fec7ed27d30af1b6b92a9ca994
+# Source0-md5:	6452eff54afa35e031e15fec9a737dd1
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
