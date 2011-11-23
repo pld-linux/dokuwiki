@@ -1,0 +1,2 @@
+- package %{_sysconfdir}/{lang,plugin_lang}, see:
+  http://www.dokuwiki.org/localization#changing_localized_texts_in_your_installation
