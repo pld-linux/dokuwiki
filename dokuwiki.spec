@@ -1,6 +1,6 @@
 # TODO
 # - remove %config from lang files: https://github.com/splitbrain/dokuwiki/commit/e6cecb0872ef457f44529edbc736aba3dc3ac258
-%define		subver	2011-05-25a
+%define		subver	2011-11-10
 %define		ver		%(echo %{subver} | tr -d -)
 %define		php_min_version 5.1.2
 %include	/usr/lib/rpm/macros.php
@@ -8,13 +8,13 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	1
+Release:	0.2
 License:	GPL v2
 Group:		Applications/WWW
-#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
 #Source0:	https://github.com/splitbrain/dokuwiki/tarball/master#/%{name}.tgz
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	6452eff54afa35e031e15fec9a737dd1
+#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
+# Source0-md5:	6faf2f586cadbfc23d3b53745a00a482
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -118,7 +118,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-%{subver}
+%setup -q -n %{name}-rc%{subver}
 %patch0 -p1
 %patch3 -p1
 %patch4 -p1
@@ -214,16 +214,6 @@ findup -m $RPM_BUILD_ROOT
 # find locales
 %find_lang %{name}.lang
 
-# make inc/lang/en/edit.txt as %config
-%{__sed} -i -e '
-/%%lang([^)]\+) \/usr\/share\/dokuwiki\/inc\/lang\/[^/]\+/{
-	# make entry as %%dir
-	s/^/%%dir /; p
-
-	# add files inside the %dir
-	s/^%%dir /%%config(noreplace) %%verify(not md5 mtime size) /; s/$/\/*.*/
-}' %{name}.lang
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -279,7 +269,6 @@ exit 0
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
 
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mediameta.php
-#%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/words.aspell
 %attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/scheme.conf
 
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.local.conf
@@ -292,14 +281,16 @@ exit 0
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/userstyle.css
 %attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.php
 
-# use local.php,local.protected.php, etc for local changes
+# use local.php, local.protected.php, etc for local changes
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/entities.conf
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/interwiki.conf
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/license.php
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/mime.conf
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/smileys.conf
+
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/license.php
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/plugins.required.php
 
 # samples. perhaps move to %doc instead?
 %attr(640,root,http) %{_sysconfdir}/mysql.conf.php.example
@@ -361,12 +352,15 @@ exit 0
 %dir %attr(770,root,http) %{_localstatedir}/index
 %dir %attr(770,root,http) %{_localstatedir}/locks
 %dir %attr(770,root,http) %{_localstatedir}/media
+%dir %attr(770,root,http) %{_localstatedir}/media_attic
+%dir %attr(770,root,http) %{_localstatedir}/media_meta
 %dir %attr(770,root,http) %{_localstatedir}/media/wiki
 %dir %attr(770,root,http) %{_localstatedir}/meta
 %dir %attr(770,root,http) %{_localstatedir}/pages
 %dir %attr(770,root,http) %{_localstatedir}/pages/playground
 %dir %attr(770,root,http) %{_localstatedir}/pages/wiki
 %dir %attr(770,root,http) %{_localstatedir}/tmp
+
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/media/wiki/dokuwiki-128.png
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
