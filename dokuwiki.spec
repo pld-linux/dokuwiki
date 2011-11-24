@@ -140,13 +140,10 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch66 -p1
 
 find -name _dummy | xargs rm
-rm lib/index.html lib/plugins/index.html inc/lang/.htaccess
+%{__rm} lib/index.html lib/plugins/index.html inc/lang/.htaccess
 
 # we just don't package deleted files, so these get removed automatically on rpm upgrades
 %{__rm} data/deleted.files
-
-# safe file
-#mv conf/words.aspell{.dist,}
 
 # use system geshi package
 %{__rm} inc/geshi.php
@@ -175,16 +172,19 @@ fi
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{lang,plugin_lang},%{_localstatedir},%{_appdir}/{bin,inc,lib}}
 
-cp -a *.php $RPM_BUILD_ROOT%{_appdir}
-cp -p VERSION $RPM_BUILD_ROOT%{_appdir}
-cp -a bin/* $RPM_BUILD_ROOT%{_appdir}/bin
-cp -a inc/* $RPM_BUILD_ROOT%{_appdir}/inc
-cp -a lib/* $RPM_BUILD_ROOT%{_appdir}/lib
-cp -a conf/* $RPM_BUILD_ROOT%{_sysconfdir}
-cp -a data/* $RPM_BUILD_ROOT%{_localstatedir}
-cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
-cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
-cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
+# hardlink test
+cp -al VERSION $RPM_BUILD_ROOT%{_appdir} 2>/dev/null && l=l
+
+cp -a$l *.php $RPM_BUILD_ROOT%{_appdir}
+cp -p$l VERSION $RPM_BUILD_ROOT%{_appdir}
+cp -a$l bin/* $RPM_BUILD_ROOT%{_appdir}/bin
+cp -a$l inc/* $RPM_BUILD_ROOT%{_appdir}/inc
+cp -a$l lib/* $RPM_BUILD_ROOT%{_appdir}/lib
+cp -a$l conf/* $RPM_BUILD_ROOT%{_sysconfdir}
+cp -a$l data/* $RPM_BUILD_ROOT%{_localstatedir}
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/acronyms.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/entities.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/interwiki.local.conf
@@ -196,17 +196,17 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/userstyle.css
 
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
-cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
-cp -a %{SOURCE7} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/cacti.gif
-cp -a %{SOURCE8} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/nagios.gif
-cp -a %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/skype.png
-cp -a %{SOURCE9} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/trac.png
-cp -a %{SOURCE10} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/pld.gif
+cp -p %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
+cp -p %{SOURCE7} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/cacti.gif
+cp -p %{SOURCE8} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/nagios.gif
+cp -p %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/skype.png
+cp -p %{SOURCE9} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/trac.png
+cp -p %{SOURCE10} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/pld.gif
 
-cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/jude.png
-cp -a %{SOURCE11} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/asta.png
+cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/jude.png
+cp -p %{SOURCE11} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/asta.png
 
-cp -a %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/tpl/default/images/button-pld.png
+cp -p %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/tpl/default/images/button-pld.png
 
 # hardlink identical icons.
 findup -m $RPM_BUILD_ROOT
