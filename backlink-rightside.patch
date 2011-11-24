@@ -1,5 +1,5 @@
---- sidebar/layout.css	2009-01-27 04:40:10.000000000 +0200
-+++ sidebar/layout.css	2009-01-27 17:20:21.075995761 +0200
+--- dokuwiki-rc2011-11-10/lib/tpl/default/layout.css	2009-01-27 04:40:10.000000000 +0200
++++ dokuwiki-rc2011-11-10/lib/tpl/default/layout.css	2009-01-27 17:20:21.075995761 +0200
 @@ -11,7 +11,7 @@
  }
  
@@ -22,8 +22,8 @@
    vertical-align: middle;
  }
  
---- sidebar/main.php	2009-01-27 04:40:10.000000000 +0200
-+++ sidebar/main.php	2009-01-27 17:20:32.584616202 +0200
+--- dokuwiki-rc2011-11-10/lib/tpl/default/main.php	2009-01-27 04:40:10.000000000 +0200
++++ dokuwiki-rc2011-11-10/lib/tpl/default/main.php	2009-01-27 17:20:32.584616202 +0200
 @@ -47,12 +47,12 @@
    <div class="stylehead">
  
