@@ -1,5 +1,3 @@
-# TODO
-# - remove %config from lang files: https://github.com/splitbrain/dokuwiki/commit/e6cecb0872ef457f44529edbc736aba3dc3ac258
 %define		subver	2011-11-10
 %define		ver		%(echo %{subver} | tr -d -)
 %define		php_min_version 5.1.2
