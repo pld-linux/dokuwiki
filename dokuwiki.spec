@@ -6,7 +6,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.5
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	https://github.com/splitbrain/dokuwiki/tarball/master#/%{name}.tgz
@@ -373,7 +373,6 @@ exit 0
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/security.png
-%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/security.xcf
 
 %files setup
 %defattr(644,root,root,755)
