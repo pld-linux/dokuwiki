@@ -6,7 +6,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.3
+Release:	0.5
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	https://github.com/splitbrain/dokuwiki/tarball/master#/%{name}.tgz
@@ -63,6 +63,7 @@ Requires:	webserver(alias)
 Requires:	webserver(php)
 Suggests:	php-adldap >= 3.3.1
 Suggests:	php-gd
+Obsoletes:	dokuwiki-plugin-jquery
 # can use gz compression to store attic pages
 Suggests:	php-zlib
 BuildArch:	noarch
@@ -144,6 +145,8 @@ find -name _dummy | xargs rm
 
 # we just don't package deleted files, so these get removed automatically on rpm upgrades
 %{__rm} data/deleted.files
+# source for security.png
+%{__rm} data/security.xcf
 
 # use system geshi package
 %{__rm} inc/geshi.php
@@ -189,6 +192,7 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/acronyms.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/entities.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/interwiki.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/license.local.php
+touch $RPM_BUILD_ROOT%{_sysconfdir}/plugins.local.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/local.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/local.protected.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/mime.local.conf
@@ -219,13 +223,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %post setup
 chmod 770 %{_sysconfdir}
-chmod 660 %{_sysconfdir}/dokuwiki.php
+chmod 660 %{_sysconfdir}/local.php
+chmod 660 %{_sysconfdir}/plugins.local.php
 
 %postun setup
 if [ "$1" = "0" ]; then
 	if [ -f %{_sysconfdir}/dokuwiki.php ]; then
 		chmod 750 %{_sysconfdir}
-		chmod 640 %{_sysconfdir}/dokuwiki.php
+		chmod 640 %{_sysconfdir}/local.php
+		chmod 640 %{_sysconfdir}/plugins.local.php
 	fi
 fi
 
@@ -261,7 +267,7 @@ exit 0
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc README
-%dir %attr(750,root,http) %{_sysconfdir}
+%dir %attr(750,root,http) %verify(not mode) %{_sysconfdir}
 %dir %attr(750,root,http) %{_sysconfdir}/lang
 %dir %attr(750,root,http) %{_sysconfdir}/plugin_lang
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
@@ -275,11 +281,12 @@ exit 0
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/entities.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/interwiki.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/license.local.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size mode) %{_sysconfdir}/local.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.protected.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size mode) %{_sysconfdir}/plugins.local.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/userstyle.css
-%attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.php
 
 # use local.php, local.protected.php, etc for local changes
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
