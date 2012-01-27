@@ -1,6 +1,6 @@
-%define		subver	2011-11-10
+%define		subver	2012-01-25
 %define		ver		%(echo %{subver} | tr -d -)
-%define		php_min_version 5.1.2
+%define		php_min_version 5.2.4
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
@@ -10,9 +10,9 @@ Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	https://github.com/splitbrain/dokuwiki/tarball/master#/%{name}.tgz
-#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
-# Source0-md5:	6faf2f586cadbfc23d3b53745a00a482
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+# Source0-md5:	da7ec30fc51c48035adc48dc0535a317
+#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -118,7 +118,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-rc%{subver}
+%setup -q -n %{name}-%{subver}
 %patch0 -p1
 %patch3 -p1
 %patch4 -p1

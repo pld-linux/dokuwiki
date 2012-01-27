@@ -1,15 +1,14 @@
-diff -dur -x '*.orig' dokuwiki-2011-05-25.orig/conf/dokuwiki.php dokuwiki-2011-05-25/conf/dokuwiki.php
---- dokuwiki-2011-05-25.orig/conf/dokuwiki.php	2011-06-08 10:34:21.000000000 +0200
-+++ dokuwiki-2011-05-25/conf/dokuwiki.php	2011-06-08 10:34:49.000000000 +0200
-@@ -18,7 +18,7 @@
- $conf['lang']        = 'en';              //your language
+--- dokuwiki-2012-01-25/conf/dokuwiki.php~	2012-01-27 09:33:02.000000000 +0200
++++ dokuwiki-2012-01-25/conf/dokuwiki.php	2012-01-27 09:33:34.363230629 +0200
+@@ -19,7 +19,7 @@
  $conf['basedir']     = '';                //absolute dir from serveroot - blank for autodetection
  $conf['baseurl']     = '';                //URL to server including protocol - blank for autodetect
+ $conf['cookiedir']   = '';                //Cookie path. Leave blank for using baseurl.
 -$conf['savedir']     = './data';          //where to store all the files
-+$conf['savedir']     = '/var/lib/dokuwiki';          //where to store all the files
++$conf['savedir']     = '/var/lib/dokuwiki';  //where to store all the files
  $conf['allowdebug']  = 0;                 //allow debug output, enable if needed 0|1
+ $conf['mediarevisions'] = 1;              //enable/disable media revisions
  
- /* Display Options */
 @@ -26,7 +26,7 @@
  $conf['start']       = 'start';           //name of start page
  $conf['title']       = 'PLD Linux DokuWiki'; //what to show in the title
@@ -19,14 +18,14 @@ diff -dur -x '*.orig' dokuwiki-2011-05-25.orig/conf/dokuwiki.php dokuwiki-2011-0
  $conf['fullpath']    = 0;                 //show full path of the document or relative to datadir only? 0|1
  $conf['recent']      = 20;                //how many entries to show in recent
  $conf['breadcrumbs'] = 10;                //how many recent visited pages to show
---- dokuwiki-rc2011-11-10/install.php~	2011-11-21 12:43:24.000000000 +0200
-+++ dokuwiki-rc2011-11-10/install.php	2011-11-21 12:43:49.050477388 +0200
-@@ -49,7 +49,7 @@
-     '2009-12-25'   => '993c4b2b385643efe5abf8e7010e11f4',
+--- dokuwiki-2012-01-25/install.php~	2012-01-27 09:34:09.000000000 +0200
++++ dokuwiki-2012-01-25/install.php	2012-01-27 09:34:34.872417423 +0200
+@@ -50,7 +50,7 @@
      '2010-11-07'   => '7921d48195f4db21b8ead6d9bea801b8',
      '2011-05-25'   => '4241865472edb6fa14a1227721008072',
--    '2011-11-10'   => 'b46ff19a7587966ac4df61cbab1b8b31',
-+    '2011-11-10pld'   => '551f1a079e8e83981789b951bd9db29c',
+     '2011-11-10'   => 'b46ff19a7587966ac4df61cbab1b8b31',
+-    '2012-01-25'   => '72c083c73608fc43c586901fd5dabb74',
++    '2012-01-25pld' => '9e3d022699048b720ff54b6bdf49118f',
  );
  
  
