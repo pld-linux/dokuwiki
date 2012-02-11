@@ -6,13 +6,11 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Applications/WWW
-#Source0:	https://github.com/splitbrain/dokuwiki/tarball/master#/%{name}.tgz
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
 # Source0-md5:	da7ec30fc51c48035adc48dc0535a317
-#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -48,6 +46,7 @@ Patch20:	fixprivilegeescalationbug.diff
 Patch21:	task-1821.patch
 Patch22:	adldap.patch
 Patch23:	backlink-rightside.patch
+Patch24:	more-buttons.patch
 URL:		http://www.dokuwiki.org/dokuwiki
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
@@ -137,6 +136,7 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch21 -p1
 %patch22 -p1
 %patch23 -p1
+%patch24 -p1
 
 %patch66 -p1
 
