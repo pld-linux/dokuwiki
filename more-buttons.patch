@@ -14,7 +14,7 @@
  
        <div class="bar-right" id="bar__topright">
 +        <?php
-+        if (!plugin_isdisabled('html2pdf')) { ?>
++        if (!plugin_isdisabled('html2pdf') || !plugin_isdisabled('dw2pdf')) { ?>
 +        <form class="button" method="get" action="<?php wl($ID)?>">
 +          <div class="no">
 +            <input type="submit" value="Export to PDF" class="button" />
