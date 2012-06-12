@@ -1,4 +1,4 @@
-%define		subver	2012-01-25
+%define		subver	2012-01-25a
 %define		ver		%(echo %{subver} | tr -d -)
 %define		php_min_version 5.2.4
 %include	/usr/lib/rpm/macros.php
@@ -6,11 +6,11 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	3
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	da7ec30fc51c48035adc48dc0535a317
+# Source0-md5:	aea520bd7bb61f7ecd3322e479cd8047
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
