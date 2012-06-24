@@ -1,16 +1,18 @@
-%define		subver	2012-01-25a
+%define		subver	2012-06-24
 %define		ver		%(echo %{subver} | tr -d -)
+%define		snap	1
 %define		php_min_version 5.2.4
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	1
+Release:	1.5
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	aea520bd7bb61f7ecd3322e479cd8047
+#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}.tgz
+# Source0-md5:	32e73e37068f66392be004374d885af9
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -73,6 +75,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_sysconfdir	%{_webapps}/%{_webapp}
 %define		_appdir		%{_datadir}/%{_webapp}
 %define		_localstatedir	/var/lib/%{name}
+%define		_cachedir		/var/cache/%{name}
 %define		find_lang 	%{_usrlibrpm}/dokuwiki-find-lang.sh %{buildroot}
 
 # bad depsolver
@@ -117,7 +120,13 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-%{subver}
+%setup -q -n %{name}-%{subver} %{?snap:-c}
+%if 0%{?snap:1}
+mv *-dokuwiki-*/* .
+test -e VERSION || echo %{subver}-git > VERSION
+install -d data/pages/playground
+touch data/pages/playground/playground.txt
+%endif
 %patch0 -p1
 %patch3 -p1
 %patch4 -p1
@@ -126,24 +135,30 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %patch8 -p1
 %patch10 -p1
 %patch11 -p1
-%patch12 -p1
+#%patch12 -p1 UPDATE to new mailer class
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
 %patch18 -p1
 %patch19 -p1
 %patch20 -p1
-%patch21 -p1
+#%patch21 -p1 UPDATE to new mailer class
 %patch22 -p1
 %patch23 -p1
 %patch24 -p1
 
 %patch66 -p1
 
+# package as basenames, upgrade overwrite protected with .rpmnew
+mv conf/local.php{.dist,}
+mv conf/acl.auth.php{.dist,}
+mv conf/users.auth.php{.dist,}
+mv conf/mysql.conf.php{.example,}
+
 find -name _dummy | xargs rm
 %{__rm} lib/index.html lib/plugins/index.html inc/lang/.htaccess
 
-# we just don't package deleted files, so these get removed automatically on rpm upgrades
+# we just don't package deleted files, these get removed automatically on rpm upgrades
 %{__rm} data/deleted.files
 # source for security.png
 %{__rm} data/security.xcf
@@ -160,9 +175,10 @@ find -name _dummy | xargs rm
 
 # flash source on git tarballs
 rm -rf lib/_fla
+rm -rf lib/plugins/testing
 
 # cleanup backups after patching
-find . '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
+find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
 %build
 md5=$(md5sum -b conf/dokuwiki.php | awk '{print $1}')
@@ -173,7 +189,7 @@ fi
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{lang,plugin_lang},%{_localstatedir},%{_appdir}/{bin,inc,lib}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{lang,plugin_lang},%{_localstatedir},%{_cachedir},%{_appdir}/{bin,inc,lib}}
 
 # hardlink test
 cp -al VERSION $RPM_BUILD_ROOT%{_appdir} 2>/dev/null && l=l
@@ -193,7 +209,6 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/entities.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/interwiki.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/license.local.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/plugins.local.php
-touch $RPM_BUILD_ROOT%{_sysconfdir}/local.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/local.protected.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/mime.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
@@ -262,6 +277,9 @@ if [ -d %{_appdir}/conf -a ! -L %{_appdir}/conf ]; then
 	mv -f %{_appdir}/conf/* %{_sysconfdir}
 	rm -rf %{_appdir}/conf
 fi
+if [ -d %{_localstatedir}/cache ]; then
+	rm -rf %{_localstatedir}/cache
+fi
 exit 0
 
 %files -f %{name}.lang
@@ -275,18 +293,23 @@ exit 0
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
 
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mediameta.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/plugins.php
 %attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/scheme.conf
 
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acl.auth.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/entities.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/interwiki.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/license.local.php
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size mode) %{_sysconfdir}/local.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.protected.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.local.conf
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size mode) %{_sysconfdir}/plugins.local.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/userstyle.css
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/users.auth.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mysql.conf.php
+
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size mode) %{_sysconfdir}/local.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size mode) %{_sysconfdir}/plugins.local.php
 
 # use local.php, local.protected.php, etc for local changes
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
@@ -294,17 +317,11 @@ exit 0
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/interwiki.conf
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/mime.conf
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/smileys.conf
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/wordblock.conf
 
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/license.php
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/plugins.required.php
-
-# samples. perhaps move to %doc instead?
-%attr(640,root,http) %{_sysconfdir}/mysql.conf.php.example
-%attr(640,root,http) %{_sysconfdir}/acl.auth.php.dist
-%attr(640,root,http) %{_sysconfdir}/wordblock.conf
-%attr(640,root,http) %{_sysconfdir}/local.php.dist
-%attr(640,root,http) %{_sysconfdir}/users.auth.php.dist
 
 %dir %{_appdir}
 %{_appdir}/VERSION
@@ -355,7 +372,6 @@ exit 0
 
 %dir %attr(770,root,http) %{_localstatedir}
 %dir %attr(770,root,http) %{_localstatedir}/attic
-%dir %attr(770,root,http) %{_localstatedir}/cache
 %dir %attr(770,root,http) %{_localstatedir}/index
 %dir %attr(770,root,http) %{_localstatedir}/locks
 %dir %attr(770,root,http) %{_localstatedir}/media
@@ -373,6 +389,8 @@ exit 0
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/security.png
+
+%dir %attr(770,root,http) %{_cachedir}
 
 %files setup
 %defattr(644,root,root,755)

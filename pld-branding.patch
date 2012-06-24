@@ -1,16 +1,14 @@
-===================================================================
---- dokuwiki-0.0.20090214.orig/conf/dokuwiki.php	2009-02-14 19:19:27.000000000 +0100
-+++ dokuwiki-0.0.20090214/conf/dokuwiki.php	2009-02-14 19:22:46.000000000 +0100
-@@ -24,7 +24,7 @@
- /* Display Options */
+--- dokuwiki-2012-06-23/conf/dokuwiki.php~	2012-06-23 13:07:26.000000000 +0300
++++ dokuwiki-2012-06-23/conf/dokuwiki.php	2012-06-23 13:07:43.700694458 +0300
+@@ -13,7 +13,7 @@
  
- $conf['start']       = 'start';           //name of start page
+ 
+ /* Basic Settings */
 -$conf['title']       = 'DokuWiki';        //what to show in the title
 +$conf['title']       = 'PLD Linux DokuWiki'; //what to show in the title
- $conf['template']    = 'default';         //see lib/tpl directory
- $conf['license']     = 'publicdomain';     //see conf/license.php
- $conf['fullpath']    = 0;                 //show full path of the document or relative to datadir only? 0|1
-===================================================================
+ $conf['start']       = 'start';           //name of start page
+ $conf['lang']        = 'en';              //your language
+ $conf['template']    = 'dokuwiki';         //see lib/tpl directory
 --- dokuwiki-0.0.20090214.orig/lib/tpl/default/footer.html	2009-02-14 19:22:01.000000000 +0100
 +++ dokuwiki-0.0.20090214/lib/tpl/default/footer.html	2009-02-14 19:23:14.000000000 +0100
 @@ -28,6 +28,8 @@

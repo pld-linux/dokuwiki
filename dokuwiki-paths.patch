@@ -1,7 +1,23 @@
---- dokuwiki/inc/init.php~	2009-11-10 15:19:36.000000000 +0200
-+++ dokuwiki/inc/init.php	2009-11-10 15:19:38.080947917 +0200
-@@ -21,7 +21,10 @@
- if(!defined('DOKU_INC')) define('DOKU_INC',fullpath(dirname(__FILE__).'/../').'/');
+From f835e03e88ba3cb8de941c7cd0862c57afe22da5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Elan=20Ruusam=C3=A4e?= <glen@delfi.ee>
+Date: Sun, 24 Jun 2012 12:23:30 +0300
+Subject: [PATCH] introduce DOKU_DATA and DOKU_CACHE variables for packaging
+
+add new constants, that makes packaging (rpm, deb) dokuwiki better fit
+to [FHS standards](http://www.pathname.com/fhs/pub/fhs-2.3.html):
+- DOKU_DATA - /var/lib/dokuwiki/
+- DOKU_CACHE - /var/cache/dokuwiki/
+---
+ inc/init.php |    8 +++++++-
+ install.php  |   26 ++++++++++++++------------
+ 2 files changed, 21 insertions(+), 13 deletions(-)
+
+diff --git a/inc/init.php b/inc/init.php
+index 403fbe4..29d96b2 100644
+--- a/inc/init.php
++++ b/inc/init.php
+@@ -23,7 +23,13 @@ if(!defined('DOKU_INC')) define('DOKU_INC',fullpath(dirname(__FILE__).'/../').'/
+ if(!defined('DOKU_PLUGIN'))  define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
  
  // define config path (packagers may want to change this to /etc/dokuwiki/)
 -if(!defined('DOKU_CONF')) define('DOKU_CONF',DOKU_INC.'conf/');
@@ -9,24 +25,45 @@
 +
 +// define path where variable data is saved (packagers may want to change this to /var/lib/dokuwiki/)
 +if(!defined('DOKU_DATA')) define('DOKU_DATA','/var/lib/dokuwiki/');
++
++// define path where cache data saved (packagers may want to change this to /var/cache/dokuwiki/)
++if(!defined('DOKU_CACHE')) define('DOKU_CACHE','/var/cache/dokuwiki/');
  
  // check for error reporting override or set error reporting to sane values
  if (!defined('DOKU_E_LEVEL') && @file_exists(DOKU_CONF.'report_e_all')) {
---- dokuwiki-2012-01-25/install.php~	2012-01-27 09:30:05.000000000 +0200
-+++ dokuwiki-2012-01-25/install.php	2012-01-27 09:31:55.795792191 +0200
-@@ -6,8 +6,9 @@
-  */
+@@ -234,13 +234,14 @@
+             'mediaolddir' => 'media_attic',
+             'metadir'   => 'meta',
+             'mediametadir' => 'media_meta',
+-            'cachedir'  => 'cache',
++            'cachedir'  => '/var/cache/dokuwiki',
+             'indexdir'  => 'index',
+             'lockdir'   => 'locks',
+             'tmpdir'    => 'tmp');
+ 
+     foreach($paths as $c => $p) {
+-        $path = empty($conf[$c]) ? $conf['savedir'].'/'.$p : $conf[$c];
++        $path = empty($conf[$c]) ? $p : $conf[$c];
++        $path = $path[0] == '/' ? $path : $conf['savedir'].'/'.$path;
+         $conf[$c] = init_path($path);
+         if(empty($conf[$c]))
+             nice_die("The $c ('$p') at $path is not found, isn't accessible or writable.
+diff --git a/install.php b/install.php
+index 80e9ad4..fe72513 100644
+--- a/install.php
++++ b/install.php
+@@ -7,7 +7,9 @@
  
  if(!defined('DOKU_INC')) define('DOKU_INC',dirname(__FILE__).'/');
--if(!defined('DOKU_CONF')) define('DOKU_CONF',DOKU_INC.'conf/');
+ if(!defined('DOKU_CONF')) define('DOKU_CONF',DOKU_INC.'conf/');
 -if(!defined('DOKU_LOCAL')) define('DOKU_LOCAL',DOKU_INC.'conf/');
-+if(!defined('DOKU_CONF')) define('DOKU_CONF','/etc/webapps/dokuwiki/');
 +if(!defined('DOKU_LOCAL')) define('DOKU_LOCAL',DOKU_CONF);
-+if(!defined('DOKU_DATA')) define('DOKU_DATA','/var/lib/dokuwiki/');
++if(!defined('DOKU_DATA')) define('DOKU_DATA',DOKU_INC.'data');
++if(!defined('DOKU_CACHE')) define('DOKU_CACHE',DOKU_DATA.'cache');
  
- // check for error reporting override or set error reporting to sane values
- if (!defined('DOKU_E_LEVEL')) { error_reporting(E_ALL ^ E_NOTICE); }
-@@ -422,17 +422,17 @@
+ require_once(DOKU_INC.'inc/PassHash.class.php');
+ 
+@@ -428,17 +430,17 @@ function check_permissions(){
  
      $dirs = array(
          'conf'        => DOKU_LOCAL,
@@ -48,10 +85,12 @@
 +        'media_attic' => DOKU_DATA.'media_attic',
 +        'media_meta'  => DOKU_DATA.'media_meta',
 +        'meta'        => DOKU_DATA.'meta',
-+        'cache'       => DOKU_DATA.'cache',
++        'cache'       => DOKU_CACHE,
 +        'locks'       => DOKU_DATA.'locks',
 +        'index'       => DOKU_DATA.'index',
 +        'tmp'         => DOKU_DATA.'tmp'
      );
  
      $ok = true;
+-- 
+1.7.7.4

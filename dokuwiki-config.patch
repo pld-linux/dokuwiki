@@ -1,31 +1,23 @@
---- dokuwiki-2012-01-25/conf/dokuwiki.php~	2012-01-27 09:33:02.000000000 +0200
-+++ dokuwiki-2012-01-25/conf/dokuwiki.php	2012-01-27 09:33:34.363230629 +0200
-@@ -19,7 +19,7 @@
+--- dokuwiki-2012-06-23/conf/dokuwiki.php~	2012-06-23 13:08:48.000000000 +0300
++++ dokuwiki-2012-06-23/conf/dokuwiki.php	2012-06-23 13:09:12.871130284 +0300
+@@ -19,8 +19,8 @@
+ $conf['template']    = 'dokuwiki';         //see lib/tpl directory
+ $conf['tagline']     = '';                //tagline in header (if template supports it)
+ $conf['sidebar']     = 'sidebar';         //name of sidebar in root namespace (if template supports it)
+-$conf['license']     = 'cc-by-nc-sa';     //see conf/license.php
+-$conf['savedir']     = './data';          //where to store all the files
++$conf['license']     = 'publicdomain';    //see conf/license.php
++$conf['savedir']     = '/var/lib/dokuwiki';  //where to store all the files
  $conf['basedir']     = '';                //absolute dir from serveroot - blank for autodetection
  $conf['baseurl']     = '';                //URL to server including protocol - blank for autodetect
- $conf['cookiedir']   = '';                //Cookie path. Leave blank for using baseurl.
--$conf['savedir']     = './data';          //where to store all the files
-+$conf['savedir']     = '/var/lib/dokuwiki';  //where to store all the files
- $conf['allowdebug']  = 0;                 //allow debug output, enable if needed 0|1
- $conf['mediarevisions'] = 1;              //enable/disable media revisions
- 
-@@ -26,7 +26,7 @@
- $conf['start']       = 'start';           //name of start page
- $conf['title']       = 'PLD Linux DokuWiki'; //what to show in the title
- $conf['template']    = 'default';         //see lib/tpl directory
--$conf['license']     = 'cc-by-nc-sa';     //see conf/license.php
-+$conf['license']     = 'publicdomain';    //see conf/license.php
- $conf['fullpath']    = 0;                 //show full path of the document or relative to datadir only? 0|1
- $conf['recent']      = 20;                //how many entries to show in recent
- $conf['breadcrumbs'] = 10;                //how many recent visited pages to show
---- dokuwiki-2012-01-25/install.php~	2012-01-27 09:34:09.000000000 +0200
-+++ dokuwiki-2012-01-25/install.php	2012-01-27 09:34:34.872417423 +0200
-@@ -50,7 +50,7 @@
-     '2010-11-07'   => '7921d48195f4db21b8ead6d9bea801b8',
-     '2011-05-25'   => '4241865472edb6fa14a1227721008072',
+ $conf['cookiedir']   = '';                //path to use in cookies - blank for basedir
+--- dokuwiki-2012-06-24/install.php~	2012-06-24 21:55:08.000000000 +0300
++++ dokuwiki-2012-06-24/install.php	2012-06-24 21:56:11.184049230 +0300
+@@ -55,6 +55,7 @@
      '2011-11-10'   => 'b46ff19a7587966ac4df61cbab1b8b31',
--    '2012-01-25'   => '72c083c73608fc43c586901fd5dabb74',
-+    '2012-01-25pld' => '9e3d022699048b720ff54b6bdf49118f',
+     '2012-01-25'   => '72c083c73608fc43c586901fd5dabb74',
+     'devel'        => 'eb0b3fc90056fbc12bac6f49f7764df3'
++    'devel-pld'    => 'e41c579c958478060232b8d6a16bc915'
  );
  
  
