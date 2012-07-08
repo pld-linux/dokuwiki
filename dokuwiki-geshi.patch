@@ -1,9 +1,9 @@
---- dokuwiki-rc2010-10-07/inc/parserutils.php~	2010-10-07 21:21:37.000000000 +0300
-+++ dokuwiki-rc2010-10-07/inc/parserutils.php	2010-10-07 21:24:30.142987536 +0300
-@@ -634,14 +634,14 @@
+--- dokuwiki-2012-07-08/./inc/parserutils.php~	2012-07-07 13:06:48.000000000 +0300
++++ dokuwiki-2012-07-08/./inc/parserutils.php	2012-07-08 11:20:06.395684716 +0300
+@@ -748,14 +748,14 @@
      $cache = getCacheName($language.$code,".code");
      $ctime = @filemtime($cache);
-     if($ctime && !$_REQUEST['purge'] &&
+     if($ctime && !$INPUT->bool('purge') &&
 -            $ctime > filemtime(DOKU_INC.'inc/geshi.php') &&                 // geshi changed
 -            $ctime > @filemtime(DOKU_INC.'inc/geshi/'.$language.'.php') &&  // language syntax definition changed
 +            $ctime > filemtime('/usr/share/php/geshi.php') &&                 // geshi changed
