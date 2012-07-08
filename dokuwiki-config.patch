@@ -1,6 +1,6 @@
---- dokuwiki-2012-06-23/conf/dokuwiki.php~	2012-06-23 13:08:48.000000000 +0300
-+++ dokuwiki-2012-06-23/conf/dokuwiki.php	2012-06-23 13:09:12.871130284 +0300
-@@ -19,8 +19,8 @@
+--- dokuwiki-2012-06-23/conf/dokuwiki.php	2012-06-23 13:09:12.871130284 +0300
++++ dokuwiki-2012-06-24/conf/dokuwiki.php	2012-07-07 15:08:02.939975138 +0300
+@@ -19,8 +19,9 @@
  $conf['template']    = 'dokuwiki';         //see lib/tpl directory
  $conf['tagline']     = '';                //tagline in header (if template supports it)
  $conf['sidebar']     = 'sidebar';         //name of sidebar in root namespace (if template supports it)
@@ -8,16 +8,19 @@
 -$conf['savedir']     = './data';          //where to store all the files
 +$conf['license']     = 'publicdomain';    //see conf/license.php
 +$conf['savedir']     = '/var/lib/dokuwiki';  //where to store all the files
++$conf['cachedir']    = '/var/cache/dokuwiki';  //where cache files are stored
  $conf['basedir']     = '';                //absolute dir from serveroot - blank for autodetection
  $conf['baseurl']     = '';                //URL to server including protocol - blank for autodetect
  $conf['cookiedir']   = '';                //path to use in cookies - blank for basedir
---- dokuwiki-2012-06-24/install.php~	2012-06-24 21:55:08.000000000 +0300
-+++ dokuwiki-2012-06-24/install.php	2012-06-24 21:56:11.184049230 +0300
-@@ -55,6 +55,7 @@
+--- dokuwiki-2012-06-24/install.php	2012-06-24 21:56:11.184049230 +0300
++++ dokuwiki-2012-06-24/install.php	2012-07-07 15:10:52.440544560 +0300
+@@ -54,7 +54,8 @@
+     '2011-05-25'   => '4241865472edb6fa14a1227721008072',
      '2011-11-10'   => 'b46ff19a7587966ac4df61cbab1b8b31',
      '2012-01-25'   => '72c083c73608fc43c586901fd5dabb74',
-     'devel'        => 'eb0b3fc90056fbc12bac6f49f7764df3'
-+    'devel-pld'    => 'e41c579c958478060232b8d6a16bc915'
+-    'devel'        => 'eb0b3fc90056fbc12bac6f49f7764df3'
++    'devel'        => 'eb0b3fc90056fbc12bac6f49f7764df3',
++    'devel-pld'    => '19465557caebbf3fdd381a658196d5c0',
  );
  
  

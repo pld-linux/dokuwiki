@@ -31,23 +31,6 @@ index 403fbe4..29d96b2 100644
  
  // check for error reporting override or set error reporting to sane values
  if (!defined('DOKU_E_LEVEL') && @file_exists(DOKU_CONF.'report_e_all')) {
-@@ -234,13 +234,14 @@
-             'mediaolddir' => 'media_attic',
-             'metadir'   => 'meta',
-             'mediametadir' => 'media_meta',
--            'cachedir'  => 'cache',
-+            'cachedir'  => '/var/cache/dokuwiki',
-             'indexdir'  => 'index',
-             'lockdir'   => 'locks',
-             'tmpdir'    => 'tmp');
- 
-     foreach($paths as $c => $p) {
--        $path = empty($conf[$c]) ? $conf['savedir'].'/'.$p : $conf[$c];
-+        $path = empty($conf[$c]) ? $p : $conf[$c];
-+        $path = $path[0] == '/' ? $path : $conf['savedir'].'/'.$path;
-         $conf[$c] = init_path($path);
-         if(empty($conf[$c]))
-             nice_die("The $c ('$p') at $path is not found, isn't accessible or writable.
 diff --git a/install.php b/install.php
 index 80e9ad4..fe72513 100644
 --- a/install.php
