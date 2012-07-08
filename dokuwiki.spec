@@ -7,7 +7,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	1.5
+Release:	1.11
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -31,6 +31,7 @@ Source11:	http://glen.alkohol.ee/pld/astah.png
 # Source11-md5:	b1c999e6988440c9e2af6a12e9a56451
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
+Patch1:		system-jquery.patch
 Patch3:		%{name}-config-allow-require.patch
 Patch4:		%{name}-geshi.patch
 Patch5:		%{name}-http_auth-option.patch
@@ -53,6 +54,9 @@ URL:		http://www.dokuwiki.org/dokuwiki
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.520
+Requires:	jquery >= 1.6
+Requires:	jquery-cookie
+Requires:	jquery-ui
 Requires:	php-common >= 4:%{php_min_version}
 Requires:	php-geshi >= 1.0.7.19
 Requires:	php-session
@@ -79,7 +83,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		find_lang 	%{_usrlibrpm}/dokuwiki-find-lang.sh %{buildroot}
 
 # bad depsolver
-%define		_noautopear	'pear(/usr/share/php/geshi.php)' 'pear(/usr/share/php/adLDAP.php)'
+%define		_noautopear	pear(/usr/share/php/geshi.php) pear(/usr/share/php/adLDAP.php)
 
 # exclude optional php dependencies
 %define		_noautophp	php-bzip2 php-bcmath php-zip php-date php-ftp php-hash php-ldap php-mbstring php-mysql php-pgsql php-tokenizer
@@ -128,6 +132,7 @@ install -d data/pages/playground
 touch data/pages/playground/playground.txt
 %endif
 %patch0 -p1
+%patch1 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
@@ -308,8 +313,8 @@ exit 0
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/users.auth.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mysql.conf.php
 
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size mode) %{_sysconfdir}/local.php
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size mode) %{_sysconfdir}/plugins.local.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mode mtime size) %{_sysconfdir}/local.php
+%attr(640,root,http) %config(noreplace) %verify(not md5 mode mtime size) %{_sysconfdir}/plugins.local.php
 
 # use local.php, local.protected.php, etc for local changes
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
