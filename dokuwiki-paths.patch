@@ -7,6 +7,9 @@ add new constants, that makes packaging (rpm, deb) dokuwiki better fit
 to [FHS standards](http://www.pathname.com/fhs/pub/fhs-2.3.html):
 - DOKU_DATA - /var/lib/dokuwiki/
 - DOKU_CACHE - /var/cache/dokuwiki/
+
+Currently upstream is not interested of merging this:
+https://github.com/splitbrain/dokuwiki/pull/108#issuecomment-6833563
 ---
  inc/init.php |    8 +++++++-
  install.php  |   26 ++++++++++++++------------
