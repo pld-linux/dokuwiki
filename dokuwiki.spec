@@ -2,7 +2,7 @@
 %define		ver		%(echo %{subver} | tr -d -)
 %define		snap	1
 %define		php_min_version 5.2.4
-#include	/usr/lib/rpm/macros.php
+%include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
