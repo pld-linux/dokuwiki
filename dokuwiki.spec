@@ -1,18 +1,18 @@
-%define		subver	2012-07-08
+%define		subver	2012-07-13
 %define		ver		%(echo %{subver} | tr -d -)
 %define		snap	1
 %define		php_min_version 5.2.4
-%include	/usr/lib/rpm/macros.php
+#include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.12
+Release:	0.1
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}.tgz
-# Source0-md5:	d7afe9a8a4a73637d4620017f16f4b6a
+Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
+# Source0-md5:	21bb0371b5625789e8c1cf3e5052e291
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -32,7 +32,6 @@ Source11:	http://glen.alkohol.ee/pld/astah.png
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
 Patch1:		system-jquery.patch
-Patch3:		%{name}-config-allow-require.patch
 Patch4:		%{name}-geshi.patch
 Patch5:		%{name}-http_auth-option.patch
 Patch6:		%{name}-nice_exit.patch
@@ -43,7 +42,6 @@ Patch12:	%{name}-mailthreads.patch
 Patch13:	%{name}-media-directlink.patch
 Patch14:	interwiki-outputonly.patch
 Patch15:	simplepie.patch
-Patch18:	install.patch
 Patch19:	pld-branding.patch
 Patch20:	fixprivilegeescalationbug.diff
 Patch21:	task-1821.patch
@@ -133,7 +131,6 @@ touch data/pages/playground/playground.txt
 %endif
 %patch0 -p1
 %patch1 -p1
-%patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
@@ -144,7 +141,6 @@ touch data/pages/playground/playground.txt
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
-%patch18 -p1
 %patch19 -p1
 %patch20 -p1
 #%patch21 -p1 UPDATE to new mailer class
@@ -342,6 +338,7 @@ exit 0
 
 %dir %{_appdir}/inc
 %{_appdir}/inc/*.php
+%{_appdir}/inc/preload.php.dist
 %{_appdir}/inc/auth
 %{_appdir}/inc/parser
 
