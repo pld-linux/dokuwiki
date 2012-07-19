@@ -12,9 +12,9 @@
 +        $listid = join('.', array_reverse(explode('/', DOKU_BASE))).$server;
 +        $listid = strtolower(trim($listid, '.'));
 +
-+        $mail->setHeader('Message-Id', "$id?rev=$cur@listid", false);
++        $mail->setHeader('Message-Id', "$id?rev=$cur@$listid", false);
 +        if ($rev) {
-+            $mail->setHeader('In-Reply-To', "$id?rev=$rev@listid", false);
++            $mail->setHeader('In-Reply-To', "$id?rev=$rev@$listid", false);
 +        }
 +    }
 +
