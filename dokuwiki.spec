@@ -1,4 +1,4 @@
-%define		subver	2012-07-13
+%define		subver	2012-07-19
 %define		ver		%(echo %{subver} | tr -d -)
 %define		snap	1
 %define		php_min_version 5.2.4
@@ -7,12 +7,12 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.1
+Release:	0.5
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
 Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
-# Source0-md5:	21bb0371b5625789e8c1cf3e5052e291
+# Source0-md5:	81b5f839ae2c3ac8f664ebf87d29638a
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -137,13 +137,13 @@ touch data/pages/playground/playground.txt
 %patch8 -p1
 %patch10 -p1
 %patch11 -p1
-#%patch12 -p1 UPDATE to new mailer class
+%patch12 -p1
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
 %patch19 -p1
 %patch20 -p1
-#%patch21 -p1 UPDATE to new mailer class
+%patch21 -p1
 %patch22 -p1
 %patch23 -p1
 %patch24 -p1
