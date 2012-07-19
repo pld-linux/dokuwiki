@@ -2,12 +2,12 @@
 %define		ver		%(echo %{subver} | tr -d -)
 %define		snap	1
 %define		php_min_version 5.2.4
-%include	/usr/lib/rpm/macros.php
+#include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.5
+Release:	0.6
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -18,8 +18,6 @@ Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
 # Source3-md5:	623344128960e18f86097dfee213ad4a
 Source4:	eventum.gif
-Source5:	http://forum.skype.com/style_emoticons/skype/skype.png
-# Source5-md5:	25c355be038267dc9fdb724b628000b9
 Source6:	pld_button.png
 # Source6-md5:	185afa921e81bd726b9f0f9f0909dc6e
 Source7:	cacti.gif
@@ -219,7 +217,6 @@ ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
 cp -p %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
 cp -p %{SOURCE7} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/cacti.gif
 cp -p %{SOURCE8} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/nagios.gif
-cp -p %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/skype.png
 cp -p %{SOURCE9} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/trac.png
 cp -p %{SOURCE10} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/pld.gif
 
