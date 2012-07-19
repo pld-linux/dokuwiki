@@ -7,7 +7,7 @@
 -                DOKU_INC."lib/scripts/jquery/jquery$min.js",
 -                DOKU_INC.'lib/scripts/jquery/jquery.cookie.js',
 -                DOKU_INC."lib/scripts/jquery/jquery-ui$min.js",
-+                "/usr/share/jquery/jquery$min.js",
++                "/usr/share/jquery/jquery.js",
 +                '/usr/share/jquery/cookie/cookie.js',
 +                "/usr/share/jquery/ui/jquery-ui.js",
                  DOKU_INC."lib/scripts/fileuploader.js",
