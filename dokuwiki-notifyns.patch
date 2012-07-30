@@ -60,3 +60,16 @@
          $bcc  = '';
      } else {
          return false; //just to be safe
+--- dokuwiki-2012-07-19/inc/media.php~	2012-07-15 23:56:17.000000000 +0300
++++ dokuwiki-2012-07-19/inc/media.php	2012-07-30 17:02:13.070873955 +0300
+@@ -539,8 +539,9 @@
+         $trep['OLD'] = '---';
+     }
+ 
++    $to = notifyNS($id, $conf['notify']);
+     $mail = new Mailer();
+-    $mail->to($conf['notify']);
++    $mail->to($to);
+     $mail->subject($lang['mail_upload'].' '.$id);
+     $mail->setBody($text,$trep);
+     return $mail->send();
