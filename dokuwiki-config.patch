@@ -20,7 +20,7 @@
      '2012-01-25'   => '72c083c73608fc43c586901fd5dabb74',
 -    'devel'        => 'eb0b3fc90056fbc12bac6f49f7764df3'
 +    'devel'        => 'eb0b3fc90056fbc12bac6f49f7764df3',
-+    'devel-pld'    => '2eb828c21c7f2aa7e961017ba88652e9',
++    'devel-pld'    => '19465557caebbf3fdd381a658196d5c0',
  );
  
  
