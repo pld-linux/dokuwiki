@@ -73,3 +73,15 @@
      $mail->subject($lang['mail_upload'].' '.$id);
      $mail->setBody($text,$trep);
      return $mail->send();
+--- dokuwiki/./inc/subscription.php~	2012-07-29 13:25:32.000000000 +0300
++++ dokuwiki/./inc/subscription.php	2012-07-30 18:02:34.710521495 +0300
+@@ -289,7 +289,8 @@
+             if ($info === false) continue;
+             $level = auth_aclcheck($id, $sub[0], $info['grps']);
+             if ($level >= AUTH_READ) {
+-                if (strcasecmp($info['mail'], $conf['notify']) != 0) {
++                $notify = notifyNS($id, $conf['notify']);
++                if (strcasecmp($info['mail'], $notify) != 0) {
+                     $emails[$sub[0]] =  $info['mail'];
+                 }
+             }
