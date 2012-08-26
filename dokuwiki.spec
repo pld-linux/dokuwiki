@@ -52,9 +52,9 @@ BuildRequires:	rpmbuild(macros) >= 1.520
 Requires:	jquery >= 1.6
 Requires:	jquery-cookie
 Requires:	jquery-ui
+Requires:	php(core) >= %{php_min_version}
 Requires:	php(session)
 Requires:	php(xml)
-Requires:	php-common >= 4:%{php_min_version}
 Requires:	php-geshi >= 1.0.7.19
 Requires:	php-simplepie >= 1.0.1
 Requires:	webapps
