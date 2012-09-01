@@ -1,3 +1,7 @@
+TODO:
+use rev1, rev2
+http://wintersunset.delfi.lan/dokuwiki/googledrawing?do=diff&rev1=1345291381&rev2=&difftype=sidebyside
+
 --- dokuwiki-2012-07-16/inc/html.php~	2012-07-16 11:47:58.000000000 +0300
 +++ dokuwiki-2012-07-16/inc/html.php	2012-07-16 11:53:24.640163788 +0300
 @@ -1086,9 +1086,13 @@
