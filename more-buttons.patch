@@ -41,3 +41,24 @@
          <?php tpl_button('recent')?>
          <?php tpl_searchform()?>&nbsp;
        </div>
+--- dokuwiki/lib/tpl/dokuwiki/tpl_header.php~	2012-09-01 22:54:08.000000000 +0300
++++ dokuwiki/lib/tpl/dokuwiki/tpl_header.php	2012-09-01 22:54:16.816853164 +0300
+@@ -64,6 +64,18 @@
+             </div>
+             <ul>
+                 <?php
++                    if (!plugin_isdisabled('html2pdf') || !plugin_isdisabled('dw2pdf')) {
++                        echo '<li>';
++                        tpl_link(wl($ID, 'do=export_pdf'), '<span>PDF Export</span>', 'class="action html2pdf"');
++                        echo '</li>';
++                    }
++
++                    if (!plugin_isdisabled('odt')) {
++                        echo '<li>';
++                        tpl_link(wl($ID, 'do=export_odt'), '<span>ODT Export</span>', 'class="action odt"');
++                        echo '</li>';
++                    }
++
+                     tpl_action('recent', 1, 'li');
+                     tpl_action('media', 1, 'li');
+                     tpl_action('index', 1, 'li');
