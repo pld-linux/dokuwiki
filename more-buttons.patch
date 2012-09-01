@@ -41,21 +41,22 @@
          <?php tpl_button('recent')?>
          <?php tpl_searchform()?>&nbsp;
        </div>
---- dokuwiki/lib/tpl/dokuwiki/tpl_header.php~	2012-09-01 22:54:08.000000000 +0300
-+++ dokuwiki/lib/tpl/dokuwiki/tpl_header.php	2012-09-01 22:54:16.816853164 +0300
-@@ -64,6 +64,18 @@
+--- dokuwiki/lib/tpl/dokuwiki/tpl_header.php	2012-09-01 22:54:16.816853164 +0300
++++ dokuwiki-2012-09-01/lib/tpl/dokuwiki/tpl_header.php	2012-09-01 23:14:51.484803869 +0300
+@@ -64,6 +64,19 @@
              </div>
              <ul>
                  <?php
++                    global $REV;
 +                    if (!plugin_isdisabled('html2pdf') || !plugin_isdisabled('dw2pdf')) {
 +                        echo '<li>';
-+                        tpl_link(wl($ID, 'do=export_pdf'), '<span>PDF Export</span>', 'class="action html2pdf"');
++                        tpl_link(wl($ID, array('do' => 'export_pdf', 'rev' => $REV)), '<span>PDF Export</span>', 'class="action html2pdf"');
 +                        echo '</li>';
 +                    }
 +
 +                    if (!plugin_isdisabled('odt')) {
 +                        echo '<li>';
-+                        tpl_link(wl($ID, 'do=export_odt'), '<span>ODT Export</span>', 'class="action odt"');
++                        tpl_link(wl($ID, array('do' => 'export_odt', 'rev' => $REV)), '<span>ODT Export</span>', 'class="action odt"');
 +                        echo '</li>';
 +                    }
 +
