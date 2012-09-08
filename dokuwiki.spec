@@ -1,4 +1,4 @@
-%define		subver	2012-07-30
+%define		subver	2012-09-08
 %define		ver		%(echo %{subver} | tr -d -)
 %define		snap	1
 %define		php_min_version 5.2.4
@@ -7,12 +7,12 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.12
+Release:	0.19
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
 Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
-# Source0-md5:	fbe020fa8a4929d3376db23d195548a8
+# Source0-md5:	7ad81d1b833c9e0c7356afc2d5af2633
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -338,7 +338,9 @@ exit 0
 %{_appdir}/inc/parser
 
 %dir %{_appdir}/lib
-%dir %{_appdir}/lib/plugins
+# allow plugins dir permission change to allow installation of plugins from admin
+# however does not work with rpm 4.5
+%dir %config %verify(not mode group) %{_appdir}/lib/plugins
 %dir %{_appdir}/lib/plugins/acl
 %{_appdir}/lib/plugins/acl/*.*
 %{_appdir}/lib/plugins/acl/pix

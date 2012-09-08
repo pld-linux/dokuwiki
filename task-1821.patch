@@ -33,17 +33,17 @@ http://wintersunset.delfi.lan/dokuwiki/googledrawing?do=diff&rev1=1345291381&rev
                          'difftype' => $type,
                        ));
          ptln('<br /><a class="wikilink1" href="'.$diffurl.'">'.$lang['difflink'].'</a>');
---- dokuwiki-2012-07-16/inc/common.php~	2012-07-16 11:55:03.000000000 +0300
-+++ dokuwiki-2012-07-16/inc/common.php	2012-07-16 11:58:26.626127713 +0300
-@@ -1178,6 +1178,8 @@
+--- dokuwiki-2012-09-08/inc/common.php~	2012-09-08 17:57:46.000000000 +0300
++++ dokuwiki-2012-09-08/inc/common.php	2012-09-08 17:58:26.151228475 +0300
+@@ -1179,6 +1179,8 @@
      } elseif($rev) {
          $subject         = $lang['mail_changed'].' '.$id;
          $trep['OLDPAGE'] = wl($id, "rev=$rev", true, '&');
 +        $rev2            = $INFO['meta']['date']['modified'];
 +        $trep['DIFFPAGE']= wl($id,"do=diff&r1=$rev&r2=$rev2",true,'&');
-         $df              = new Diff(explode("\n", rawWiki($id, $rev)),
-                                     explode("\n", rawWiki($id)));
-         $dformat         = new UnifiedDiffFormatter();
+         $old_content     = rawWiki($id, $rev);
+         $new_content     = rawWiki($id);
+         $df              = new Diff(explode("\n", $old_content),
 @@ -1191,6 +1193,7 @@
      } else {
          $subject         = $lang['mail_newpage'].' '.$id;
