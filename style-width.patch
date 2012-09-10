@@ -1,0 +1,10 @@
+--- dokuwiki/lib/tpl/dokuwiki/style.ini~	2012-08-29 18:37:22.000000000 +0300
++++ dokuwiki/lib/tpl/dokuwiki/style.ini	2012-09-10 17:58:56.000000000 +0300
+@@ -68,5 +68,5 @@
+ __highlight__       = "#ff9"
+ 
+ ; site and sidebar widths
+-__site_width__      = "75em"
+-__sidebar_width__   = "16em"
++__site_width__      = "90em"
++__sidebar_width__   = "13em"

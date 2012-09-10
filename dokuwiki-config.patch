@@ -12,15 +12,14 @@
  $conf['basedir']     = '';                //absolute dir from serveroot - blank for autodetection
  $conf['baseurl']     = '';                //URL to server including protocol - blank for autodetect
  $conf['cookiedir']   = '';                //path to use in cookies - blank for basedir
---- dokuwiki-2012-06-24/install.php	2012-06-24 21:56:11.184049230 +0300
-+++ dokuwiki-2012-06-24/install.php	2012-07-07 15:10:52.440544560 +0300
-@@ -54,7 +54,8 @@
+--- dokuwiki-2012-09-10/install.php~	2012-09-10 18:03:15.000000000 +0300
++++ dokuwiki-2012-09-10/install.php	2012-09-10 18:03:48.869223181 +0300
+@@ -56,7 +56,7 @@
      '2011-05-25'   => '4241865472edb6fa14a1227721008072',
      '2011-11-10'   => 'b46ff19a7587966ac4df61cbab1b8b31',
      '2012-01-25'   => '72c083c73608fc43c586901fd5dabb74',
--    'devel'        => 'eb0b3fc90056fbc12bac6f49f7764df3'
-+    'devel'        => 'eb0b3fc90056fbc12bac6f49f7764df3',
-+    'devel-pld'    => '19465557caebbf3fdd381a658196d5c0',
+-    '2012-09-10'   => 'eb0b3fc90056fbc12bac6f49f7764df3'
++    '2012-09-10'   => '19465557caebbf3fdd381a658196d5c0'
  );
  
  
