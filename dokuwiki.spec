@@ -224,7 +224,8 @@ cp -p %{SOURCE10} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/pld.gif
 cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/jude.png
 cp -p %{SOURCE11} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/asta.png
 
-cp -p %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/tpl/default/images/button-pld.png
+cp -p %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/tpl/dokuwiki/images/button-pld.png
+ln $RPM_BUILD_ROOT%{_appdir}/lib/tpl/{dokuwiki,default}/images/button-pld.png
 
 # hardlink identical icons.
 findup -m $RPM_BUILD_ROOT
