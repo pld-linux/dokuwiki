@@ -1,18 +1,18 @@
-%define		subver	2012-09-10
+%define		subver	2012-09-23
 %define		ver		%(echo %{subver} | tr -d -)
-#define		snap	1
+%define		snap	1
 %define		php_min_version 5.2.4
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	1
+Release:	0.1
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	603aa49cbf046b7431467e4dcefae17f
-#Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
+#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
+# Source0-md5:	4cc5ef8c103f069d65a284384970837a
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -156,7 +156,7 @@ mv conf/users.auth.php{.dist,}
 mv conf/mysql.conf.php{.example,}
 
 find -name _dummy | xargs rm
-%{__rm} lib/index.html lib/plugins/index.html inc/lang/.htaccess
+%{__rm} lib/index.html lib/plugins/index.html lib/images/index.html inc/lang/.htaccess
 
 # we just don't package deleted files, these get removed automatically on rpm upgrades
 %{__rm} data/deleted.files
