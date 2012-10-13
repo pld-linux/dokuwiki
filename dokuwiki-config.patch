@@ -1,5 +1,5 @@
---- dokuwiki-2012-06-23/conf/dokuwiki.php	2012-06-23 13:09:12.871130284 +0300
-+++ dokuwiki-2012-06-24/conf/dokuwiki.php	2012-07-07 15:08:02.939975138 +0300
+--- dokuwiki-2012-06-24/conf/dokuwiki.php	2012-07-07 15:08:02.939975138 +0300
++++ dokuwiki-2012-09-23/conf/dokuwiki.php	2012-10-13 18:12:31.417612300 +0300
 @@ -19,8 +19,9 @@
  $conf['template']    = 'dokuwiki';         //see lib/tpl directory
  $conf['tagline']     = '';                //tagline in header (if template supports it)
@@ -12,6 +12,15 @@
  $conf['basedir']     = '';                //absolute dir from serveroot - blank for autodetection
  $conf['baseurl']     = '';                //URL to server including protocol - blank for autodetect
  $conf['cookiedir']   = '';                //path to use in cookies - blank for basedir
+@@ -139,7 +140,7 @@
+ $conf['rss_show_summary'] = 1;           //Add revision summary to title? 0|1
+ 
+ /* Advanced Settings */
+-$conf['updatecheck'] = 1;                //automatically check for new releases?
++$conf['updatecheck'] = 0;                //automatically check for new releases?
+ $conf['userewrite']  = 0;                //this makes nice URLs: 0: off 1: .htaccess 2: internal
+ $conf['useslash']    = 0;                //use slash instead of colon? only when rewrite is on
+ $conf['sepchar']     = '_';              //word separator character in page names; may be a
 --- dokuwiki-2012-09-10/install.php~	2012-09-10 18:03:15.000000000 +0300
 +++ dokuwiki-2012-09-10/install.php	2012-09-10 18:03:48.869223181 +0300
 @@ -56,7 +56,7 @@
