@@ -38,11 +38,13 @@ diff --git a/install.php b/install.php
 index 80e9ad4..fe72513 100644
 --- a/install.php
 +++ b/install.php
-@@ -7,7 +7,9 @@
+@@ -6,8 +6,10 @@
+  */
  
  if(!defined('DOKU_INC')) define('DOKU_INC',dirname(__FILE__).'/');
- if(!defined('DOKU_CONF')) define('DOKU_CONF',DOKU_INC.'conf/');
+-if(!defined('DOKU_CONF')) define('DOKU_CONF',DOKU_INC.'conf/');
 -if(!defined('DOKU_LOCAL')) define('DOKU_LOCAL',DOKU_INC.'conf/');
++if(!defined('DOKU_CONF')) define('DOKU_CONF','/etc/webapps/dokuwiki/');
 +if(!defined('DOKU_LOCAL')) define('DOKU_LOCAL',DOKU_CONF);
 +if(!defined('DOKU_DATA')) define('DOKU_DATA','/var/lib/dokuwiki/');
 +if(!defined('DOKU_CACHE')) define('DOKU_CACHE','/var/cache/dokuwiki/');
