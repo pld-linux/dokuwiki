@@ -44,8 +44,8 @@ index 80e9ad4..fe72513 100644
  if(!defined('DOKU_CONF')) define('DOKU_CONF',DOKU_INC.'conf/');
 -if(!defined('DOKU_LOCAL')) define('DOKU_LOCAL',DOKU_INC.'conf/');
 +if(!defined('DOKU_LOCAL')) define('DOKU_LOCAL',DOKU_CONF);
-+if(!defined('DOKU_DATA')) define('DOKU_DATA',DOKU_INC.'data');
-+if(!defined('DOKU_CACHE')) define('DOKU_CACHE',DOKU_DATA.'cache');
++if(!defined('DOKU_DATA')) define('DOKU_DATA','/var/lib/dokuwiki/');
++if(!defined('DOKU_CACHE')) define('DOKU_CACHE','/var/cache/dokuwiki/');
  
  require_once(DOKU_INC.'inc/PassHash.class.php');
  
