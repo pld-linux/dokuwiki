@@ -1,18 +1,18 @@
-%define		subver	2012-09-23
+%define		subver	2012-10-13
 %define		ver		%(echo %{subver} | tr -d -)
-%define		snap	1
+#define		snap	1
 %define		php_min_version 5.2.4
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.1
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
-#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
-# Source0-md5:	4cc5ef8c103f069d65a284384970837a
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+# Source0-md5:	a910ebb2fcca13c0337ed672304c4ad4
+#Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -46,7 +46,7 @@ Patch21:	task-1821.patch
 Patch22:	adldap.patch
 Patch23:	backlink-rightside.patch
 Patch24:	more-buttons.patch
-URL:		http://www.dokuwiki.org/dokuwiki
+URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.520
