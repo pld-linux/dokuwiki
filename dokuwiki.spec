@@ -1,18 +1,18 @@
-%define		subver	2012-10-13
+%define		subver	2013-02-01
 %define		ver		%(echo %{subver} | tr -d -)
-#define		snap	1
+%define		snap	1
 %define		php_min_version 5.2.4
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	2
+Release:	0.2
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	a910ebb2fcca13c0337ed672304c4ad4
-#Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
+#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
+# Source0-md5:	639847b28f8547c73179fb5846193890
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -136,13 +136,13 @@ touch data/pages/playground/playground.txt
 %patch6 -p1
 %patch8 -p1
 %patch10 -p1
-%patch11 -p1
-%patch12 -p1
+#patch11 -p1 UPDATE
+#%patch12 -p1 OUTDATED?
 %patch14 -p1
 %patch15 -p1
 %patch19 -p1
 %patch20 -p1
-%patch21 -p1
+#%%patch21 -p1 CHECKME
 %patch22 -p1
 %patch23 -p1
 %patch24 -p1
@@ -390,6 +390,7 @@ exit 0
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/media/wiki/dokuwiki-128.png
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/welcome.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/security.png
 

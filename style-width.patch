@@ -1,10 +1,13 @@
---- dokuwiki/lib/tpl/dokuwiki/style.ini~	2012-08-29 18:37:22.000000000 +0300
-+++ dokuwiki/lib/tpl/dokuwiki/style.ini	2012-09-10 17:58:56.000000000 +0300
-@@ -68,5 +68,5 @@
- __highlight__       = "#ff9"
+--- dokuwiki-2013-02-01/lib/tpl/dokuwiki/style.ini~	2013-01-28 00:59:02.000000000 +0200
++++ dokuwiki-2013-02-01/lib/tpl/dokuwiki/style.ini	2013-02-01 01:26:47.771720871 +0200
+@@ -72,8 +72,8 @@
+ __missing__         = "#d30"
  
  ; site and sidebar widths
 -__site_width__      = "75em"
 -__sidebar_width__   = "16em"
 +__site_width__      = "90em"
 +__sidebar_width__   = "13em"
+ ; cut off points for mobile devices
+ __tablet_width__    = "979px"
+ __phone_width__     = "480px"
