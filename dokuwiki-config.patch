@@ -21,14 +21,14 @@
  $conf['userewrite']  = 0;                //this makes nice URLs: 0: off 1: .htaccess 2: internal
  $conf['useslash']    = 0;                //use slash instead of colon? only when rewrite is on
  $conf['sepchar']     = '_';              //word separator character in page names; may be a
---- dokuwiki-2012-09-10/install.php~	2012-09-10 18:03:15.000000000 +0300
-+++ dokuwiki-2012-09-10/install.php	2012-09-10 18:03:48.869223181 +0300
-@@ -56,7 +56,7 @@
-     '2011-05-25'   => '4241865472edb6fa14a1227721008072',
+--- dokuwiki-rc2013-03-06/install.php~	2013-03-06 19:59:27.000000000 +0200
++++ dokuwiki-rc2013-03-06/install.php	2013-03-06 20:05:08.848230442 +0200
+@@ -57,7 +57,7 @@
      '2011-11-10'   => 'b46ff19a7587966ac4df61cbab1b8b31',
      '2012-01-25'   => '72c083c73608fc43c586901fd5dabb74',
--    '2012-09-10'   => 'eb0b3fc90056fbc12bac6f49f7764df3'
-+    '2012-09-10'   => '465c1415bfcc2865aab936d54b35307c'
+     '2012-09-10'   => 'eb0b3fc90056fbc12bac6f49f7764df3',
+-    '2013-04-06'   => '7b62b75245f57f122d3e0f8ed7989623',
++    '2013-04-06'   => 'asdf',
  );
  
  

@@ -1,11 +1,11 @@
---- dokuwiki-2009-12-25/inc/auth/ad.class.php~	2009-12-25 12:14:41.000000000 +0200
-+++ dokuwiki-2009-12-25/inc/auth/ad.class.php	2010-01-11 14:46:38.446655609 +0200
-@@ -32,7 +32,7 @@
-  *  @author  Andreas Gohr <andi@splitbrain.org>
-  */
+--- dokuwiki-2013-03-05/./lib/plugins/authad/auth.php~	2013-03-03 21:16:43.000000000 +0200
++++ dokuwiki-2013-03-05/./lib/plugins/authad/auth.php	2013-03-05 12:41:35.995501610 +0200
+@@ -2,7 +2,7 @@
+ // must be run within Dokuwiki
+ if(!defined('DOKU_INC')) die();
  
--require_once(DOKU_INC.'inc/adLDAP.php');
+-require_once(DOKU_PLUGIN.'authad/adLDAP/adLDAP.php');
 +require_once '/usr/share/php/adLDAP.php';
  
- class auth_ad extends auth_basic {
-     var $cnf = null;
+ /**
+  * Active Directory authentication backend for DokuWiki

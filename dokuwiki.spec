@@ -1,18 +1,20 @@
-%define		subver	2013-02-01
+%define		subver	2013-03-06
 %define		ver		%(echo %{subver} | tr -d -)
-%define		snap	1
+#define		snap	1
+%define		rc_	1
 %define		php_min_version 5.2.4
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.2
+Release:	0.3
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
-# Source0-md5:	639847b28f8547c73179fb5846193890
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
+# Source0-md5:	a7a290858cb0c624ab83a894417b6686
+#Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -50,7 +52,7 @@ URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.520
-Requires:	jquery >= 1.6
+#Requires:	jquery >= 1.9
 Requires:	jquery-cookie
 Requires:	jquery-ui
 Requires:	php(core) >= %{php_min_version}
@@ -121,7 +123,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-%{subver} %{?snap:-c}
+%setup -q -n %{name}-%{?rc_:rc}%{subver} %{?snap:-c}
 %if 0%{?snap:1}
 mv *-dokuwiki-*/* .
 test -e VERSION || echo %{subver}-git > VERSION
@@ -168,7 +170,7 @@ find -name _dummy | xargs rm
 %{__rm} -r inc/geshi
 
 # use system adldap package
-%{__rm} inc/adLDAP.php
+%{__rm} -r lib/plugins/authad/adLDAP
 
 # use system simplepie package
 %{__rm} inc/SimplePie.php
@@ -176,6 +178,7 @@ find -name _dummy | xargs rm
 # flash source on git tarballs
 rm -rf lib/_fla
 rm -rf lib/plugins/testing
+rm -rf lib/plugins/config/_test
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
@@ -338,7 +341,6 @@ exit 0
 %dir %{_appdir}/inc
 %{_appdir}/inc/*.php
 %{_appdir}/inc/preload.php.dist
-%{_appdir}/inc/auth
 %{_appdir}/inc/parser
 
 %dir %{_appdir}/lib
@@ -367,6 +369,14 @@ exit 0
 %dir %{_appdir}/lib/plugins/popularity
 %{_appdir}/lib/plugins/popularity/*.*
 %{_appdir}/lib/plugins/*.php
+
+
+%{_appdir}/lib/plugins/authad
+%{_appdir}/lib/plugins/authldap
+%{_appdir}/lib/plugins/authmysql
+%{_appdir}/lib/plugins/authpgsql
+%{_appdir}/lib/plugins/authplain
+
 %{_appdir}/lib/images
 %{_appdir}/lib/scripts
 %{_appdir}/lib/styles
