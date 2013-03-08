@@ -8,7 +8,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.3
+Release:	0.4
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -180,6 +180,15 @@ rm -rf lib/_fla
 rm -rf lib/plugins/testing
 rm -rf lib/plugins/config/_test
 
+# use system packages
+%{__rm} lib/scripts/jquery/update.sh
+#%{__rm} lib/scripts/jquery/jquery-ui.js
+#%{__rm} lib/scripts/jquery/jquery-ui.min.js
+%{__rm} lib/scripts/jquery/jquery.cookie.js
+#%{__rm} lib/scripts/jquery/jquery.js
+#%{__rm} lib/scripts/jquery/jquery.min.js
+#%{__rm} -r lib/scripts/jquery/jquery-ui-theme
+
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
@@ -350,6 +359,25 @@ exit 0
 %dir %{_appdir}/lib/plugins/acl
 %{_appdir}/lib/plugins/acl/*.*
 %{_appdir}/lib/plugins/acl/pix
+%dir %{_appdir}/lib/plugins/authad
+%{_appdir}/lib/plugins/authad/*.php
+%{_appdir}/lib/plugins/authad/*.txt
+%{_appdir}/lib/plugins/authad/conf
+%dir %{_appdir}/lib/plugins/authldap
+%{_appdir}/lib/plugins/authldap/*.php
+%{_appdir}/lib/plugins/authldap/*.txt
+%{_appdir}/lib/plugins/authldap/conf
+%dir %{_appdir}/lib/plugins/authmysql
+%{_appdir}/lib/plugins/authmysql/*.php
+%{_appdir}/lib/plugins/authmysql/*.txt
+%{_appdir}/lib/plugins/authmysql/conf
+%{_appdir}/lib/plugins/authpgsql/*.php
+%{_appdir}/lib/plugins/authpgsql/conf
+%{_appdir}/lib/plugins/authpgsql/*.txt
+%dir %{_appdir}/lib/plugins/authpgsql
+%dir %{_appdir}/lib/plugins/authplain
+%{_appdir}/lib/plugins/authplain/*.php
+%{_appdir}/lib/plugins/authplain/*.txt
 %dir %{_appdir}/lib/plugins/config
 %{_appdir}/lib/plugins/config/*.*
 %{_appdir}/lib/plugins/config/images
@@ -369,13 +397,6 @@ exit 0
 %dir %{_appdir}/lib/plugins/popularity
 %{_appdir}/lib/plugins/popularity/*.*
 %{_appdir}/lib/plugins/*.php
-
-
-%{_appdir}/lib/plugins/authad
-%{_appdir}/lib/plugins/authldap
-%{_appdir}/lib/plugins/authmysql
-%{_appdir}/lib/plugins/authpgsql
-%{_appdir}/lib/plugins/authplain
 
 %{_appdir}/lib/images
 %{_appdir}/lib/scripts
