@@ -7,7 +7,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -27,6 +27,7 @@ Source9:	http://trac.edgewall.org/export/9404/trunk/doc/trac_icon_16x16.png
 Source10:	pld.gif
 Source11:	http://glen.alkohol.ee/pld/astah.png
 # Source11-md5:	b1c999e6988440c9e2af6a12e9a56451
+Source12:	%{name}-httpd.conf
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
 Patch1:		system-jquery.patch
@@ -65,6 +66,7 @@ Requires:	webserver(php)
 Suggests:	php-adldap >= 3.3.1
 Suggests:	php-gd
 Obsoletes:	dokuwiki-plugin-jquery
+Conflicts:	apache-base < 2.4.0-1
 Conflicts:	dokuwiki-plugin-icalevents < 20120909
 # can use gz compression to store attic pages
 Suggests:	php-zlib
@@ -202,7 +204,7 @@ cp -a$l lib/* $RPM_BUILD_ROOT%{_appdir}/lib
 cp -a$l conf/* $RPM_BUILD_ROOT%{_sysconfdir}
 cp -a$l data/* $RPM_BUILD_ROOT%{_localstatedir}
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
-cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+cp -p %{SOURCE12} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/acronyms.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/entities.local.conf
@@ -256,10 +258,10 @@ fi
 %triggerun -- apache1 < 1.3.37-3, apache1-base
 %webapp_unregister apache %{_webapp}
 
-%triggerin -- apache < 2.2.0, apache-base
+%triggerin -- apache-base
 %webapp_register httpd %{_webapp}
 
-%triggerun -- apache < 2.2.0, apache-base
+%triggerun -- apache-base
 %webapp_unregister httpd %{_webapp}
 
 %triggerin -- lighttpd
