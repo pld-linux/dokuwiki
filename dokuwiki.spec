@@ -1,19 +1,19 @@
-%define		subver	2013-03-06
+%define		subver	2013-05-10
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
-%define		rc_	1
+#define		rc_	1
 %define		php_min_version 5.2.4
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.4
+Release:	0.5
 License:	GPL v2
 Group:		Applications/WWW
-#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
-# Source0-md5:	a7a290858cb0c624ab83a894417b6686
+Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
+# Source0-md5:	9cb5bb79c0445df849845b586e872677
+#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
 #Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
