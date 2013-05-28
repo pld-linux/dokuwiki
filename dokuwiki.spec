@@ -8,7 +8,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.5
+Release:	0.8
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -52,9 +52,12 @@ URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.520
-#Requires:	jquery >= 1.9
+Requires:	jquery >= 1.8
+#Requires:	jquery >= 1.9.1
 Requires:	jquery-cookie
-Requires:	jquery-ui
+#Requires:	jquery-migrate
+#Requires:	jquery-ui >= 1.10.2
+Requires:	jquery-ui >= 1.8
 Requires:	php(core) >= %{php_min_version}
 Requires:	php(session)
 Requires:	php(xml)
@@ -158,7 +161,7 @@ mv conf/users.auth.php{.dist,}
 mv conf/mysql.conf.php{.example,}
 
 find -name _dummy | xargs rm
-%{__rm} lib/index.html lib/plugins/index.html lib/images/index.html inc/lang/.htaccess
+%{__rm} lib/index.html lib/plugins/index.html lib/images/index.html inc/lang/.htaccess conf/.htaccess
 
 # we just don't package deleted files, these get removed automatically on rpm upgrades
 %{__rm} data/deleted.files
@@ -182,12 +185,14 @@ rm -rf lib/plugins/config/_test
 
 # use system packages
 %{__rm} lib/scripts/jquery/update.sh
-#%{__rm} lib/scripts/jquery/jquery-ui.js
-#%{__rm} lib/scripts/jquery/jquery-ui.min.js
+%{__rm} lib/scripts/jquery/jquery-ui.js
+%{__rm} lib/scripts/jquery/jquery-ui.min.js
 %{__rm} lib/scripts/jquery/jquery.cookie.js
-#%{__rm} lib/scripts/jquery/jquery.js
-#%{__rm} lib/scripts/jquery/jquery.min.js
-#%{__rm} -r lib/scripts/jquery/jquery-ui-theme
+%{__rm} lib/scripts/jquery/jquery.js
+%{__rm} lib/scripts/jquery/jquery.min.js
+%{__rm} lib/scripts/jquery/jquery-migrate.js
+%{__rm} lib/scripts/jquery/jquery-migrate.min.js
+%{__rm} -r lib/scripts/jquery/jquery-ui-theme
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
