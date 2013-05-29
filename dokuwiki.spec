@@ -8,7 +8,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.9
+Release:	0.11
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -143,8 +143,8 @@ touch data/pages/playground/playground.txt
 %patch6 -p1
 %patch8 -p1
 %patch10 -p1
-#patch11 -p1 UPDATE
-#%patch12 -p1 OUTDATED?
+%patch11 -p1
+#%%patch12 -p1 OUTDATED?
 %patch14 -p1
 %patch15 -p1
 %patch19 -p1
