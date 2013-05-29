@@ -1,5 +1,5 @@
---- dokuwiki-2012-07-08/inc/common.php~	2012-07-08 11:24:16.000000000 +0300
-+++ dokuwiki-2012-07-08/inc/common.php	2012-07-08 11:25:44.509886848 +0300
+--- dokuwiki-2013-05-10/inc/common.php~	2013-05-28 22:43:32.565530521 +0300
++++ dokuwiki-2013-05-10/inc/common.php	2013-05-28 22:47:27.455072897 +0300
 @@ -902,6 +902,34 @@
    return $date;
  }
@@ -35,53 +35,63 @@
  /**
   * Sends a notify mail on page change
   *
-@@ -1137,10 +1137,10 @@
+@@ -1162,10 +1162,10 @@
  
      // decide if there is something to do, eg. whom to mail
      if($who == 'admin') {
 -        if(empty($conf['notify'])) return false; //notify enabled?
          if($conf['useacl'] && $_SERVER['REMOTE_USER'] && $minor) return; //skip minors
-+        $to   = notifyNS($id, $conf['notify']);
+         $tpl = 'mailtext';
+-        $to  = $conf['notify'];
++        $to  = notifyNS($id, $conf['notify']);
 +        if(empty($to)) return; //notify enabled?
-         $text = rawLocale('mailtext');
--        $to   = $conf['notify'];
-         $bcc  = '';
      } elseif($who == 'subscribers') {
-         if(!$conf['subscribers']) return false; //subscribers enabled?
-@@ -1155,9 +1155,9 @@
-         $to   = '';
-         $text = rawLocale('subscr_single');
-     } elseif($who == 'register') {
--        if(empty($conf['registernotify'])) return false;
-+        $to   = notifyNS($id, $conf['registernotify']);
-+        if(empty($to)) return;
-         $text = rawLocale('registermail');
--        $to   = $conf['registernotify'];
-         $bcc  = '';
-     } else {
-         return false; //just to be safe
---- dokuwiki-2012-07-19/inc/media.php~	2012-07-15 23:56:17.000000000 +0300
-+++ dokuwiki-2012-07-19/inc/media.php	2012-07-30 17:02:13.070873955 +0300
-@@ -539,8 +539,9 @@
-         $trep['OLD'] = '---';
-     }
- 
+         if(!actionOK('subscribe')) return false; //subscribers enabled?
+         if($conf['useacl'] && $_SERVER['REMOTE_USER'] && $minor) return false; //skip minors
+--- dokuwiki-2013-05-10/inc/media.php~	2013-05-10 15:45:54.000000000 +0300
++++ dokuwiki-2013-05-10/inc/media.php	2013-05-28 22:49:27.423136743 +0300
+@@ -551,10 +551,11 @@
+  */
+ function media_notify($id,$file,$mime,$old_rev=false){
+     global $conf;
+-    if(empty($conf['notify'])) return; //notify enabled?
 +    $to = notifyNS($id, $conf['notify']);
-     $mail = new Mailer();
--    $mail->to($conf['notify']);
-+    $mail->to($to);
-     $mail->subject($lang['mail_upload'].' '.$id);
-     $mail->setBody($text,$trep);
-     return $mail->send();
---- dokuwiki/./inc/subscription.php~	2012-07-29 13:25:32.000000000 +0300
-+++ dokuwiki/./inc/subscription.php	2012-07-30 18:02:34.710521495 +0300
-@@ -289,7 +289,8 @@
-             if ($info === false) continue;
-             $level = auth_aclcheck($id, $sub[0], $info['grps']);
-             if ($level >= AUTH_READ) {
--                if (strcasecmp($info['mail'], $conf['notify']) != 0) {
-+                $notify = notifyNS($id, $conf['notify']);
-+                if (strcasecmp($info['mail'], $notify) != 0) {
-                     $emails[$sub[0]] =  $info['mail'];
++    if(empty($to)) return; //notify enabled?
+ 
+     $subscription = new Subscription();
+-    return $subscription->send_media_diff($conf['notify'], 'uploadmail', $id, $old_rev, '');
++    return $subscription->send_media_diff($to, 'uploadmail', $id, $old_rev, '');
+ }
+ 
+ /**
+--- dokuwiki-2013-05-10/inc/subscription.php~	2013-05-10 15:45:54.000000000 +0300
++++ dokuwiki-2013-05-10/inc/subscription.php	2013-05-28 22:50:30.872112776 +0300
+@@ -484,7 +484,8 @@
+      */
+     public function send_register($login, $fullname, $email) {
+         global $conf;
+-        if(empty($conf['registernotify'])) return false;
++        $to = notifyNS($id, $conf['registernotify']);
++        if(empty($to)) return false;
+ 
+         $trep = array(
+             'NEWUSER' => $login,
+@@ -493,7 +494,7 @@
+         );
+ 
+         return $this->send(
+-            $conf['registernotify'],
++            $to,
+             'new_user',
+             $login,
+             'registermail',
+@@ -672,7 +672,8 @@
+ 
+                 $level = auth_aclcheck($id, $user, $userinfo['grps']);
+                 if($level >= AUTH_READ) {
+-                    if(strcasecmp($userinfo['mail'], $conf['notify']) != 0) { //skip user who get notified elsewhere
++                    $to = notifyNS($id, $conf['notify']);
++                    if(strcasecmp($userinfo['mail'], $to) != 0) { //skip user who get notified elsewhere
+                         $result[$user] = $userinfo['mail'];
+                     }
                  }
-             }

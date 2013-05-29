@@ -1,15 +1,16 @@
---- dokuwiki-2012-01-25a/lib/exe/js.php	2012-04-19 13:09:54.000000000 +0300
-+++ ./lib/exe/js.php	2012-05-05 15:29:01.000000000 +0300
-@@ -40,9 +40,9 @@
+--- dokuwiki-2013-05-10/lib/exe/js.php	2013-05-28 11:51:39.656021911 +0300
++++ dokuwiki-2013-05-10/lib/exe/js.php	2013-05-28 16:22:44.737594377 +0300
+@@ -40,10 +40,9 @@
  
      // array of core files
      $files = array(
 -                DOKU_INC."lib/scripts/jquery/jquery$min.js",
 -                DOKU_INC.'lib/scripts/jquery/jquery.cookie.js',
 -                DOKU_INC."lib/scripts/jquery/jquery-ui$min.js",
-+                "/usr/share/jquery/jquery.js",
+-                DOKU_INC."lib/scripts/jquery/jquery-migrate$min.js",
++                "/usr/share/jquery/jquery$min.js",
 +                '/usr/share/jquery/cookie/cookie.js',
-+                "/usr/share/jquery/ui/jquery-ui.js",
++                '/usr/share/jquery/ui/jquery-ui.js',
                  DOKU_INC."lib/scripts/fileuploader.js",
                  DOKU_INC."lib/scripts/fileuploaderextended.js",
                  DOKU_INC.'lib/scripts/helpers.js',

@@ -1,17 +1,19 @@
-%define		subver	2012-10-13
+%define		subver	2013-05-10
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
+#define		rc_	1
 %define		php_min_version 5.2.4
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	2
+Release:	0.15
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	a910ebb2fcca13c0337ed672304c4ad4
+# Source0-md5:	9cb5bb79c0445df849845b586e872677
+#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
 #Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
@@ -31,13 +33,13 @@ Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
 Patch1:		system-jquery.patch
 Patch2:		style-width.patch
+Patch3:		undeprecate.patch
 Patch4:		%{name}-geshi.patch
 Patch5:		%{name}-http_auth-option.patch
 Patch6:		%{name}-nice_exit.patch
 Patch8:		%{name}-notify-respect-minor.patch
 Patch10:	%{name}-mailtext.patch
 Patch11:	%{name}-notifyns.patch
-Patch12:	%{name}-mailthreads.patch
 Patch14:	interwiki-outputonly.patch
 Patch15:	simplepie.patch
 Patch19:	pld-branding.patch
@@ -50,9 +52,12 @@ URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.520
-Requires:	jquery >= 1.6
+Requires:	jquery >= 1.8
+#Requires:	jquery >= 1.9.1
 Requires:	jquery-cookie
-Requires:	jquery-ui
+#Requires:	jquery-migrate
+#Requires:	jquery-ui >= 1.10.2
+Requires:	jquery-ui >= 1.8
 Requires:	php(core) >= %{php_min_version}
 Requires:	php(session)
 Requires:	php(xml)
@@ -121,7 +126,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-%{subver} %{?snap:-c}
+%setup -q -n %{name}-%{?rc_:rc}%{subver} %{?snap:-c}
 %if 0%{?snap:1}
 mv *-dokuwiki-*/* .
 test -e VERSION || echo %{subver}-git > VERSION
@@ -131,13 +136,13 @@ touch data/pages/playground/playground.txt
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
 %patch8 -p1
 %patch10 -p1
 %patch11 -p1
-%patch12 -p1
 %patch14 -p1
 %patch15 -p1
 %patch19 -p1
@@ -155,8 +160,9 @@ mv conf/acl.auth.php{.dist,}
 mv conf/users.auth.php{.dist,}
 mv conf/mysql.conf.php{.example,}
 
-find -name _dummy | xargs rm
-%{__rm} lib/index.html lib/plugins/index.html lib/images/index.html inc/lang/.htaccess
+find -name _dummy | xargs %{__rm}
+%{__rm} lib/index.html lib/plugins/index.html lib/images/index.html
+%{__rm} {conf,inc,bin,data,inc/lang}/.htaccess
 
 # we just don't package deleted files, these get removed automatically on rpm upgrades
 %{__rm} data/deleted.files
@@ -168,7 +174,7 @@ find -name _dummy | xargs rm
 %{__rm} -r inc/geshi
 
 # use system adldap package
-%{__rm} inc/adLDAP.php
+%{__rm} -r lib/plugins/authad/adLDAP
 
 # use system simplepie package
 %{__rm} inc/SimplePie.php
@@ -176,6 +182,18 @@ find -name _dummy | xargs rm
 # flash source on git tarballs
 rm -rf lib/_fla
 rm -rf lib/plugins/testing
+rm -rf lib/plugins/config/_test
+
+# use system packages
+%{__rm} lib/scripts/jquery/update.sh
+%{__rm} lib/scripts/jquery/jquery-ui.js
+%{__rm} lib/scripts/jquery/jquery-ui.min.js
+%{__rm} lib/scripts/jquery/jquery.cookie.js
+%{__rm} lib/scripts/jquery/jquery.js
+%{__rm} lib/scripts/jquery/jquery.min.js
+%{__rm} lib/scripts/jquery/jquery-migrate.js
+%{__rm} lib/scripts/jquery/jquery-migrate.min.js
+%{__rm} -r lib/scripts/jquery/jquery-ui-theme
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
@@ -338,7 +356,6 @@ exit 0
 %dir %{_appdir}/inc
 %{_appdir}/inc/*.php
 %{_appdir}/inc/preload.php.dist
-%{_appdir}/inc/auth
 %{_appdir}/inc/parser
 
 %dir %{_appdir}/lib
@@ -348,6 +365,25 @@ exit 0
 %dir %{_appdir}/lib/plugins/acl
 %{_appdir}/lib/plugins/acl/*.*
 %{_appdir}/lib/plugins/acl/pix
+%dir %{_appdir}/lib/plugins/authad
+%{_appdir}/lib/plugins/authad/*.php
+%{_appdir}/lib/plugins/authad/*.txt
+%{_appdir}/lib/plugins/authad/conf
+%dir %{_appdir}/lib/plugins/authldap
+%{_appdir}/lib/plugins/authldap/*.php
+%{_appdir}/lib/plugins/authldap/*.txt
+%{_appdir}/lib/plugins/authldap/conf
+%dir %{_appdir}/lib/plugins/authmysql
+%{_appdir}/lib/plugins/authmysql/*.php
+%{_appdir}/lib/plugins/authmysql/*.txt
+%{_appdir}/lib/plugins/authmysql/conf
+%{_appdir}/lib/plugins/authpgsql/*.php
+%{_appdir}/lib/plugins/authpgsql/conf
+%{_appdir}/lib/plugins/authpgsql/*.txt
+%dir %{_appdir}/lib/plugins/authpgsql
+%dir %{_appdir}/lib/plugins/authplain
+%{_appdir}/lib/plugins/authplain/*.php
+%{_appdir}/lib/plugins/authplain/*.txt
 %dir %{_appdir}/lib/plugins/config
 %{_appdir}/lib/plugins/config/*.*
 %{_appdir}/lib/plugins/config/images
@@ -367,6 +403,7 @@ exit 0
 %dir %{_appdir}/lib/plugins/popularity
 %{_appdir}/lib/plugins/popularity/*.*
 %{_appdir}/lib/plugins/*.php
+
 %{_appdir}/lib/images
 %{_appdir}/lib/scripts
 %{_appdir}/lib/styles
@@ -390,6 +427,7 @@ exit 0
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/media/wiki/dokuwiki-128.png
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/welcome.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/security.png
 

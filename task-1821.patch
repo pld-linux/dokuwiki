@@ -1,3 +1,5 @@
+adds: @DIFFPAGE@ placeholder to templates
+
 TODO:
 use rev1, rev2
 http://wintersunset.delfi.lan/dokuwiki/googledrawing?do=diff&rev1=1345291381&rev2=&difftype=sidebyside
@@ -33,22 +35,37 @@ http://wintersunset.delfi.lan/dokuwiki/googledrawing?do=diff&rev1=1345291381&rev
                          'difftype' => $type,
                        ));
          ptln('<br /><a class="wikilink1" href="'.$diffurl.'">'.$lang['difflink'].'</a>');
---- dokuwiki-2012-09-08/inc/common.php~	2012-09-08 17:57:46.000000000 +0300
-+++ dokuwiki-2012-09-08/inc/common.php	2012-09-08 17:58:26.151228475 +0300
-@@ -1179,6 +1179,8 @@
-     } elseif($rev) {
-         $subject         = $lang['mail_changed'].' '.$id;
-         $trep['OLDPAGE'] = wl($id, "rev=$rev", true, '&');
-+        $rev2            = $INFO['meta']['date']['modified'];
-+        $trep['DIFFPAGE']= wl($id,"do=diff&r1=$rev&r2=$rev2",true,'&');
-         $old_content     = rawWiki($id, $rev);
-         $new_content     = rawWiki($id);
-         $df              = new Diff(explode("\n", $old_content),
-@@ -1191,6 +1193,7 @@
-     } else {
-         $subject         = $lang['mail_newpage'].' '.$id;
-         $trep['OLDPAGE'] = '---';
-+        $trep['DIFFPAGE']= '---';
-         $tdiff           = rawWiki($id);
-         $hdiff           = nl2br(hsc($tdiff));
-     }
+--- dokuwiki/inc/subscription.php	2013-05-29 22:02:46.801329978 +0300
++++ dokuwiki/inc/subscription.php	2013-05-29 23:04:29.374883349 +0300
+@@ -384,12 +384,13 @@
+      * @return bool                     true if successfully sent
+      */
+     public function send_diff($subscriber_mail, $template, $id, $rev = null, $summary = '') {
+-        global $DIFF_INLINESTYLES;
++        global $DIFF_INLINESTYLES, $INFO;
+ 
+         // prepare replacements (keys not set in hrep will be taken from trep)
++        $rev2 = $INFO['meta']['date']['modified'];
+         $trep = array(
+             'PAGE' => $id,
+-            'NEWPAGE' => wl($id, '', true, '&'),
++            'NEWPAGE' => wl($id, "rev=$rev2", true, '&'),
+             'SUMMARY' => $summary,
+             'SUBSCRIBE' => wl($id, array('do' => 'subscribe'), true, '&')
+         );
+@@ -398,6 +399,7 @@
+         if($rev) {
+             $subject = 'changed';
+             $trep['OLDPAGE'] = wl($id, "rev=$rev", true, '&');
++            $trep['DIFFPAGE']= wl($id,"do=diff&r1=$rev&r2=$rev2",true,'&');
+ 
+             $old_content = rawWiki($id, $rev);
+             $new_content = rawWiki($id);
+@@ -417,6 +419,7 @@
+         } else {
+             $subject = 'newpage';
+             $trep['OLDPAGE'] = '---';
++            $trep['DIFFPAGE']= '---';
+             $tdiff = rawWiki($id);
+             $hdiff = nl2br(hsc($tdiff));
+         }
