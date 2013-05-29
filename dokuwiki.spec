@@ -40,7 +40,6 @@ Patch6:		%{name}-nice_exit.patch
 Patch8:		%{name}-notify-respect-minor.patch
 Patch10:	%{name}-mailtext.patch
 Patch11:	%{name}-notifyns.patch
-Patch12:	%{name}-mailthreads.patch
 Patch14:	interwiki-outputonly.patch
 Patch15:	simplepie.patch
 Patch19:	pld-branding.patch
@@ -144,7 +143,6 @@ touch data/pages/playground/playground.txt
 %patch8 -p1
 %patch10 -p1
 %patch11 -p1
-#%%patch12 -p1 OUTDATED?
 %patch14 -p1
 %patch15 -p1
 %patch19 -p1
