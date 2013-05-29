@@ -8,7 +8,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.14
+Release:	0.15
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -160,8 +160,9 @@ mv conf/acl.auth.php{.dist,}
 mv conf/users.auth.php{.dist,}
 mv conf/mysql.conf.php{.example,}
 
-find -name _dummy | xargs rm
-%{__rm} lib/index.html lib/plugins/index.html lib/images/index.html inc/lang/.htaccess conf/.htaccess
+find -name _dummy | xargs %{__rm}
+%{__rm} lib/index.html lib/plugins/index.html lib/images/index.html
+%{__rm} {conf,inc,bin,data,inc/lang}/.htaccess
 
 # we just don't package deleted files, these get removed automatically on rpm upgrades
 %{__rm} data/deleted.files
