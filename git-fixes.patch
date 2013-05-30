@@ -1,0 +1,40 @@
+diff --git a/inc/auth.php b/inc/auth.php
+index 9f180fc..af9f35b 100644
+--- a/inc/auth.php
++++ b/inc/auth.php
+@@ -54,8 +54,8 @@ function auth_setup() {
+       } elseif ('auth' . $conf['authtype'] === $plugin) {
+         // matches old auth backends (pre-Weatherwax)
+         $auth = $plugin_controller->load('auth', $plugin);
+-        msg('Your authtype setting is deprecated. You must set $conf[\'authconfig\'] = ' . "auth" . $conf['authtype']
+-             . ' in your config (see <a href="https://www.dokuwiki.org/auth">Authentication Backends</a>)',-1,'','',MSG_ADMINS_ONLY);
++        msg('Your authtype setting is deprecated. You must set $conf[\'authtype\'] = "auth' . $conf['authtype'] . '"'
++             . ' in your configuration (see <a href="https://www.dokuwiki.org/auth">Authentication Backends</a>)',-1,'','',MSG_ADMINS_ONLY);
+       }
+     }
+ 
+diff --git a/lib/plugins/authldap/conf/default.php b/lib/plugins/authldap/conf/default.php
+index d07f9c8..d530d59 100644
+--- a/lib/plugins/authldap/conf/default.php
++++ b/lib/plugins/authldap/conf/default.php
+@@ -16,4 +16,4 @@ $conf['bindpw']      = '';
+ $conf['userscope']  = 'sub';
+ $conf['groupscope'] = 'sub';
+ $conf['groupkey']   = 'cn';
+-$conf['debug']      = array('onoff');
+\ No newline at end of file
++$conf['debug']      = 0;
+\ No newline at end of file
+diff --git a/lib/plugins/authmysql/conf/default.php b/lib/plugins/authmysql/conf/default.php
+index 647f3d9..427bea2 100644
+--- a/lib/plugins/authmysql/conf/default.php
++++ b/lib/plugins/authmysql/conf/default.php
+@@ -7,7 +7,7 @@ $conf['password']         = '';
+ $conf['database']         = '';
+ $conf['debug']            = 0;
+ $conf['forwardClearPass'] = 0;
+-$conf['TablesToLock']     = '';
++$conf['TablesToLock']     = array();
+ $conf['checkPass']        = '';
+ $conf['getUserInfo']      = '';
+ $conf['getGroups']        = '';
