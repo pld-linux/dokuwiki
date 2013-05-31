@@ -221,9 +221,6 @@ cp -a$l inc/* $RPM_BUILD_ROOT%{_appdir}/inc
 cp -a$l lib/* $RPM_BUILD_ROOT%{_appdir}/lib
 cp -a$l conf/* $RPM_BUILD_ROOT%{_sysconfdir}
 cp -a$l data/* $RPM_BUILD_ROOT%{_localstatedir}
-cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
-cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
-cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/acronyms.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/entities.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/interwiki.local.conf
@@ -249,6 +246,10 @@ ln $RPM_BUILD_ROOT%{_appdir}/lib/tpl/{dokuwiki,default}/images/button-pld.png
 
 # hardlink identical icons.
 findup -m $RPM_BUILD_ROOT
+
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
 
 # find locales
 %find_lang %{name}.lang
