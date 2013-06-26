@@ -1,4 +1,4 @@
-%define		subver	2013-05-10
+%define		subver	2013-05-10a
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
@@ -8,11 +8,11 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	2
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	9cb5bb79c0445df849845b586e872677
+# Source0-md5:	4d6330ec652d7ed706a6b555a0b8adb8
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
 #Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
 Source1:	%{name}-apache.conf
@@ -29,7 +29,6 @@ Source9:	http://trac.edgewall.org/export/9404/trunk/doc/trac_icon_16x16.png
 Source10:	pld.gif
 Source11:	http://glen.alkohol.ee/pld/astah.png
 # Source11-md5:	b1c999e6988440c9e2af6a12e9a56451
-Patch100:	git-fixes.patch
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
 Patch1:		system-jquery.patch
@@ -134,7 +133,6 @@ test -e VERSION || echo %{subver}-git > VERSION
 install -d data/pages/playground
 touch data/pages/playground/playground.txt
 %endif
-%patch100 -p1
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
