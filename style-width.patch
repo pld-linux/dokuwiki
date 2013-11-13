@@ -1,13 +1,13 @@
---- dokuwiki-2013-02-01/lib/tpl/dokuwiki/style.ini~	2013-01-28 00:59:02.000000000 +0200
-+++ dokuwiki-2013-02-01/lib/tpl/dokuwiki/style.ini	2013-02-01 01:26:47.771720871 +0200
-@@ -72,8 +72,8 @@
- __missing__         = "#d30"
+--- dokuwiki-rc2013-10-28/lib/tpl/dokuwiki/style.ini~	2013-10-28 21:28:57.000000000 +0200
++++ dokuwiki-rc2013-10-28/lib/tpl/dokuwiki/style.ini	2013-11-13 22:20:04.340766336 +0200
+@@ -78,8 +78,8 @@
+ __missing__         = "#d30"            ; @ini_missing
  
  ; site and sidebar widths
--__site_width__      = "75em"
--__sidebar_width__   = "16em"
-+__site_width__      = "90em"
-+__sidebar_width__   = "13em"
+-__site_width__      = "75em"            ; @ini_site_width
+-__sidebar_width__   = "16em"            ; @ini_sidebar_width
++__site_width__      = "90em"            ; @ini_site_width
++__sidebar_width__   = "13em"            ; @ini_sidebar_width
  ; cut off points for mobile devices
- __tablet_width__    = "979px"
- __phone_width__     = "480px"
+ __tablet_width__    = "800px"           ; @ini_tablet_width
+ __phone_width__     = "480px"           ; @ini_phone_width
