@@ -47,6 +47,7 @@ Patch20:	fixprivilegeescalationbug.diff
 Patch21:	task-1821.patch
 Patch22:	adldap.patch
 Patch24:	more-buttons.patch
+Patch25:	system-phpseclib.patch
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
@@ -61,6 +62,7 @@ Requires:	php(core) >= %{php_min_version}
 Requires:	php(session)
 Requires:	php(xml)
 Requires:	php-geshi >= 1.0.7.19
+Requires:	php-seclib
 Requires:	php-simplepie >= 1.0.1
 Requires:	webapps
 Requires:	webserver(access)
@@ -149,6 +151,7 @@ touch data/pages/playground/playground.txt
 %patch21 -p1
 %patch22 -p1
 %patch24 -p1
+%patch25 -p1
 
 %patch66 -p1
 
@@ -176,6 +179,9 @@ find -name _dummy | xargs %{__rm}
 
 # use system simplepie package
 %{__rm} inc/SimplePie.php
+
+# use system lib
+%{__rm} -r inc/phpseclib
 
 # flash source on git tarballs
 rm -rf lib/_fla
