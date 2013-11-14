@@ -62,7 +62,7 @@ Requires:	php(core) >= %{php_min_version}
 Requires:	php(session)
 Requires:	php(xml)
 Requires:	php-geshi >= 1.0.7.19
-Requires:	php-seclib
+Requires:	php-seclib >= 0.3.5
 Requires:	php-simplepie >= 1.0.1
 Requires:	webapps
 Requires:	webserver(access)
