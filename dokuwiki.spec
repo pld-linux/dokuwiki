@@ -8,7 +8,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.1
+Release:	0.2
 License:	GPL v2
 Group:		Applications/WWW
 #Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
@@ -48,6 +48,7 @@ Patch21:	task-1821.patch
 Patch22:	adldap.patch
 Patch24:	more-buttons.patch
 Patch25:	system-phpseclib.patch
+Patch26:	system-lessphp.patch
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
@@ -58,6 +59,7 @@ Requires:	jquery-cookie
 #Requires:	jquery-migrate
 #Requires:	jquery-ui >= 1.10.2
 Requires:	jquery-ui >= 1.8
+Requires:	lessphp >= 0.3.9
 Requires:	php(core) >= %{php_min_version}
 Requires:	php(session)
 Requires:	php(xml)
@@ -152,6 +154,7 @@ touch data/pages/playground/playground.txt
 %patch22 -p1
 %patch24 -p1
 %patch25 -p1
+%patch26 -p1
 
 %patch66 -p1
 
@@ -179,6 +182,9 @@ find -name _dummy | xargs %{__rm}
 
 # use system simplepie package
 %{__rm} inc/SimplePie.php
+
+# use system lessphp package
+%{__rm} inc/lessc.inc.php
 
 # use system lib
 %{__rm} -r inc/phpseclib
