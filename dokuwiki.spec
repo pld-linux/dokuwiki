@@ -1,4 +1,4 @@
-%define		subver	2013-05-10a
+%define		subver	2013-12-08
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
@@ -11,10 +11,8 @@ Version:	%{ver}
 Release:	1
 License:	GPL v2
 Group:		Applications/WWW
-Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	4d6330ec652d7ed706a6b555a0b8adb8
-#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-rc%{subver}.tgz
-#Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
+Source0:	http://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
+# Source0-md5:	620b7fed511e643ad05ad13207baa502
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -46,8 +44,9 @@ Patch19:	pld-branding.patch
 Patch20:	fixprivilegeescalationbug.diff
 Patch21:	task-1821.patch
 Patch22:	adldap.patch
-Patch23:	backlink-rightside.patch
 Patch24:	more-buttons.patch
+Patch25:	system-phpseclib.patch
+Patch26:	system-lessphp.patch
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
@@ -58,10 +57,12 @@ Requires:	jquery-cookie
 #Requires:	jquery-migrate
 #Requires:	jquery-ui >= 1.10.2
 Requires:	jquery-ui >= 1.8
+Requires:	lessphp >= 0.3.9
 Requires:	php(core) >= %{php_min_version}
 Requires:	php(session)
 Requires:	php(xml)
 Requires:	php-geshi >= 1.0.7.19
+Requires:	php-seclib >= 0.3.5
 Requires:	php-simplepie >= 1.0.1
 Requires:	webapps
 Requires:	webserver(access)
@@ -149,8 +150,9 @@ touch data/pages/playground/playground.txt
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
-%patch23 -p1
 %patch24 -p1
+%patch25 -p1
+%patch26 -p1
 
 %patch66 -p1
 
@@ -179,10 +181,17 @@ find -name _dummy | xargs %{__rm}
 # use system simplepie package
 %{__rm} inc/SimplePie.php
 
+# use system lessphp package
+%{__rm} inc/lessc.inc.php
+
+# use system lib
+%{__rm} -r inc/phpseclib
+
 # flash source on git tarballs
 rm -rf lib/_fla
 rm -rf lib/plugins/testing
 rm -rf lib/plugins/config/_test
+rm -rf lib/plugins/usermanager/_test
 
 # use system packages
 %{__rm} lib/scripts/jquery/update.sh
@@ -227,6 +236,7 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/plugins.local.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/local.protected.php
 touch $RPM_BUILD_ROOT%{_sysconfdir}/mime.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
+touch $RPM_BUILD_ROOT%{_sysconfdir}/userscript.js
 touch $RPM_BUILD_ROOT%{_sysconfdir}/userstyle.css
 
 ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
@@ -240,7 +250,6 @@ cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/jude.png
 cp -p %{SOURCE11} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/asta.png
 
 cp -p %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/tpl/dokuwiki/images/button-pld.png
-ln $RPM_BUILD_ROOT%{_appdir}/lib/tpl/{dokuwiki,default}/images/button-pld.png
 
 # hardlink identical icons.
 findup -m $RPM_BUILD_ROOT
@@ -323,6 +332,7 @@ exit 0
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.protected.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/userscript.js
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/userstyle.css
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/users.auth.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mysql.conf.php
