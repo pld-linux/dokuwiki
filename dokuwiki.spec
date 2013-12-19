@@ -1,20 +1,18 @@
-%define		subver	2013-10-28
+%define		subver	2013-12-08
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
-%define		rc_	1
+#define		rc_	1
 %define		php_min_version 5.2.4
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.3
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
-#Source0:	http://www.splitbrain.org/_media/projects/dokuwiki/%{name}-%{subver}.tgz
-Source0:	http://download.dokuwiki.org/src/dokuwiki/%{name}-rc%{subver}.tgz
-# Source0-md5:	f476b54a3679d35cdd8746db57c9c6a3
-#Source0:	http://github.com/splitbrain/dokuwiki/tarball/master/%{name}-%{subver}.tgz
+Source0:	http://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
+# Source0-md5:	620b7fed511e643ad05ad13207baa502
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -193,6 +191,7 @@ find -name _dummy | xargs %{__rm}
 rm -rf lib/_fla
 rm -rf lib/plugins/testing
 rm -rf lib/plugins/config/_test
+rm -rf lib/plugins/usermanager/_test
 
 # use system packages
 %{__rm} lib/scripts/jquery/update.sh
