@@ -12,7 +12,7 @@ Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	9bc798f823f1907664d769f3d1f588b7
+# Source0-md5:	52d484e1b62a0314511348c7d3ea4346
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -127,7 +127,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-%{?rc_:rc}2014-05-06 %{?snap:-c}
+%setup -q -n %{name}-%{?rc_:rc}%{subver} %{?snap:-c}
 %if 0%{?snap:1}
 mv *-dokuwiki-*/* .
 test -e VERSION || echo %{subver}-git > VERSION
@@ -190,7 +190,7 @@ find -name _dummy | xargs %{__rm}
 # flash source on git tarballs
 rm -rf lib/_fla
 rm -rf lib/plugins/testing
-rm -r lib/plugins/*/_test
+rm -rf lib/plugins/*/_test
 
 # use system packages
 %{__rm} lib/scripts/jquery/update.sh
