@@ -4,37 +4,34 @@ TODO:
 use rev1, rev2
 http://wintersunset.delfi.lan/dokuwiki/googledrawing?do=diff&rev1=1345291381&rev2=&difftype=sidebyside
 
---- dokuwiki-2012-07-16/inc/html.php~	2012-07-16 11:47:58.000000000 +0300
-+++ dokuwiki-2012-07-16/inc/html.php	2012-07-16 11:53:24.640163788 +0300
-@@ -1086,9 +1086,13 @@
-     // given as rev and rev2 parameters, with rev2 being optional. Or in an
-     // array in rev2.
+--- dokuwiki-2014-05-06/inc/html.php	2014-05-08 11:27:02.548232655 +0300
++++ dokuwiki-2014-05-06/inc/html.php	2014-05-08 11:27:02.548232655 +0300
+@@ -1134,7 +1134,13 @@
      $rev1 = $REV;
--
+ 
      $rev2 = $INPUT->ref('rev2');
--    if(is_array($rev2)){
+-    if(is_array($rev2)) {
 +
 +    // handle $r1 + $r2, see DW #1821
 +    if ($INPUT->has('r1') && $INPUT->has('r2')) {
 +        $rev1 = $INPUT->int('r1');
 +        $rev2 = $INPUT->int('r2');
++
 +    } elseif(is_array($rev2)){
          $rev1 = (int) $rev2[0];
          $rev2 = (int) $rev2[1];
  
---- dokuwiki-20110329/inc/html.php~	2011-03-29 09:20:42.000000000 +0300
-+++ dokuwiki-20110329/inc/html.php	2011-03-29 09:21:51.507042136 +0300
-@@ -1030,8 +1030,8 @@
- 
-         $diffurl = wl($ID, array(
-                         'do'       => 'diff',
--                        'rev2[0]'  => $l_rev,
--                        'rev2[1]'  => $r_rev,
-+                        'r1'       => $l_rev,
-+                        'r2'       => $r_rev,
-                         'difftype' => $type,
-                       ));
-         ptln('<br /><a class="wikilink1" href="'.$diffurl.'">'.$lang['difflink'].'</a>');
+@@ -1458,8 +1464,8 @@
+     } else {
+         $urlparam = array(
+             'do' => 'diff',
+-            'rev2[0]' => $lrev,
+-            'rev2[1]' => $rrev,
++            'r1' => $lrev,
++            'r2' => $rrev,
+             'difftype' => $difftype,
+         );
+     }
 --- dokuwiki/inc/subscription.php	2013-05-29 22:02:46.801329978 +0300
 +++ dokuwiki/inc/subscription.php	2013-05-29 23:04:29.374883349 +0300
 @@ -384,12 +384,13 @@

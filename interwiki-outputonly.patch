@@ -1,9 +1,9 @@
---- dokuwiki-rc2013-10-28/inc/parser/xhtml.php~	2013-11-13 22:20:29.920364255 +0200
-+++ dokuwiki-rc2013-10-28/inc/parser/xhtml.php	2013-11-13 22:20:52.460009959 +0200
-@@ -686,7 +686,7 @@
+--- dokuwiki-2014-05-06/inc/parser/xhtml.php~	2014-05-08 11:24:44.093792329 +0300
++++ dokuwiki-2014-05-06/inc/parser/xhtml.php	2014-05-08 11:25:15.469954476 +0300
+@@ -689,7 +689,7 @@
  
      /**
-     */
+      */
 -    function interwikilink($match, $name = null, $wikiName, $wikiUri) {
 +    function interwikilink($match, $name = null, $wikiName, $wikiUri, $returnonly = false) {
          global $conf;

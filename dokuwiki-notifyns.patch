@@ -48,19 +48,19 @@
      } elseif($who == 'subscribers') {
          if(!actionOK('subscribe')) return false; //subscribers enabled?
          if($conf['useacl'] && $_SERVER['REMOTE_USER'] && $minor) return false; //skip minors
---- dokuwiki-2013-05-10/inc/media.php~	2013-05-10 15:45:54.000000000 +0300
-+++ dokuwiki-2013-05-10/inc/media.php	2013-05-28 22:49:27.423136743 +0300
-@@ -551,10 +551,11 @@
+--- dokuwiki-2014-05-06/inc/media.php~	2014-05-06 15:09:52.000000000 +0300
++++ dokuwiki-2014-05-06/inc/media.php	2014-05-08 11:24:16.977561680 +0300
+@@ -573,10 +573,11 @@
   */
  function media_notify($id,$file,$mime,$old_rev=false){
      global $conf;
--    if(empty($conf['notify'])) return; //notify enabled?
+-    if(empty($conf['notify'])) return false; //notify enabled?
 +    $to = notifyNS($id, $conf['notify']);
-+    if(empty($to)) return; //notify enabled?
++    if(empty($to)) return false; //notify enabled?
  
      $subscription = new Subscription();
--    return $subscription->send_media_diff($conf['notify'], 'uploadmail', $id, $old_rev, '');
-+    return $subscription->send_media_diff($to, 'uploadmail', $id, $old_rev, '');
+-    return $subscription->send_media_diff($conf['notify'], 'uploadmail', $id, $old_rev);
++    return $subscription->send_media_diff($to, 'uploadmail', $id, $old_rev);
  }
  
  /**

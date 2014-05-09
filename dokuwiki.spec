@@ -1,4 +1,4 @@
-%define		subver	2013-12-08
+%define		subver	2014-05-05
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
@@ -12,7 +12,7 @@ Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	620b7fed511e643ad05ad13207baa502
+# Source0-md5:	9bc798f823f1907664d769f3d1f588b7
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -50,7 +50,7 @@ Patch26:	system-lessphp.patch
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
-BuildRequires:	rpmbuild(macros) >= 1.520
+BuildRequires:	rpmbuild(macros) >= 1.693
 Requires:	jquery >= 1.8
 #Requires:	jquery >= 1.9.1
 Requires:	jquery-cookie
@@ -127,7 +127,7 @@ po pierwszej instalacji. Potem należy go odinstalować, jako że
 pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 
 %prep
-%setup -q -n %{name}-%{?rc_:rc}%{subver} %{?snap:-c}
+%setup -q -n %{name}-%{?rc_:rc}2014-05-06 %{?snap:-c}
 %if 0%{?snap:1}
 mv *-dokuwiki-*/* .
 test -e VERSION || echo %{subver}-git > VERSION
@@ -190,8 +190,7 @@ find -name _dummy | xargs %{__rm}
 # flash source on git tarballs
 rm -rf lib/_fla
 rm -rf lib/plugins/testing
-rm -rf lib/plugins/config/_test
-rm -rf lib/plugins/usermanager/_test
+rm -r lib/plugins/*/_test
 
 # use system packages
 %{__rm} lib/scripts/jquery/update.sh
@@ -359,10 +358,11 @@ exit 0
 %{_appdir}/index.php
 %dir %{_appdir}/bin
 %attr(755,root,root) %{_appdir}/bin/dwpage.php
+%attr(755,root,root) %{_appdir}/bin/gittool.php
 %attr(755,root,root) %{_appdir}/bin/indexer.php
 %attr(755,root,root) %{_appdir}/bin/render.php
-%attr(755,root,root) %{_appdir}/bin/wantedpages.php
 %attr(755,root,root) %{_appdir}/bin/striplangs.php
+%attr(755,root,root) %{_appdir}/bin/wantedpages.php
 
 %dir %{_appdir}/inc
 %{_appdir}/inc/*.php
@@ -373,6 +373,7 @@ exit 0
 # allow plugins dir permission change to allow installation of plugins from admin
 # however does not work with rpm 4.5
 %dir %config %verify(not group mode) %{_appdir}/lib/plugins
+%{_appdir}/lib/plugins/*.php
 %dir %{_appdir}/lib/plugins/acl
 %{_appdir}/lib/plugins/acl/*.*
 %{_appdir}/lib/plugins/acl/pix
@@ -399,9 +400,10 @@ exit 0
 %{_appdir}/lib/plugins/config/*.*
 %{_appdir}/lib/plugins/config/images
 %{_appdir}/lib/plugins/config/settings
-%dir %{_appdir}/lib/plugins/plugin
-%{_appdir}/lib/plugins/plugin/*.*
-%{_appdir}/lib/plugins/plugin/classes
+%dir %{_appdir}/lib/plugins/extension
+%{_appdir}/lib/plugins/extension/*.*
+%{_appdir}/lib/plugins/extension/helper
+%{_appdir}/lib/plugins/extension/images
 %dir %{_appdir}/lib/plugins/revert
 %{_appdir}/lib/plugins/revert/*.*
 %dir %{_appdir}/lib/plugins/safefnrecode
@@ -413,7 +415,6 @@ exit 0
 %{_appdir}/lib/plugins/info/*.*
 %dir %{_appdir}/lib/plugins/popularity
 %{_appdir}/lib/plugins/popularity/*.*
-%{_appdir}/lib/plugins/*.php
 
 %{_appdir}/lib/images
 %{_appdir}/lib/scripts
