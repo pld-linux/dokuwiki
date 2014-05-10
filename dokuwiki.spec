@@ -188,7 +188,6 @@ find -name _dummy | xargs %{__rm}
 %{__rm} -r inc/phpseclib
 
 # flash source on git tarballs
-rm -rf lib/_fla
 rm -rf lib/plugins/testing
 rm -rf lib/plugins/*/_test
 
