@@ -1,4 +1,4 @@
-%define		subver	2014-05-05
+%define		subver	2014-09-29
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
@@ -12,7 +12,7 @@ Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 Source0:	http://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	52d484e1b62a0314511348c7d3ea4346
+# Source0-md5:	1f93a6205d0408f44649b04047cb3550
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -131,9 +131,11 @@ pozostawienie plików instalacyjnych mogłoby być niebezpieczne.
 %if 0%{?snap:1}
 mv *-dokuwiki-*/* .
 test -e VERSION || echo %{subver}-git > VERSION
-install -d data/pages/playground
-touch data/pages/playground/playground.txt
 %endif
+install -d data/pages/playground
+test -e data/pages/playground/playground.txt || \
+echo '====== PlayGround ======' >  data/pages/playground/playground.txt
+
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
