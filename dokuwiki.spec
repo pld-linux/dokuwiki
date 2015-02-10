@@ -11,6 +11,7 @@ Version:	%{ver}
 Release:	1
 License:	GPL v2
 Group:		Applications/WWW
+# Source0Download: http://download.dokuwiki.org/
 Source0:	http://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
 # Source0-md5:	c721cb47cb00593c3a5b9fe1186d70b2
 Source1:	%{name}-apache.conf
