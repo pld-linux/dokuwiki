@@ -69,7 +69,7 @@ Requires:	webapps
 Requires:	webserver(access)
 Requires:	webserver(alias)
 Requires:	webserver(php)
-Suggests:	php-adldap >= 3.3.1
+Suggests:	php-adldap >= 4.0.4
 Suggests:	php-gd
 Obsoletes:	dokuwiki-plugin-jquery
 Conflicts:	dokuwiki-plugin-icalevents < 20120909
