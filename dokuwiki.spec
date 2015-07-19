@@ -48,6 +48,7 @@ Patch22:	adldap.patch
 Patch24:	more-buttons.patch
 Patch25:	system-phpseclib.patch
 Patch26:	system-lessphp.patch
+Patch27:	iconsizes-dump.patch
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
@@ -156,6 +157,7 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 %patch24 -p1
 %patch25 -p1
 %patch26 -p1
+%patch27 -p1
 
 %patch66 -p1
 
