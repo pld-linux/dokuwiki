@@ -1,31 +1,9 @@
---- dokuwiki-2012-07-08/./inc/parserutils.php~	2012-07-07 13:06:48.000000000 +0300
-+++ dokuwiki-2012-07-08/./inc/parserutils.php	2012-07-08 11:20:06.395684716 +0300
-@@ -748,14 +748,14 @@
-     $cache = getCacheName($language.$code,".code");
-     $ctime = @filemtime($cache);
-     if($ctime && !$INPUT->bool('purge') &&
--            $ctime > filemtime(DOKU_INC.'inc/geshi.php') &&                 // geshi changed
--            $ctime > @filemtime(DOKU_INC.'inc/geshi/'.$language.'.php') &&  // language syntax definition changed
-+            $ctime > filemtime('/usr/share/php/geshi.php') &&                 // geshi changed
-+            $ctime > @filemtime('/usr/share/php/geshi/'.$language.'.php') &&  // language syntax definition changed
-             $ctime > filemtime(reset($config_cascade['main']['default']))){ // dokuwiki changed
-         $highlighted_code = io_readFile($cache, false);
+--- dokuwiki-2015-08-10/vendor/composer/autoload_classmap.php~	2015-08-10 11:06:28.000000000 +0300
++++ dokuwiki-2015-08-10/vendor/composer/autoload_classmap.php	2015-08-11 15:17:48.771838877 +0300
+@@ -6,5 +6,5 @@
+ $baseDir = dirname($vendorDir);
  
-     } else {
- 
--        $geshi = new GeSHi($code, $language, DOKU_INC . 'inc/geshi');
-+        $geshi = new GeSHi($code, $language);
-         $geshi->set_encoding('utf-8');
-         $geshi->enable_classes();
-         $geshi->set_header_type(GESHI_HEADER_PRE);
---- dokuwiki-2013-02-01/inc/load.php~	2013-01-28 00:59:02.000000000 +0200
-+++ dokuwiki-2013-02-01/inc/load.php	2013-02-01 01:27:39.317193573 +0200
-@@ -70,7 +70,7 @@
-         'IXR_Client'            => DOKU_INC.'inc/IXR_Library.php',
-         'IXR_IntrospectionServer' => DOKU_INC.'inc/IXR_Library.php',
-         'Doku_Plugin_Controller'=> DOKU_INC.'inc/plugincontroller.class.php',
--        'GeSHi'                 => DOKU_INC.'inc/geshi.php',
-+        'GeSHi'                 => '/usr/share/php/geshi.php',
-         'Tar'                   => DOKU_INC.'inc/Tar.class.php',
-         'TarLib'                => DOKU_INC.'inc/TarLib.class.php',
-         'ZipLib'                => DOKU_INC.'inc/ZipLib.class.php',
+ return array(
+-    'GeSHi' => $vendorDir . '/easybook/geshi/geshi.php',
++    'GeSHi' => '/usr/share/php/geshi.php',
+ );

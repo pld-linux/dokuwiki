@@ -1,6 +1,6 @@
---- dokuwiki/lib/tpl/dokuwiki/tpl_header.php	2012-09-01 22:54:16.816853164 +0300
-+++ dokuwiki-2012-09-01/lib/tpl/dokuwiki/tpl_header.php	2012-09-01 23:14:51.484803869 +0300
-@@ -64,6 +64,19 @@
+--- dokuwiki-2015-08-10/lib/tpl/dokuwiki/tpl_header.php~	2015-08-11 15:39:31.799253674 +0300
++++ dokuwiki-2015-08-10/lib/tpl/dokuwiki/tpl_header.php	2015-08-11 15:39:49.525658460 +0300
+@@ -66,6 +66,19 @@
              </div>
              <ul>
                  <?php
@@ -17,6 +17,6 @@
 +                        echo '</li>';
 +                    }
 +
-                     tpl_action('recent', 1, 'li');
-                     tpl_action('media', 1, 'li');
-                     tpl_action('index', 1, 'li');
+                     tpl_toolsevent('sitetools', array(
+                         tpl_action('recent', true, 'li', true),
+                         tpl_action('media', true, 'li', true),

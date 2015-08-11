@@ -1,19 +1,19 @@
-%define		subver	2014-09-29d
+%define		subver	2015-08-10
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
-%define		php_min_version 5.2.4
+%define		php_min_version 5.3.3
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	1
+Release:	0.1
 License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: http://download.dokuwiki.org/archive
 Source0:	http://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	2bf2d6c242c00e9c97f0647e71583375
+# Source0-md5:	675594518c378f43b32204c4b9073ffd
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -32,14 +32,11 @@ Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
 Patch1:		system-jquery.patch
 Patch2:		style-width.patch
-Patch3:		undeprecate.patch
 Patch4:		%{name}-geshi.patch
 Patch5:		%{name}-http_auth-option.patch
-Patch6:		%{name}-nice_exit.patch
 Patch8:		%{name}-notify-respect-minor.patch
 Patch10:	%{name}-mailtext.patch
 Patch11:	%{name}-notifyns.patch
-Patch14:	interwiki-outputonly.patch
 Patch15:	simplepie.patch
 Patch19:	pld-branding.patch
 Patch20:	fixprivilegeescalationbug.diff
@@ -70,12 +67,12 @@ Requires:	webapps
 Requires:	webserver(access)
 Requires:	webserver(alias)
 Requires:	webserver(php)
+Suggests:	php(gd)
 Suggests:	php-adldap >= 4.0.4
-Suggests:	php-gd
 Obsoletes:	dokuwiki-plugin-jquery
 Conflicts:	dokuwiki-plugin-icalevents < 20120909
 # can use gz compression to store attic pages
-Suggests:	php-zlib
+Suggests:	php(zlib)
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -141,14 +138,11 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
 %patch8 -p1
 %patch10 -p1
 %patch11 -p1
-%patch14 -p1
 %patch15 -p1
 %patch19 -p1
 %patch20 -p1
@@ -177,8 +171,8 @@ find -name _dummy | xargs %{__rm}
 %{__rm} data/security.xcf
 
 # use system geshi package
-%{__rm} inc/geshi.php
-%{__rm} -r inc/geshi
+%{__rm} -r vendor/easybook/geshi
+rmdir vendor/easybook
 
 # use system adldap package
 %{__rm} -r lib/plugins/authad/adLDAP
@@ -242,7 +236,8 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/smileys.local.conf
 touch $RPM_BUILD_ROOT%{_sysconfdir}/userscript.js
 touch $RPM_BUILD_ROOT%{_sysconfdir}/userstyle.css
 
-ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
+# https://github.com/splitbrain/dokuwiki/pull/1247
+#ln $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/{dokubug,bug}.gif
 cp -p %{SOURCE4} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/eventum.gif
 cp -p %{SOURCE7} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/cacti.gif
 cp -p %{SOURCE8} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/nagios.gif
@@ -371,12 +366,14 @@ exit 0
 %dir %{_appdir}/inc
 %{_appdir}/inc/*.php
 %{_appdir}/inc/preload.php.dist
+%{_appdir}/inc/Form
 %{_appdir}/inc/parser
 
 %dir %{_appdir}/lib
 # allow plugins dir permission change to allow installation of plugins from admin
 # however does not work with rpm 4.5
 %dir %config %verify(not group mode) %{_appdir}/lib/plugins
+
 %{_appdir}/lib/plugins/*.php
 %dir %{_appdir}/lib/plugins/acl
 %{_appdir}/lib/plugins/acl/*.*
@@ -419,10 +416,14 @@ exit 0
 %{_appdir}/lib/plugins/info/*.*
 %dir %{_appdir}/lib/plugins/popularity
 %{_appdir}/lib/plugins/popularity/*.*
+%dir %{_appdir}/lib/plugins/styling
+%{_appdir}/lib/plugins/styling/README
+%{_appdir}/lib/plugins/styling/*.*
 
 %{_appdir}/lib/images
 %{_appdir}/lib/scripts
 %{_appdir}/lib/styles
+# TODO: fix langs for templates (duplicate files otherwise)
 %{_appdir}/lib/tpl
 %{_appdir}/lib/exe
 
