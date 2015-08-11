@@ -84,13 +84,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_cachedir		/var/cache/%{name}
 %define		find_lang 	%{_usrlibrpm}/dokuwiki-find-lang.sh %{buildroot}
 
-# bad depsolver
-%define		_noautopear	pear./usr/share/php/geshi.php pear./usr/share/php/adLDAP.php
+%define		_noautoreq_pear /usr/share/php/geshi.php /usr/share/php/adLDAP/.*
 
 # exclude optional php dependencies
 %define		_noautophp	php-bzip2 php-bcmath php-zip php-date php-ftp php-hash php-ldap php-mbstring php-mysql php-pgsql php-tokenizer
 
-%define		_noautoreq	%{_noautophp} %{_noautopear}
+%define		_noautoreq	%{_noautophp}
 
 %description
 DokuWiki is a standards compliant, simple to use Wiki, mainly aimed at
