@@ -1,4 +1,4 @@
-%define		subver	2015-08-10
+%define		subver	2015-08-10a
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
@@ -13,7 +13,7 @@ License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: http://download.dokuwiki.org/archive
 Source0:	http://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	675594518c378f43b32204c4b9073ffd
+# Source0-md5:	a4b8ae00ce94e42d4ef52dd8f4ad30fe
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
