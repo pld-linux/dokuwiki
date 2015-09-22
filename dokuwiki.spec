@@ -8,7 +8,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.1
+Release:	0.3
 License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: http://download.dokuwiki.org/archive
@@ -199,6 +199,9 @@ rm -rf lib/plugins/*/_test
 %{__rm} lib/scripts/jquery/jquery-migrate.js
 %{__rm} lib/scripts/jquery/jquery-migrate.min.js
 %{__rm} -r lib/scripts/jquery/jquery-ui-theme
+
+# pagetools - tools for development
+%{__rm} -r lib/tpl/dokuwiki/images/pagetools*
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
@@ -422,9 +425,18 @@ exit 0
 %{_appdir}/lib/images
 %{_appdir}/lib/scripts
 %{_appdir}/lib/styles
-# TODO: fix langs for templates (duplicate files otherwise)
-%{_appdir}/lib/tpl
 %{_appdir}/lib/exe
+
+%dir %{_appdir}/lib/tpl
+%{_appdir}/lib/tpl/index.php
+
+%dir %{_appdir}/lib/tpl/dokuwiki
+%{_appdir}/lib/tpl/dokuwiki/css
+%{_appdir}/lib/tpl/dokuwiki/images
+%{_appdir}/lib/tpl/dokuwiki/*.info.txt
+%{_appdir}/lib/tpl/dokuwiki/*.ini
+%{_appdir}/lib/tpl/dokuwiki/*.js
+%{_appdir}/lib/tpl/dokuwiki/*.php
 
 %dir %attr(770,root,http) %{_localstatedir}
 %dir %attr(770,root,http) %{_localstatedir}/attic
