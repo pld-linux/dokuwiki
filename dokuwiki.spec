@@ -8,7 +8,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.3
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: http://download.dokuwiki.org/archive
@@ -215,16 +215,17 @@ fi
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{lang,plugin_lang},%{_localstatedir},%{_cachedir},%{_appdir}/{bin,inc,lib}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{lang,plugin_lang},%{_localstatedir},%{_cachedir},%{_appdir}}
 
 # hardlink test
 cp -al VERSION $RPM_BUILD_ROOT%{_appdir} 2>/dev/null && l=l
 
 cp -a$l *.php $RPM_BUILD_ROOT%{_appdir}
 cp -p$l VERSION $RPM_BUILD_ROOT%{_appdir}
-cp -a$l bin/* $RPM_BUILD_ROOT%{_appdir}/bin
-cp -a$l inc/* $RPM_BUILD_ROOT%{_appdir}/inc
-cp -a$l lib/* $RPM_BUILD_ROOT%{_appdir}/lib
+cp -a$l bin $RPM_BUILD_ROOT%{_appdir}
+cp -a$l inc $RPM_BUILD_ROOT%{_appdir}
+cp -a$l lib $RPM_BUILD_ROOT%{_appdir}
+cp -a$l vendor $RPM_BUILD_ROOT%{_appdir}
 cp -a$l conf/* $RPM_BUILD_ROOT%{_sysconfdir}
 cp -a$l data/* $RPM_BUILD_ROOT%{_localstatedir}
 touch $RPM_BUILD_ROOT%{_sysconfdir}/acronyms.local.conf
@@ -370,6 +371,16 @@ exit 0
 %{_appdir}/inc/preload.php.dist
 %{_appdir}/inc/Form
 %{_appdir}/inc/parser
+
+# composer generated vendor autoload
+%dir %{_appdir}/vendor
+%{_appdir}/vendor/README
+%{_appdir}/vendor/autoload.php
+%{_appdir}/vendor/composer
+
+# bundled packages
+%dir %{_appdir}/vendor/splitbrain
+%{_appdir}/vendor/splitbrain/php-archive
 
 %dir %{_appdir}/lib
 # allow plugins dir permission change to allow installation of plugins from admin
