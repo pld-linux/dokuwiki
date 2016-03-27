@@ -30,6 +30,8 @@ Source11:	http://glen.alkohol.ee/pld/astah.png
 # Source11-md5:	b1c999e6988440c9e2af6a12e9a56451
 Source12:	gitlab.png
 # Source12-md5:	619cec6f2b083269b1ec9cd50d9e6ef2
+Source13:	http://mirrors.jenkins-ci.org/art/jenkins-logo/16x16/headshot.png?/jenkins.png
+# Source13-md5:	ae892e4ca43ffab88f6e3dca951f3e8a
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
 Patch1:		system-jquery.patch
@@ -249,6 +251,7 @@ cp -p %{SOURCE8} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/nagios.gif
 cp -p %{SOURCE9} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/trac.png
 cp -p %{SOURCE10} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/pld.gif
 cp -p %{SOURCE12} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/gitlab.png
+cp -p %{SOURCE13} $RPM_BUILD_ROOT%{_appdir}/lib/images/interwiki/jenkins.png
 
 cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/jude.png
 cp -p %{SOURCE11} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/asta.png
