@@ -8,7 +8,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: http://download.dokuwiki.org/archive
@@ -50,6 +50,8 @@ Patch24:	more-buttons.patch
 Patch25:	system-phpseclib.patch
 Patch26:	system-lessphp.patch
 Patch27:	iconsizes-dump.patch
+Patch28:	https://github.com/splitbrain/dokuwiki/pull/1418.patch
+# Patch28-md5:	54176dd1b3c70fc698abada5f6abc9a1
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
@@ -155,6 +157,7 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 %patch25 -p1
 %patch26 -p1
 %patch27 -p1
+%patch28 -p1
 
 %patch66 -p1
 
