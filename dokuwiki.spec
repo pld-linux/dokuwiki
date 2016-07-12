@@ -1,4 +1,4 @@
-%define		subver	2015-08-10a
+%define		subver	2016-06-26a
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
@@ -8,12 +8,12 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	3
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: http://download.dokuwiki.org/archive
 Source0:	http://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	a4b8ae00ce94e42d4ef52dd8f4ad30fe
+# Source0-md5:	9b9ad79421a1bdad9c133e859140f3f2
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -50,8 +50,6 @@ Patch24:	more-buttons.patch
 Patch25:	system-phpseclib.patch
 Patch26:	system-lessphp.patch
 Patch27:	iconsizes-dump.patch
-Patch28:	https://github.com/splitbrain/dokuwiki/pull/1418.patch
-# Patch28-md5:	54176dd1b3c70fc698abada5f6abc9a1
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
@@ -157,7 +155,6 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 %patch25 -p1
 %patch26 -p1
 %patch27 -p1
-%patch28 -p1
 
 %patch66 -p1
 
@@ -413,6 +410,11 @@ exit 0
 %{_appdir}/lib/plugins/authmysql/*.php
 %{_appdir}/lib/plugins/authmysql/*.txt
 %{_appdir}/lib/plugins/authmysql/conf
+%dir %{_appdir}/lib/plugins/authpdo
+%{_appdir}/lib/plugins/authpdo/*.php
+%{_appdir}/lib/plugins/authpdo/*.txt
+%{_appdir}/lib/plugins/authpdo/README
+%{_appdir}/lib/plugins/authpdo/conf
 %{_appdir}/lib/plugins/authpgsql/*.php
 %{_appdir}/lib/plugins/authpgsql/conf
 %{_appdir}/lib/plugins/authpgsql/*.txt
