@@ -8,7 +8,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.2
+Release:	0.4
 License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: http://download.dokuwiki.org/archive
@@ -64,6 +64,7 @@ Requires:	webserver(php)
 Suggests:	php(gd)
 Obsoletes:	dokuwiki-plugin-jquery
 Conflicts:	dokuwiki-plugin-icalevents < 20120909
+Conflicts:	dokuwiki-plugin-odt < 20170218
 # can use gz compression to store attic pages
 Suggests:	php(zlib)
 BuildArch:	noarch
