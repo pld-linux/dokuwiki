@@ -1,9 +1,9 @@
---- dokuwiki-rc2013-10-28/inc/load.php~	2013-11-13 23:27:34.370547242 +0200
-+++ dokuwiki-rc2013-10-28/inc/load.php	2013-11-14 20:18:16.051225452 +0200
+--- dokuwiki-2017-02-19b/inc/load.php~	2017-03-28 20:41:05.000000000 +0300
++++ dokuwiki-2017-02-19b/inc/load.php	2017-03-28 20:41:30.364262022 +0300
 @@ -83,7 +83,7 @@
+         'RemoteAPI'             => DOKU_INC.'inc/remote.php',
          'RemoteAPICore'         => DOKU_INC.'inc/RemoteAPICore.php',
          'Subscription'          => DOKU_INC.'inc/subscription.php',
-         'Crypt_AES'             => '/usr/share/pear/Crypt/AES.php',
 -        'lessc'                 => DOKU_INC.'inc/lessc.inc.php',
 +        'lessc'                 => '/usr/share/php/lessc.inc.php',
  

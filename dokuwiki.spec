@@ -1,4 +1,4 @@
-%define		subver	2016-06-26a
+%define		subver	2017-02-19b
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
@@ -8,12 +8,12 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	1
+Release:	0.1
 License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: http://download.dokuwiki.org/archive
 Source0:	http://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	9b9ad79421a1bdad9c133e859140f3f2
+# Source0-md5:	ea11e4046319710a2bc6fdf58b5cda86
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -34,32 +34,23 @@ Source13:	http://mirrors.jenkins-ci.org/art/jenkins-logo/16x16/headshot.png?/jen
 # Source13-md5:	ae892e4ca43ffab88f6e3dca951f3e8a
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
-Patch1:		system-jquery.patch
 Patch2:		style-width.patch
 Patch4:		%{name}-geshi.patch
 Patch5:		%{name}-http_auth-option.patch
 Patch8:		%{name}-notify-respect-minor.patch
 Patch10:	%{name}-mailtext.patch
 Patch11:	%{name}-notifyns.patch
-Patch15:	simplepie.patch
 Patch19:	pld-branding.patch
 Patch20:	fixprivilegeescalationbug.diff
 Patch21:	task-1821.patch
 Patch22:	adldap.patch
 Patch24:	more-buttons.patch
-Patch25:	system-phpseclib.patch
 Patch26:	system-lessphp.patch
 Patch27:	iconsizes-dump.patch
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.693
-Requires:	jquery >= 1.8
-#Requires:	jquery >= 1.9.1
-Requires:	jquery-cookie
-#Requires:	jquery-migrate
-#Requires:	jquery-ui >= 1.10.2
-Requires:	jquery-ui >= 1.8
 Requires:	lessphp >= 0.3.9
 Requires:	php(core) >= %{php_min_version}
 Requires:	php(session)
@@ -139,20 +130,17 @@ test -e data/pages/playground/playground.txt || \
 echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 %patch4 -p1
 %patch5 -p1
 %patch8 -p1
 %patch10 -p1
 %patch11 -p1
-%patch15 -p1
 %patch19 -p1
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
 %patch24 -p1
-%patch25 -p1
 %patch26 -p1
 %patch27 -p1
 
@@ -173,6 +161,9 @@ find -name _dummy | xargs %{__rm}
 # source for security.png
 %{__rm} data/security.xcf
 
+%{__rm} vendor/composer/installed.json
+%{__rm} lib/scripts/jquery/update.sh
+
 # use system geshi package
 %{__rm} -r vendor/easybook/geshi
 rmdir vendor/easybook
@@ -181,28 +172,14 @@ rmdir vendor/easybook
 %{__rm} -r lib/plugins/authad/adLDAP
 
 # use system simplepie package
-%{__rm} inc/SimplePie.php
+#%{__rm} inc/SimplePie.php
 
 # use system lessphp package
 %{__rm} inc/lessc.inc.php
 
-# use system lib
-%{__rm} -r inc/phpseclib
-
 # flash source on git tarballs
 rm -rf lib/plugins/testing
 rm -rf lib/plugins/*/_test
-
-# use system packages
-%{__rm} lib/scripts/jquery/update.sh
-%{__rm} lib/scripts/jquery/jquery-ui.js
-%{__rm} lib/scripts/jquery/jquery-ui.min.js
-%{__rm} lib/scripts/jquery/jquery.cookie.js
-%{__rm} lib/scripts/jquery/jquery.js
-%{__rm} lib/scripts/jquery/jquery.min.js
-%{__rm} lib/scripts/jquery/jquery-migrate.js
-%{__rm} lib/scripts/jquery/jquery-migrate.min.js
-%{__rm} -r lib/scripts/jquery/jquery-ui-theme
 
 # pagetools - tools for development
 %{__rm} -r lib/tpl/dokuwiki/images/pagetools
@@ -377,6 +354,7 @@ exit 0
 %{_appdir}/inc/*.php
 %{_appdir}/inc/preload.php.dist
 %{_appdir}/inc/Form
+%{_appdir}/inc/Ui
 %{_appdir}/inc/parser
 
 # composer generated vendor autoload
@@ -386,8 +364,18 @@ exit 0
 %{_appdir}/vendor/composer
 
 # bundled packages
+# verbose files to detect new addons
 %dir %{_appdir}/vendor/splitbrain
 %{_appdir}/vendor/splitbrain/php-archive
+
+%dir %{_appdir}/vendor/paragonie
+%{_appdir}/vendor/paragonie/random_compat
+
+%dir %{_appdir}/vendor/phpseclib
+%{_appdir}/vendor/phpseclib/phpseclib
+
+%dir %{_appdir}/vendor/simplepie
+%{_appdir}/vendor/simplepie/simplepie
 
 %dir %{_appdir}/lib
 # allow plugins dir permission change to allow installation of plugins from admin
@@ -487,3 +475,5 @@ exit 0
 %files setup
 %defattr(644,root,root,755)
 %{_appdir}/install.php
+
+
