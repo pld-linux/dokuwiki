@@ -8,7 +8,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.1
+Release:	0.2
 License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: http://download.dokuwiki.org/archive
@@ -43,7 +43,6 @@ Patch11:	%{name}-notifyns.patch
 Patch19:	pld-branding.patch
 Patch20:	fixprivilegeescalationbug.diff
 Patch21:	task-1821.patch
-Patch22:	adldap.patch
 Patch24:	more-buttons.patch
 Patch26:	system-lessphp.patch
 Patch27:	iconsizes-dump.patch
@@ -63,7 +62,6 @@ Requires:	webserver(access)
 Requires:	webserver(alias)
 Requires:	webserver(php)
 Suggests:	php(gd)
-Suggests:	php-adldap >= 4.0.4
 Obsoletes:	dokuwiki-plugin-jquery
 Conflicts:	dokuwiki-plugin-icalevents < 20120909
 # can use gz compression to store attic pages
@@ -79,7 +77,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_cachedir		/var/cache/%{name}
 %define		find_lang 	%{_usrlibrpm}/dokuwiki-find-lang.sh %{buildroot}
 
-%define		_noautoreq_pear /usr/share/php/geshi.php /usr/share/php/adLDAP/.*
+%define		_noautoreq_pear /usr/share/php/geshi.php
 
 # exclude optional php dependencies
 %define		_noautophp	php-bzip2 php-bcmath php-zip php-date php-ftp php-hash php-ldap php-mbstring php-mysql php-pgsql php-tokenizer
@@ -139,7 +137,6 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 %patch19 -p1
 %patch20 -p1
 %patch21 -p1
-%patch22 -p1
 %patch24 -p1
 %patch26 -p1
 %patch27 -p1
@@ -167,9 +164,6 @@ find -name _dummy | xargs %{__rm}
 # use system geshi package
 %{__rm} -r vendor/easybook/geshi
 rmdir vendor/easybook
-
-# use system adldap package
-%{__rm} -r lib/plugins/authad/adLDAP
 
 # use system simplepie package
 #%{__rm} inc/SimplePie.php
@@ -389,6 +383,7 @@ exit 0
 %dir %{_appdir}/lib/plugins/authad
 %{_appdir}/lib/plugins/authad/*.php
 %{_appdir}/lib/plugins/authad/*.txt
+%{_appdir}/lib/plugins/authad/adLDAP
 %{_appdir}/lib/plugins/authad/conf
 %dir %{_appdir}/lib/plugins/authldap
 %{_appdir}/lib/plugins/authldap/*.php
