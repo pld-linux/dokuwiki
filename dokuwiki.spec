@@ -63,6 +63,7 @@ Requires:	webserver(alias)
 Requires:	webserver(php)
 Suggests:	php(gd)
 Obsoletes:	dokuwiki-plugin-jquery
+Conflicts:	dokuwiki-plugin-gallery < 20161222
 Conflicts:	dokuwiki-plugin-icalevents < 20120909
 Conflicts:	dokuwiki-plugin-odt < 20170218
 # can use gz compression to store attic pages
