@@ -63,6 +63,7 @@ Requires:	webserver(alias)
 Requires:	webserver(php)
 Suggests:	php(gd)
 Obsoletes:	dokuwiki-plugin-jquery
+Obsoletes:	dokuwiki-plugin-showlogin2
 Conflicts:	dokuwiki-plugin-gallery < 20161222
 Conflicts:	dokuwiki-plugin-icalevents < 20120909
 Conflicts:	dokuwiki-plugin-odt < 20170218
