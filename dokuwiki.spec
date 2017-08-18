@@ -8,7 +8,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	0.5
+Release:	0.6
 License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: https://download.dokuwiki.org/archive
