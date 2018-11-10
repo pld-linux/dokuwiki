@@ -1,8 +1,8 @@
-%define		subver	2017-02-19e
+%define		subver	2018-04-22a
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
-%define		php_min_version 5.3.3
+%define		php_min_version 5.6.0
 %include	/usr/lib/rpm/macros.php
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
@@ -13,7 +13,7 @@ License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: https://download.dokuwiki.org/archive
 Source0:	https://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	09bf175f28d6e7ff2c2e3be60be8c65f
+# Source0-md5:	18765a29508f96f9882349a304bffc03
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -34,6 +34,7 @@ Source13:	http://mirrors.jenkins-ci.org/art/jenkins-logo/16x16/headshot.png?/jen
 # Source13-md5:	ae892e4ca43ffab88f6e3dca951f3e8a
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
+Patch1:		autoload.patch
 Patch2:		style-width.patch
 Patch4:		%{name}-geshi.patch
 Patch5:		%{name}-http_auth-option.patch
@@ -41,16 +42,13 @@ Patch8:		%{name}-notify-respect-minor.patch
 Patch10:	%{name}-mailtext.patch
 Patch11:	%{name}-notifyns.patch
 Patch19:	pld-branding.patch
-Patch20:	fixprivilegeescalationbug.diff
 Patch21:	task-1821.patch
 Patch24:	more-buttons.patch
-Patch26:	system-lessphp.patch
 Patch27:	iconsizes-dump.patch
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.693
-Requires:	lessphp >= 0.3.9
 Requires:	php(core) >= %{php_min_version}
 Requires:	php(session)
 Requires:	php(xml)
@@ -131,6 +129,7 @@ test -e data/pages/playground/playground.txt || \
 echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 
 %patch0 -p1
+%patch1 -p1
 %patch2 -p1
 %patch4 -p1
 %patch5 -p1
@@ -138,12 +137,9 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 %patch10 -p1
 %patch11 -p1
 %patch19 -p1
-%patch20 -p1
 %patch21 -p1
-%patch24 -p1
-%patch26 -p1
+#%patch24 -p1
 %patch27 -p1
-
 %patch66 -p1
 
 # package as basenames, upgrade overwrite protected with .rpmnew
@@ -155,23 +151,21 @@ mv conf/mysql.conf.php{.example,}
 find -name _dummy | xargs %{__rm}
 %{__rm} lib/index.html lib/plugins/index.html lib/images/index.html
 %{__rm} {conf,inc,bin,data,inc/lang}/.htaccess
+%{__rm} vendor/.htaccess
 
 # we just don't package deleted files, these get removed automatically on rpm upgrades
 %{__rm} data/deleted.files
-# source for security.png
-%{__rm} data/security.xcf
+# source for dont-panic-if-you-see-this-in-your-logs-it-means-your-directory-permissions-are-correct.png
+%{__rm} data/dont-panic-if-you-see-this-in-your-logs-it-means-your-directory-permissions-are-correct.xcf
 
 %{__rm} lib/scripts/jquery/update.sh
 
 # use system geshi package
-%{__rm} -r vendor/easybook/geshi
-rmdir vendor/easybook
+%{__rm} -r vendor/geshi/geshi
+rmdir vendor/geshi
 
 # use system simplepie package
 #%{__rm} inc/SimplePie.php
-
-# use system lessphp package
-%{__rm} inc/lessc.inc.php
 
 # flash source on git tarballs
 rm -rf lib/plugins/testing
@@ -183,13 +177,6 @@ rm -rf lib/plugins/*/_test
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
-
-%build
-md5=$(md5sum -b conf/dokuwiki.php | awk '{print $1}')
-if ! grep $md5 install.php; then
-	: update %{name}-config.patch -- it is outdated
-	exit 1
-fi
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -303,7 +290,7 @@ exit 0
 
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mediameta.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/plugins.php
-%attr(660,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/scheme.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/scheme.conf
 
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acl.auth.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.local.conf
@@ -312,11 +299,11 @@ exit 0
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/license.local.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.protected.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mysql.conf.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.local.conf
+%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/users.auth.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/userscript.js
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/userstyle.css
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/users.auth.php
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mysql.conf.php
 
 %attr(640,root,http) %config(noreplace) %verify(not md5 mode mtime size) %{_sysconfdir}/local.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mode mtime size) %{_sysconfdir}/plugins.local.php
@@ -328,6 +315,7 @@ exit 0
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/mime.conf
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/smileys.conf
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/wordblock.conf
+%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/manifest.json
 
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/license.php
@@ -342,6 +330,7 @@ exit 0
 %attr(755,root,root) %{_appdir}/bin/dwpage.php
 %attr(755,root,root) %{_appdir}/bin/gittool.php
 %attr(755,root,root) %{_appdir}/bin/indexer.php
+%attr(755,root,root) %{_appdir}/bin/plugin.php
 %attr(755,root,root) %{_appdir}/bin/render.php
 %attr(755,root,root) %{_appdir}/bin/striplangs.php
 %attr(755,root,root) %{_appdir}/bin/wantedpages.php
@@ -349,7 +338,9 @@ exit 0
 %dir %{_appdir}/inc
 %{_appdir}/inc/*.php
 %{_appdir}/inc/preload.php.dist
+%{_appdir}/inc/Action
 %{_appdir}/inc/Form
+%{_appdir}/inc/Menu
 %{_appdir}/inc/Ui
 %{_appdir}/inc/parser
 
@@ -361,17 +352,21 @@ exit 0
 
 # bundled packages
 # verbose files to detect new addons
-%dir %{_appdir}/vendor/splitbrain
-%{_appdir}/vendor/splitbrain/php-archive
-
+%dir %{_appdir}/vendor/aziraphale
+%dir %{_appdir}/vendor/marcusschwarz
+%dir %{_appdir}/vendor/openpsa
 %dir %{_appdir}/vendor/paragonie
-%{_appdir}/vendor/paragonie/random_compat
-
 %dir %{_appdir}/vendor/phpseclib
-%{_appdir}/vendor/phpseclib/phpseclib
-
 %dir %{_appdir}/vendor/simplepie
+%dir %{_appdir}/vendor/splitbrain
+%{_appdir}/vendor/aziraphale/email-address-validator
+%{_appdir}/vendor/marcusschwarz/lesserphp
+%{_appdir}/vendor/openpsa/universalfeedcreator
+%{_appdir}/vendor/paragonie/random_compat
+%{_appdir}/vendor/phpseclib/phpseclib
 %{_appdir}/vendor/simplepie/simplepie
+%{_appdir}/vendor/splitbrain/php-archive
+%{_appdir}/vendor/splitbrain/php-cli
 
 %dir %{_appdir}/lib
 # allow plugins dir permission change to allow installation of plugins from admin
@@ -461,16 +456,15 @@ exit 0
 %dir %attr(770,root,http) %{_localstatedir}/tmp
 
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/media/wiki/dokuwiki-128.png
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/media/wiki/dokuwiki.svg
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/dokuwiki.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/syntax.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/wiki/welcome.txt
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/pages/playground/playground.txt
-%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/security.png
+%attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/dont-panic-if-you-see-this-in-your-logs-it-means-your-directory-permissions-are-correct.png
 
 %dir %attr(770,root,http) %{_cachedir}
 
 %files setup
 %defattr(644,root,root,755)
 %{_appdir}/install.php
-
-
