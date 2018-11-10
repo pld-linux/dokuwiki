@@ -78,7 +78,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_cachedir		/var/cache/%{name}
 %define		find_lang 	%{_usrlibrpm}/dokuwiki-find-lang.sh %{buildroot}
 
-%define		_noautoreq_pear /usr/share/php/geshi.php
+%define		_noautoreq_pear /usr/share/php/geshi.php lib/byte_safe_strings.php lib/cast_to_int.php lib/error_polyfill.php lib/random.php other/ide_stubs/libsodium.php
 
 # exclude optional php dependencies
 %define		_noautophp	php-bzip2 php-bcmath php-zip php-date php-ftp php-hash php-ldap php-mbstring php-mysql php-pgsql php-tokenizer
