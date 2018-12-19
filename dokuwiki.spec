@@ -64,6 +64,7 @@ Obsoletes:	dokuwiki-plugin-jquery
 Obsoletes:	dokuwiki-plugin-showlogin2
 Conflicts:	dokuwiki-plugin-gallery < 20161222
 Conflicts:	dokuwiki-plugin-icalevents < 20120909
+Conflicts:	dokuwiki-plugin-include < 20181129
 Conflicts:	dokuwiki-plugin-odt < 20170218
 # can use gz compression to store attic pages
 Suggests:	php(zlib)
