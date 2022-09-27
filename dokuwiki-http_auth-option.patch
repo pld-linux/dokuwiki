@@ -1,16 +1,16 @@
---- dokuwiki-rc2009-01-26/conf/dokuwiki.php~	2009-01-27 12:56:43.000000000 +0200
-+++ dokuwiki-rc2009-01-26/conf/dokuwiki.php	2009-01-27 12:57:04.936215007 +0200
-@@ -75,6 +75,7 @@
+--- dokuwiki-2018-04-22c.org/conf/dokuwiki.php	2020-05-01 12:38:20.000000000 +0200
++++ dokuwiki-2018-04-22c/conf/dokuwiki.php	2022-09-27 22:46:31.557879706 +0200
+@@ -63,6 +63,7 @@ $conf['profileconfirm'] = 1;
+ $conf['rememberme'] = 1;                 //Enable/disable remember me on login
  $conf['disableactions'] = '';            //comma separated list of actions to disable
- $conf['sneaky_index']   = 0;             //check for namespace read permission in index view (0|1) (1 might cause unexpected behavior)
  $conf['auth_security_timeout'] = 900;    //time (seconds) auth data is considered valid, set to 0 to recheck on every page view
 +$conf['http_auth'] = 1;                  //allows HTTP authorization (SSO) from PHP_AUTH_USER/PHP_AUTH_PW variables
  $conf['securecookie'] = 1;               //never send HTTPS cookies via HTTP
- 
- /* Advanced Options */
---- dokuwiki-2012-07-08/inc/auth.php~	2012-07-07 13:06:48.000000000 +0300
-+++ dokuwiki-2012-07-08/inc/auth.php	2012-07-08 11:21:54.220213692 +0300
-@@ -84,7 +84,7 @@
+ $conf['remote']      = 0;                //Enable/disable remote interfaces
+ $conf['remoteuser']  = '!!not set!!';    //user/groups that have access to remote interface (comma separated)
+--- dokuwiki-2018-04-22c.org/inc/auth.php	2020-05-01 12:38:20.000000000 +0200
++++ dokuwiki-2018-04-22c/inc/auth.php	2022-09-27 22:46:31.557879706 +0200
+@@ -84,7 +84,7 @@ function auth_setup() {
      }
  
      // if no credentials were given try to use HTTP auth (for SSO)

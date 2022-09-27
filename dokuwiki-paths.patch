@@ -15,11 +15,9 @@ https://github.com/splitbrain/dokuwiki/pull/108#issuecomment-6833563
  install.php  |   26 ++++++++++++++------------
  2 files changed, 21 insertions(+), 13 deletions(-)
 
-diff --git a/inc/init.php b/inc/init.php
-index 403fbe4..29d96b2 100644
---- a/inc/init.php
-+++ b/inc/init.php
-@@ -23,7 +23,13 @@ if(!defined('DOKU_INC')) define('DOKU_INC',fullpath(dirname(__FILE__).'/../').'/
+--- dokuwiki-2018-04-22c.org/inc/init.php	2020-05-01 12:38:20.000000000 +0200
++++ dokuwiki-2018-04-22c/inc/init.php	2022-09-27 22:46:28.397714335 +0200
+@@ -30,7 +30,13 @@ if(!defined('DOKU_INC')) define('DOKU_IN
  if(!defined('DOKU_PLUGIN'))  define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
  
  // define config path (packagers may want to change this to /etc/dokuwiki/)
@@ -33,12 +31,10 @@ index 403fbe4..29d96b2 100644
 +if(!defined('DOKU_CACHE')) define('DOKU_CACHE','/var/cache/dokuwiki/');
  
  // check for error reporting override or set error reporting to sane values
- if (!defined('DOKU_E_LEVEL') && @file_exists(DOKU_CONF.'report_e_all')) {
-diff --git a/install.php b/install.php
-index 80e9ad4..fe72513 100644
---- a/install.php
-+++ b/install.php
-@@ -6,8 +6,10 @@
+ if (!defined('DOKU_E_LEVEL') && file_exists(DOKU_CONF.'report_e_all')) {
+--- dokuwiki-2018-04-22c.org/install.php	2020-05-01 12:38:20.000000000 +0200
++++ dokuwiki-2018-04-22c/install.php	2022-09-27 22:46:28.397714335 +0200
+@@ -15,8 +15,10 @@
   */
  
  if(!defined('DOKU_INC')) define('DOKU_INC',dirname(__FILE__).'/');
@@ -49,9 +45,9 @@ index 80e9ad4..fe72513 100644
 +if(!defined('DOKU_DATA')) define('DOKU_DATA','/var/lib/dokuwiki/');
 +if(!defined('DOKU_CACHE')) define('DOKU_CACHE','/var/cache/dokuwiki/');
  
- require_once(DOKU_INC.'inc/PassHash.class.php');
- 
-@@ -428,17 +430,17 @@ function check_permissions(){
+ // load and initialize the core system
+ require_once(DOKU_INC.'inc/init.php');
+@@ -492,17 +494,17 @@ function check_permissions(){
  
      $dirs = array(
          'conf'        => DOKU_LOCAL,
@@ -80,5 +76,3 @@ index 80e9ad4..fe72513 100644
      );
  
      $ok = true;
--- 
-1.7.7.4

@@ -1,7 +1,7 @@
---- dokuwiki-2013-05-10/inc/common.php~	2013-05-28 22:43:32.565530521 +0300
-+++ dokuwiki-2013-05-10/inc/common.php	2013-05-28 22:47:27.455072897 +0300
-@@ -902,6 +902,34 @@
-   return $date;
+--- dokuwiki-2018-04-22c.org/inc/common.php	2022-09-27 22:46:33.691324681 +0200
++++ dokuwiki-2018-04-22c/inc/common.php	2022-09-27 22:46:33.924670225 +0200
+@@ -897,6 +897,34 @@ function gethostsbyaddrs($ips) {
+     }
  }
  
 +
@@ -33,9 +33,9 @@
 +}
 +
  /**
-  * Sends a notify mail on page change
+  * Checks if a given page is currently locked.
   *
-@@ -1162,10 +1162,10 @@
+@@ -1435,10 +1463,10 @@ function notify($id, $who, $rev = '', $s
  
      // decide if there is something to do, eg. whom to mail
      if($who == 'admin') {
@@ -47,10 +47,10 @@
 +        if(empty($to)) return; //notify enabled?
      } elseif($who == 'subscribers') {
          if(!actionOK('subscribe')) return false; //subscribers enabled?
-         if($conf['useacl'] && $_SERVER['REMOTE_USER'] && $minor) return false; //skip minors
---- dokuwiki-2014-05-06/inc/media.php~	2014-05-06 15:09:52.000000000 +0300
-+++ dokuwiki-2014-05-06/inc/media.php	2014-05-08 11:24:16.977561680 +0300
-@@ -573,10 +573,11 @@
+         if($conf['useacl'] && $INPUT->server->str('REMOTE_USER') && $minor) return false; //skip minors
+--- dokuwiki-2018-04-22c.org/inc/media.php	2020-05-01 12:38:20.000000000 +0200
++++ dokuwiki-2018-04-22c/inc/media.php	2022-09-27 22:46:33.924670225 +0200
+@@ -647,10 +647,11 @@ function media_contentcheck($file,$mime)
   */
  function media_notify($id,$file,$mime,$old_rev=false){
      global $conf;
@@ -64,9 +64,9 @@
  }
  
  /**
---- dokuwiki-2013-05-10/inc/subscription.php~	2013-05-10 15:45:54.000000000 +0300
-+++ dokuwiki-2013-05-10/inc/subscription.php	2013-05-28 22:50:30.872112776 +0300
-@@ -484,7 +484,8 @@
+--- dokuwiki-2018-04-22c.org/inc/subscription.php	2020-05-01 12:38:20.000000000 +0200
++++ dokuwiki-2018-04-22c/inc/subscription.php	2022-09-27 22:46:33.924670225 +0200
+@@ -489,7 +489,8 @@ class Subscription {
       */
      public function send_register($login, $fullname, $email) {
          global $conf;
@@ -76,7 +76,7 @@
  
          $trep = array(
              'NEWUSER' => $login,
-@@ -493,7 +494,7 @@
+@@ -498,7 +499,7 @@ class Subscription {
          );
  
          return $this->send(
@@ -85,7 +85,7 @@
              'new_user',
              $login,
              'registermail',
-@@ -672,7 +672,8 @@
+@@ -682,7 +683,8 @@ class Subscription {
  
                  $level = auth_aclcheck($id, $user, $userinfo['grps']);
                  if($level >= AUTH_READ) {
