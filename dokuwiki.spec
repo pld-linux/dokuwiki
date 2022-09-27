@@ -46,6 +46,7 @@ Patch24:	more-buttons.patch
 Patch27:	iconsizes-dump.patch
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
+BuildRequires:	rpmbuild(find_lang) >= 1.41
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.693
 Requires:	php(core) >= %{php_min_version}
@@ -76,7 +77,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_appdir		%{_datadir}/%{_webapp}
 %define		_localstatedir	/var/lib/%{name}
 %define		_cachedir		/var/cache/%{name}
-%define		find_lang 	%{_usrlibrpm}/dokuwiki-find-lang.sh %{buildroot}
 
 %define		_noautoreq_pear /usr/share/php/geshi.php lib/byte_safe_strings.php lib/cast_to_int.php lib/error_polyfill.php lib/random.php other/ide_stubs/libsodium.php
 
@@ -227,7 +227,7 @@ cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
 
 # find locales
-%find_lang %{name}.lang
+%find_lang %{name}.lang --with-dokuwiki
 
 %clean
 rm -rf $RPM_BUILD_ROOT
