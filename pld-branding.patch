@@ -1,5 +1,5 @@
---- dokuwiki-2018-04-22a/lib/tpl/dokuwiki/tpl_footer.php~	2018-05-03 09:36:13.000000000 +0300
-+++ dokuwiki-2018-04-22a/lib/tpl/dokuwiki/tpl_footer.php	2018-11-10 19:38:54.422610684 +0200
+--- dokuwiki-2020-07-29a/lib/tpl/dokuwiki/tpl_footer.php~	2022-09-03 19:58:24.000000000 +0300
++++ dokuwiki-2020-07-29a/lib/tpl/dokuwiki/tpl_footer.php	2023-03-27 11:40:09.110901733 +0300
 @@ -24,6 +24,8 @@
              src="<?php echo tpl_basedir(); ?>images/button-html5.png" width="80" height="15" alt="Valid HTML5" /></a>
          <a href="//jigsaw.w3.org/css-validator/check/referer?profile=css3" title="Valid CSS" <?php echo $target?>><img
@@ -7,5 +7,5 @@
 +        <a href="https://www.pld-linux.org/" title="PLD Linux" <?php echo $target?>><img
 +            src="<?php echo tpl_basedir(); ?>images/button-pld.png" width="80" height="15" alt="PLD Linux" /></a>
          <a href="https://dokuwiki.org/" title="Driven by DokuWiki" <?php echo $target?>><img
-             src="<?php echo tpl_basedir(); ?>images/button-dw.png" width="80" height="15" alt="Driven by DokuWiki" /></a>
-     </div>
+             src="<?php echo tpl_basedir(); ?>images/button-dw.png" width="80" height="15"
+             alt="Driven by DokuWiki" /></a>

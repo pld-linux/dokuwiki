@@ -9,46 +9,33 @@ Status: Rejected by upstream
  lib/images/fileicons/index.php | 17 ++++++++++++++++-
  1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/lib/images/fileicons/index.php b/lib/images/fileicons/index.php
-index 09b6c9d..ffb41c5 100644
---- a/lib/images/fileicons/index.php
-+++ b/lib/images/fileicons/index.php
-@@ -28,6 +28,13 @@
+--- dokuwiki-2020-07-29a/lib/images/fileicons/index.php~	2023-03-27 11:49:18.000000000 +0300
++++ dokuwiki-2020-07-29a/lib/images/fileicons/index.php	2023-03-27 11:49:21.510644266 +0300
+@@ -27,15 +27,23 @@
+ 
  </head>
  <body>
- 
 +<?php
 +$sizes = isset($_GET['sizes']) ? explode(',', (string)$_GET['sizes']) : array(16, 32);
 +?>
-+
-+<?php
-+if (in_array(16, $sizes)) :
-+?>
- <div class="white box">
+ 
  <?php
- foreach (glob('*.png') as $img) {
-@@ -45,7 +52,13 @@
+ $fi_list = ''; $fi_list32 = '';
+-foreach (glob('*.png') as $img) {
+-    $fi_list .= '<img src="'.$img.'" alt="'.$img.'" title="'.$img.'" /> ';
++if (in_array(16, $sizes)) {
++	foreach (glob('*.png') as $img) {
++		$fi_list .= '<img src="'.$img.'" alt="'.$img.'" title="'.$img.'" /> ';
++	}
+ }
+-foreach (glob('32x32/*.png') as $img) {
+-    $fi_list32 .= '<img src="'.$img.'" alt="'.$img.'" title="'.$img.'" /> ';
++if (in_array(32, $sizes)) {
++	foreach (glob('32x32/*.png') as $img) {
++		$fi_list32 .= '<img src="'.$img.'" alt="'.$img.'" title="'.$img.'" /> ';
++	}
+ }
++
+ echo '<div class="white box">
+ '.$fi_list.'
  </div>
- 
- <br style="clear: left" />
-+<?php
-+endif;
-+?>
- 
-+<?php
-+if (in_array(32, $sizes)) :
-+?>
- <div class="white box">
-     <?php
-     foreach (glob('32x32/*.png') as $img) {
-@@ -61,7 +74,9 @@
-     }
-     ?>
- </div>
--
-+<?php
-+endif;
-+?>
- 
- </body>
- </html>

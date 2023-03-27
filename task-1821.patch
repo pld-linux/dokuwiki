@@ -32,33 +32,17 @@ http://wintersunset.delfi.lan/dokuwiki/googledrawing?do=diff&rev1=1345291381&rev
              'difftype' => $difftype,
          );
      }
---- dokuwiki/inc/subscription.php	2013-05-29 22:02:46.801329978 +0300
-+++ dokuwiki/inc/subscription.php	2013-05-29 23:04:29.374883349 +0300
-@@ -384,12 +384,13 @@
-      * @return bool                     true if successfully sent
-      */
-     public function send_diff($subscriber_mail, $template, $id, $rev = null, $summary = '') {
--        global $DIFF_INLINESTYLES;
-+        global $DIFF_INLINESTYLES, $INFO;
- 
-         // prepare replacements (keys not set in hrep will be taken from trep)
-+        $rev2 = $INFO['meta']['date']['modified'];
-         $trep = array(
-             'PAGE' => $id,
--            'NEWPAGE' => wl($id, '', true, '&'),
-+            'NEWPAGE' => wl($id, "rev=$rev2", true, '&'),
-             'SUMMARY' => $summary,
-             'SUBSCRIBE' => wl($id, array('do' => 'subscribe'), true, '&')
-         );
-@@ -398,6 +399,7 @@
-         if($rev) {
+--- dokuwiki-2020-07-29a/inc/Subscriptions/PageSubscriptionSender.php~	2023-03-27 11:45:18.000000000 +0300
++++ dokuwiki-2020-07-29a/inc/Subscriptions/PageSubscriptionSender.php	2023-03-27 11:45:20.809303977 +0300
+@@ -39,6 +39,7 @@
+         if ($rev) {
              $subject = 'changed';
              $trep['OLDPAGE'] = wl($id, "rev=$rev", true, '&');
-+            $trep['DIFFPAGE']= wl($id,"do=diff&r1=$rev&r2=$rev2",true,'&');
++            $trep['DIFFPAGE']= wl($id,"do=diff&r1=$rev&r2=$current_rev",true,'&');
  
              $old_content = rawWiki($id, $rev);
              $new_content = rawWiki($id);
-@@ -417,6 +419,7 @@
+@@ -62,6 +63,7 @@
          } else {
              $subject = 'newpage';
              $trep['OLDPAGE'] = '---';

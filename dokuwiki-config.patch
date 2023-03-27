@@ -1,6 +1,13 @@
---- dokuwiki-2012-06-24/conf/dokuwiki.php	2012-07-07 15:08:02.939975138 +0300
-+++ dokuwiki-2012-09-23/conf/dokuwiki.php	2012-10-13 18:12:31.417612300 +0300
-@@ -19,8 +19,9 @@
+--- dokuwiki-2020-07-29a/conf/dokuwiki.php	2023-03-27 11:52:04.144883301 +0300
++++ dokuwiki-2020-07-29a/conf/dokuwiki.php	2023-03-27 12:03:50.328816007 +0300
+@@ -13,14 +13,15 @@
+ 
+ 
+ /* Basic Settings */
+-$conf['title']       = 'DokuWiki';        //what to show in the title
++$conf['title']       = 'PLD Linux DokuWiki'; //what to show in the title
+ $conf['start']       = 'start';           //name of start page
+ $conf['lang']        = 'en';              //your language
  $conf['template']    = 'dokuwiki';         //see lib/tpl directory
  $conf['tagline']     = '';                //tagline in header (if template supports it)
  $conf['sidebar']     = 'sidebar';         //name of sidebar in root namespace (if template supports it)
@@ -12,8 +19,8 @@
  $conf['basedir']     = '';                //absolute dir from serveroot - blank for autodetection
  $conf['baseurl']     = '';                //URL to server including protocol - blank for autodetect
  $conf['cookiedir']   = '';                //path to use in cookies - blank for basedir
-@@ -139,7 +140,7 @@
- $conf['rss_show_summary'] = 1;           //Add revision summary to title? 0|1
+@@ -140,7 +141,7 @@
+ $conf['rss_show_deleted'] = 1;           //Show deleted items 0|1
  
  /* Advanced Settings */
 -$conf['updatecheck'] = 1;                //automatically check for new releases?

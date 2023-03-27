@@ -1,4 +1,4 @@
-%define		subver	2018-04-22c
+%define		subver	2020-07-29a
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
@@ -12,7 +12,7 @@ License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: https://download.dokuwiki.org/archive
 Source0:	https://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	6272e552b9a71a764781bd4182dd2b7d
+# Source0-md5:	86d5d43b07c4bfaf7630c438ae9ce0d7
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -46,8 +46,8 @@ Patch24:	more-buttons.patch
 Patch27:	iconsizes-dump.patch
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
-BuildRequires:	rpmbuild(find_lang) >= 1.41
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
+BuildRequires:	rpmbuild(find_lang) >= 1.41
 BuildRequires:	rpmbuild(macros) >= 1.693
 Requires:	php(core) >= %{php_min_version}
 Requires:	php(session)
@@ -150,7 +150,7 @@ mv conf/mysql.conf.php{.example,}
 
 find -name _dummy | xargs %{__rm}
 %{__rm} lib/index.html lib/plugins/index.html lib/images/index.html
-%{__rm} {conf,inc,bin,data,inc/lang}/.htaccess
+%{__rm} {conf,inc,bin,data}/.htaccess
 %{__rm} vendor/.htaccess
 
 # we just don't package deleted files, these get removed automatically on rpm upgrades
@@ -167,13 +167,11 @@ rmdir vendor/geshi
 # use system simplepie package
 #%{__rm} inc/SimplePie.php
 
-# flash source on git tarballs
-rm -rf lib/plugins/testing
-rm -rf lib/plugins/*/_test
-
 # pagetools - tools for development
 %{__rm} -r lib/tpl/dokuwiki/images/pagetools
 %{__rm} lib/tpl/dokuwiki/images/pagetools-build*
+
+%{__sed} -i -e '1 s,#!.*php,#!/usr/bin/php,' bin/*.php
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
@@ -339,9 +337,21 @@ exit 0
 %{_appdir}/inc/*.php
 %{_appdir}/inc/preload.php.dist
 %{_appdir}/inc/Action
+%{_appdir}/inc/Cache
+%{_appdir}/inc/ChangeLog
+%{_appdir}/inc/Debug
+%{_appdir}/inc/Extension
 %{_appdir}/inc/Form
+%{_appdir}/inc/HTTP
+%{_appdir}/inc/Input
 %{_appdir}/inc/Menu
+%{_appdir}/inc/Parsing
+%{_appdir}/inc/Remote
+%{_appdir}/inc/Search
+%{_appdir}/inc/Sitemap
+%{_appdir}/inc/Subscriptions
 %{_appdir}/inc/Ui
+%{_appdir}/inc/Utf8
 %{_appdir}/inc/parser
 
 # composer generated vendor autoload
@@ -386,24 +396,17 @@ exit 0
 %{_appdir}/lib/plugins/authldap/*.php
 %{_appdir}/lib/plugins/authldap/*.txt
 %{_appdir}/lib/plugins/authldap/conf
-%dir %{_appdir}/lib/plugins/authmysql
-%{_appdir}/lib/plugins/authmysql/*.php
-%{_appdir}/lib/plugins/authmysql/*.txt
-%{_appdir}/lib/plugins/authmysql/conf
 %dir %{_appdir}/lib/plugins/authpdo
 %{_appdir}/lib/plugins/authpdo/*.php
 %{_appdir}/lib/plugins/authpdo/*.txt
 %{_appdir}/lib/plugins/authpdo/README
 %{_appdir}/lib/plugins/authpdo/conf
-%{_appdir}/lib/plugins/authpgsql/*.php
-%{_appdir}/lib/plugins/authpgsql/conf
-%{_appdir}/lib/plugins/authpgsql/*.txt
-%dir %{_appdir}/lib/plugins/authpgsql
 %dir %{_appdir}/lib/plugins/authplain
 %{_appdir}/lib/plugins/authplain/*.php
 %{_appdir}/lib/plugins/authplain/*.txt
 %dir %{_appdir}/lib/plugins/config
 %{_appdir}/lib/plugins/config/*.*
+%{_appdir}/lib/plugins/config/core
 %{_appdir}/lib/plugins/config/images
 %{_appdir}/lib/plugins/config/settings
 %dir %{_appdir}/lib/plugins/extension

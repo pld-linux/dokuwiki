@@ -48,36 +48,36 @@
      } elseif($who == 'subscribers') {
          if(!actionOK('subscribe')) return false; //subscribers enabled?
          if($conf['useacl'] && $INPUT->server->str('REMOTE_USER') && $minor) return false; //skip minors
---- dokuwiki-2018-04-22c.org/inc/media.php	2020-05-01 12:38:20.000000000 +0200
-+++ dokuwiki-2018-04-22c/inc/media.php	2022-09-27 22:46:33.924670225 +0200
-@@ -647,10 +647,11 @@ function media_contentcheck($file,$mime)
+--- dokuwiki-2020-07-29a/inc/media.php~	2022-09-03 19:58:24.000000000 +0300
++++ dokuwiki-2020-07-29a/inc/media.php	2023-03-27 11:31:29.468008469 +0300
+@@ -669,10 +669,11 @@
   */
- function media_notify($id,$file,$mime,$old_rev=false){
+ function media_notify($id,$file,$mime,$old_rev=false,$current_rev=false){
      global $conf;
 -    if(empty($conf['notify'])) return false; //notify enabled?
 +    $to = notifyNS($id, $conf['notify']);
 +    if(empty($to)) return false; //notify enabled?
  
-     $subscription = new Subscription();
--    return $subscription->send_media_diff($conf['notify'], 'uploadmail', $id, $old_rev);
-+    return $subscription->send_media_diff($to, 'uploadmail', $id, $old_rev);
+     $subscription = new MediaSubscriptionSender();
+-    return $subscription->sendMediaDiff($conf['notify'], 'uploadmail', $id, $old_rev, $current_rev);
++    return $subscription->sendMediaDiff($to, 'uploadmail', $id, $old_rev, $current_rev);
  }
  
  /**
---- dokuwiki-2018-04-22c.org/inc/subscription.php	2020-05-01 12:38:20.000000000 +0200
-+++ dokuwiki-2018-04-22c/inc/subscription.php	2022-09-27 22:46:33.924670225 +0200
-@@ -489,7 +489,8 @@ class Subscription {
-      */
-     public function send_register($login, $fullname, $email) {
+--- dokuwiki-2020-07-29a/inc/Subscriptions/RegistrationSubscriptionSender.php~	2022-09-03 19:58:24.000000000 +0300
++++ dokuwiki-2020-07-29a/inc/Subscriptions/RegistrationSubscriptionSender.php	2023-03-27 11:37:39.640069460 +0300
+@@ -19,7 +19,8 @@
+     public function sendRegister($login, $fullname, $email)
+     {
          global $conf;
--        if(empty($conf['registernotify'])) return false;
-+        $to = notifyNS($id, $conf['registernotify']);
-+        if(empty($to)) return false;
+-        if (empty($conf['registernotify'])) {
++        $to = notifyNS($id, $conf['registernotify']); // XXX $id undefined
++        if (empty($to)) {
+             return false;
+         }
  
-         $trep = array(
-             'NEWUSER' => $login,
-@@ -498,7 +499,7 @@ class Subscription {
-         );
+@@ -30,7 +31,7 @@
+         ];
  
          return $this->send(
 -            $conf['registernotify'],
@@ -85,13 +85,15 @@
              'new_user',
              $login,
              'registermail',
-@@ -682,7 +683,8 @@ class Subscription {
+--- dokuwiki-2020-07-29a/./inc/Subscriptions/SubscriberManager.php~	2022-09-03 19:58:24.000000000 +0300
++++ dokuwiki-2020-07-29a/./inc/Subscriptions/SubscriberManager.php	2023-03-27 11:38:57.900505224 +0300
+@@ -257,7 +257,8 @@
  
                  $level = auth_aclcheck($id, $user, $userinfo['grps']);
-                 if($level >= AUTH_READ) {
--                    if(strcasecmp($userinfo['mail'], $conf['notify']) != 0) { //skip user who get notified elsewhere
+                 if ($level >= AUTH_READ) {
+-                    if (strcasecmp($userinfo['mail'], $conf['notify']) != 0) { //skip user who get notified elsewhere
 +                    $to = notifyNS($id, $conf['notify']);
-+                    if(strcasecmp($userinfo['mail'], $to) != 0) { //skip user who get notified elsewhere
++                    if (strcasecmp($userinfo['mail'], $to) != 0) { //skip user who get notified elsewhere
                          $result[$user] = $userinfo['mail'];
                      }
                  }

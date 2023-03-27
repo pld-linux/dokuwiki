@@ -1,19 +1,22 @@
---- dokuwiki-2016-06-26a/inc/lang/en/mailtext.txt~	2016-07-03 19:08:51.000000000 +0300
-+++ dokuwiki-2016-06-26a/inc/lang/en/mailtext.txt	2016-07-12 13:20:56.266379618 +0300
-@@ -1,12 +1,8 @@
+--- dokuwiki-2020-07-29a/inc/lang/en/mailtext.txt~	2022-09-03 19:58:24.000000000 +0300
++++ dokuwiki-2020-07-29a/inc/lang/en/mailtext.txt	2023-03-27 11:29:31.414021049 +0300
+@@ -1,15 +1,8 @@
 -A page in your DokuWiki was added or changed. Here are the details:
 -
--Date        : @DATE@
--Browser     : @BROWSER@
--IP-Address  : @IPADDRESS@
--Hostname    : @HOSTNAME@
--Old Revision: @OLDPAGE@
--New Revision: @NEWPAGE@
--Edit Summary: @SUMMARY@
--User        : @USER@
+-Browser             : @BROWSER@
+-IP Address          : @IPADDRESS@
+-Hostname            : @HOSTNAME@
+-Old Revision        : @OLDPAGE@
+-New Revision        : @NEWPAGE@
+-Date of New Revision: @DATE@
+-Edit Summary        : @SUMMARY@
+-User                : @USER@
+-
+-There may be newer changes after this revision. If this
+-happens, a message will be shown on the top of the rev page.
 -
 +@SUMMARY@
-+ 
++
 +--- @OLDPAGE@
 ++++ @NEWPAGE@
  @DIFF@
