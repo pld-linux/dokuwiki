@@ -1,8 +1,8 @@
-%define		subver	2020-07-29a
+%define		subver	2022-07-31a
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
-%define		php_min_version 5.6.0
+%define		php_min_version 7.2
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
@@ -12,7 +12,7 @@ License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: https://download.dokuwiki.org/archive
 Source0:	https://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	86d5d43b07c4bfaf7630c438ae9ce0d7
+# Source0-md5:	4459ea99e3a4ce2b767482f505724dcc
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -137,7 +137,7 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 %patch10 -p1
 %patch11 -p1
 %patch19 -p1
-%patch21 -p1
+#%patch21 -p1
 #%patch24 -p1
 %patch27 -p1
 %patch66 -p1
@@ -152,6 +152,9 @@ find -name _dummy | xargs %{__rm}
 %{__rm} lib/index.html lib/plugins/index.html lib/images/index.html
 %{__rm} {conf,inc,bin,data}/.htaccess
 %{__rm} vendor/.htaccess
+%{__rm} lib/plugins/styling/.travis.yml
+%{__rm} -r lib/plugins/testing
+%{__rm} -r lib/plugins/*/_test
 
 # we just don't package deleted files, these get removed automatically on rpm upgrades
 %{__rm} data/deleted.files
@@ -340,7 +343,9 @@ exit 0
 %{_appdir}/inc/Cache
 %{_appdir}/inc/ChangeLog
 %{_appdir}/inc/Debug
+%{_appdir}/inc/Exception
 %{_appdir}/inc/Extension
+%{_appdir}/inc/File
 %{_appdir}/inc/Form
 %{_appdir}/inc/HTTP
 %{_appdir}/inc/Input
@@ -363,20 +368,21 @@ exit 0
 # bundled packages
 # verbose files to detect new addons
 %dir %{_appdir}/vendor/aziraphale
+%dir %{_appdir}/vendor/kissifrot
 %dir %{_appdir}/vendor/marcusschwarz
 %dir %{_appdir}/vendor/openpsa
-%dir %{_appdir}/vendor/paragonie
 %dir %{_appdir}/vendor/phpseclib
 %dir %{_appdir}/vendor/simplepie
 %dir %{_appdir}/vendor/splitbrain
 %{_appdir}/vendor/aziraphale/email-address-validator
+%{_appdir}/vendor/kissifrot/php-ixr
 %{_appdir}/vendor/marcusschwarz/lesserphp
 %{_appdir}/vendor/openpsa/universalfeedcreator
-%{_appdir}/vendor/paragonie/random_compat
 %{_appdir}/vendor/phpseclib/phpseclib
 %{_appdir}/vendor/simplepie/simplepie
 %{_appdir}/vendor/splitbrain/php-archive
 %{_appdir}/vendor/splitbrain/php-cli
+%{_appdir}/vendor/splitbrain/slika
 
 %dir %{_appdir}/lib
 # allow plugins dir permission change to allow installation of plugins from admin
@@ -413,6 +419,8 @@ exit 0
 %{_appdir}/lib/plugins/extension/*.*
 %{_appdir}/lib/plugins/extension/helper
 %{_appdir}/lib/plugins/extension/images
+%dir %{_appdir}/lib/plugins/logviewer
+%{_appdir}/lib/plugins/logviewer/*.*
 %dir %{_appdir}/lib/plugins/revert
 %{_appdir}/lib/plugins/revert/*.*
 %dir %{_appdir}/lib/plugins/safefnrecode

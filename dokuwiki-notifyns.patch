@@ -1,5 +1,5 @@
---- dokuwiki-2018-04-22c.org/inc/common.php	2022-09-27 22:46:33.691324681 +0200
-+++ dokuwiki-2018-04-22c/inc/common.php	2022-09-27 22:46:33.924670225 +0200
+--- dokuwiki-2022-07-31a/inc/common.php~	2023-03-30 18:04:18.000000000 +0300
++++ dokuwiki-2022-07-31a/inc/common.php	2023-03-30 18:05:59.000277451 +0300
 @@ -897,6 +897,34 @@ function gethostsbyaddrs($ips) {
      }
  }
@@ -35,32 +35,32 @@
  /**
   * Checks if a given page is currently locked.
   *
-@@ -1435,10 +1463,10 @@ function notify($id, $who, $rev = '', $s
+@@ -1346,10 +1346,10 @@
  
      // decide if there is something to do, eg. whom to mail
-     if($who == 'admin') {
--        if(empty($conf['notify'])) return false; //notify enabled?
-         if($conf['useacl'] && $_SERVER['REMOTE_USER'] && $minor) return; //skip minors
+     if ($who == 'admin') {
+-        if (empty($conf['notify'])) return false; //notify enabled?
+         if ($conf['useacl'] && $INPUT->server->str('REMOTE_USER') && $minor) return false; //skip minors
          $tpl = 'mailtext';
 -        $to  = $conf['notify'];
 +        $to  = notifyNS($id, $conf['notify']);
-+        if(empty($to)) return; //notify enabled?
-     } elseif($who == 'subscribers') {
-         if(!actionOK('subscribe')) return false; //subscribers enabled?
-         if($conf['useacl'] && $INPUT->server->str('REMOTE_USER') && $minor) return false; //skip minors
---- dokuwiki-2020-07-29a/inc/media.php~	2022-09-03 19:58:24.000000000 +0300
-+++ dokuwiki-2020-07-29a/inc/media.php	2023-03-27 11:31:29.468008469 +0300
-@@ -669,10 +669,11 @@
++        if (empty($to)) return false; //notify enabled?
+     } elseif ($who == 'subscribers') {
+         if (!actionOK('subscribe')) return false; //subscribers enabled?
+         if ($conf['useacl'] && $INPUT->server->str('REMOTE_USER') && $minor) return false; //skip minors
+--- dokuwiki-2022-07-31a/inc/media.php~	2022-09-03 20:15:22.000000000 +0300
++++ dokuwiki-2022-07-31a/inc/media.php	2023-03-30 18:08:07.797735926 +0300
+@@ -668,10 +668,11 @@
   */
  function media_notify($id,$file,$mime,$old_rev=false,$current_rev=false){
      global $conf;
--    if(empty($conf['notify'])) return false; //notify enabled?
+-    if(empty($conf['notify'])) return; //notify enabled?
 +    $to = notifyNS($id, $conf['notify']);
-+    if(empty($to)) return false; //notify enabled?
++    if (empty($to)) return; //notify enabled?
  
      $subscription = new MediaSubscriptionSender();
--    return $subscription->sendMediaDiff($conf['notify'], 'uploadmail', $id, $old_rev, $current_rev);
-+    return $subscription->sendMediaDiff($to, 'uploadmail', $id, $old_rev, $current_rev);
+-    $subscription->sendMediaDiff($conf['notify'], 'uploadmail', $id, $old_rev, $current_rev);
++    $subscription->sendMediaDiff($to, 'uploadmail', $id, $old_rev, $current_rev);
  }
  
  /**
