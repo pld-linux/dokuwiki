@@ -76,6 +76,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_appdir		%{_datadir}/%{_webapp}
 %define		_localstatedir	/var/lib/%{name}
 %define		_cachedir		/var/cache/%{name}
+%define		_logdir			/var/log/php/%{name}
 
 %define		_noautoreq_pear lib/byte_safe_strings.php lib/cast_to_int.php lib/error_polyfill.php lib/random.php other/ide_stubs/libsodium.php
 
@@ -180,7 +181,7 @@ find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{lang,plugin_lang},%{_localstatedir},%{_cachedir},%{_appdir}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{lang,plugin_lang},%{_localstatedir},%{_cachedir},%{_appdir},%{_logdir}}
 
 # hardlink test
 cp -al VERSION $RPM_BUILD_ROOT%{_appdir} 2>/dev/null && l=l
@@ -476,6 +477,7 @@ exit 0
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/dont-panic-if-you-see-this-in-your-logs-it-means-your-directory-permissions-are-correct.png
 
 %dir %attr(770,root,http) %{_cachedir}
+%dir %attr(770,root,http) %{_logdir}
 
 %files setup
 %defattr(644,root,root,755)

@@ -1,6 +1,6 @@
 --- dokuwiki-2020-07-29a/conf/dokuwiki.php	2023-03-27 11:52:04.144883301 +0300
 +++ dokuwiki-2020-07-29a/conf/dokuwiki.php	2023-03-27 12:03:50.328816007 +0300
-@@ -13,14 +13,15 @@
+@@ -13,14 +13,16 @@
  
  
  /* Basic Settings */
@@ -16,10 +16,11 @@
 +$conf['license']     = 'publicdomain';    //see conf/license.php
 +$conf['savedir']     = '/var/lib/dokuwiki';  //where to store all the files
 +$conf['cachedir']    = '/var/cache/dokuwiki';  //where cache files are stored
++$conf['logdir']      = '/var/log/php/dokuwiki';
  $conf['basedir']     = '';                //absolute dir from serveroot - blank for autodetection
  $conf['baseurl']     = '';                //URL to server including protocol - blank for autodetect
  $conf['cookiedir']   = '';                //path to use in cookies - blank for basedir
-@@ -140,7 +141,7 @@
+@@ -140,7 +142,7 @@
  $conf['rss_show_deleted'] = 1;           //Show deleted items 0|1
  
  /* Advanced Settings */
