@@ -33,7 +33,6 @@ Source13:	http://mirrors.jenkins-ci.org/art/jenkins-logo/16x16/headshot.png?/jen
 # Source13-md5:	ae892e4ca43ffab88f6e3dca951f3e8a
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
-Patch1:		autoload.patch
 Patch2:		style-width.patch
 Patch5:		%{name}-http_auth-option.patch
 Patch8:		%{name}-notify-respect-minor.patch
@@ -129,7 +128,6 @@ test -e data/pages/playground/playground.txt || \
 echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 %patch5 -p1
 %patch8 -p1
