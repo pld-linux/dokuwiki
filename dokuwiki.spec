@@ -35,7 +35,6 @@ Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
 Patch1:		autoload.patch
 Patch2:		style-width.patch
-Patch4:		%{name}-geshi.patch
 Patch5:		%{name}-http_auth-option.patch
 Patch8:		%{name}-notify-respect-minor.patch
 Patch10:	%{name}-mailtext.patch
@@ -78,7 +77,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_localstatedir	/var/lib/%{name}
 %define		_cachedir		/var/cache/%{name}
 
-%define		_noautoreq_pear /usr/share/php/geshi.php lib/byte_safe_strings.php lib/cast_to_int.php lib/error_polyfill.php lib/random.php other/ide_stubs/libsodium.php
+%define		_noautoreq_pear lib/byte_safe_strings.php lib/cast_to_int.php lib/error_polyfill.php lib/random.php other/ide_stubs/libsodium.php
 
 # exclude optional php dependencies
 %define		_noautophp	php-bzip2 php-bcmath php-zip php-date php-ftp php-hash php-ldap php-mbstring php-mysql php-pgsql php-tokenizer
@@ -131,7 +130,6 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch4 -p1
 %patch5 -p1
 %patch8 -p1
 %patch10 -p1
@@ -165,7 +163,8 @@ find -name _dummy | xargs %{__rm}
 
 # use system geshi package
 %{__rm} -r vendor/geshi/geshi
-rmdir vendor/geshi
+install -d vendor/geshi/geshi/src
+%{__ln} -snf %{php_data_dir}/geshi.php vendor/geshi/geshi/src/geshi.php
 
 # use system simplepie package
 #%{__rm} inc/SimplePie.php
@@ -368,6 +367,7 @@ exit 0
 # bundled packages
 # verbose files to detect new addons
 %dir %{_appdir}/vendor/aziraphale
+%dir %{_appdir}/vendor/geshi
 %dir %{_appdir}/vendor/kissifrot
 %dir %{_appdir}/vendor/marcusschwarz
 %dir %{_appdir}/vendor/openpsa
@@ -375,6 +375,7 @@ exit 0
 %dir %{_appdir}/vendor/simplepie
 %dir %{_appdir}/vendor/splitbrain
 %{_appdir}/vendor/aziraphale/email-address-validator
+%{_appdir}/vendor/geshi/geshi
 %{_appdir}/vendor/kissifrot/php-ixr
 %{_appdir}/vendor/marcusschwarz/lesserphp
 %{_appdir}/vendor/openpsa/universalfeedcreator
