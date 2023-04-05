@@ -10,14 +10,14 @@
  $conf['securecookie'] = 1;               //never send HTTPS cookies via HTTP
  $conf['remote']      = 0;                //Enable/disable remote interfaces
  $conf['remoteuser']  = '!!not set!!';    //user/groups that have access to remote interface (comma separated). leave empty to allow all users
---- dokuwiki-2018-04-22c.org/inc/auth.php	2020-05-01 12:38:20.000000000 +0200
-+++ dokuwiki-2018-04-22c/inc/auth.php	2022-09-27 22:46:31.557879706 +0200
-@@ -84,7 +84,7 @@ function auth_setup() {
+--- dokuwiki-2023-04-04/inc/auth.php~	2023-04-04 19:21:21.000000000 +0300
++++ dokuwiki-2023-04-04/inc/auth.php	2023-04-05 15:43:33.873377532 +0300
+@@ -75,7 +75,7 @@
      }
  
      // if no credentials were given try to use HTTP auth (for SSO)
--    if(!$INPUT->str('u') && empty($_COOKIE[DOKU_COOKIE]) && !empty($_SERVER['PHP_AUTH_USER'])) {
-+    if($conf['http_auth'] && !$INPUT->str('u') && empty($_COOKIE[DOKU_COOKIE]) && !empty($_SERVER['PHP_AUTH_USER'])) {
-         $INPUT->set('u', $_SERVER['PHP_AUTH_USER']);
-         $INPUT->set('p', $_SERVER['PHP_AUTH_PW']);
+-    if (!$INPUT->str('u') && empty($_COOKIE[DOKU_COOKIE]) && !empty($INPUT->server->str('PHP_AUTH_USER'))) {
++    if ($conf['http_auth'] && !$INPUT->str('u') && empty($_COOKIE[DOKU_COOKIE]) && !empty($INPUT->server->str('PHP_AUTH_USER'))) {
+         $INPUT->set('u', $INPUT->server->str('PHP_AUTH_USER'));
+         $INPUT->set('p', $INPUT->server->str('PHP_AUTH_PW'));
          $INPUT->set('http_credentials', true);

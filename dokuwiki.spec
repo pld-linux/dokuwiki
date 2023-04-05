@@ -1,4 +1,4 @@
-%define		subver	2022-07-31a
+%define		subver	2023-04-04
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
@@ -7,12 +7,12 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	2
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: https://download.dokuwiki.org/archive
-Source0:	https://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	4459ea99e3a4ce2b767482f505724dcc
+Source0:	https://github.com/dokuwiki/dokuwiki/releases/download/release-%{subver}/dokuwiki-%{subver}.tgz
+# Source0-md5:	a112952394f3d4b76efb9dc2f985f99f
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -148,7 +148,6 @@ find -name _dummy | xargs %{__rm}
 %{__rm} {conf,inc,bin,data}/.htaccess
 %{__rm} vendor/.htaccess
 %{__rm} lib/plugins/styling/.travis.yml
-%{__rm} -r lib/plugins/testing
 %{__rm} -r lib/plugins/*/_test
 
 # we just don't package deleted files, these get removed automatically on rpm upgrades
@@ -162,6 +161,9 @@ find -name _dummy | xargs %{__rm}
 %{__rm} -r vendor/geshi/geshi
 install -d vendor/geshi/geshi/src
 %{__ln} -snf %{php_data_dir}/geshi.php vendor/geshi/geshi/src/geshi.php
+
+# generic vendor cleanup
+%{__rm} -v vendor/*/*/composer.*
 
 # use system simplepie package
 #%{__rm} inc/SimplePie.php
@@ -380,6 +382,7 @@ exit 0
 %{_appdir}/vendor/simplepie/simplepie
 %{_appdir}/vendor/splitbrain/php-archive
 %{_appdir}/vendor/splitbrain/php-cli
+%{_appdir}/vendor/splitbrain/php-jsstrip
 %{_appdir}/vendor/splitbrain/slika
 
 %dir %{_appdir}/lib
