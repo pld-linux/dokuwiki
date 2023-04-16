@@ -1,8 +1,8 @@
-%define		subver	2020-07-29a
+%define		subver	2022-07-31a
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
-%define		php_min_version 5.6.0
+%define		php_min_version 7.2
 Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
@@ -12,7 +12,7 @@ License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: https://download.dokuwiki.org/archive
 Source0:	https://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	86d5d43b07c4bfaf7630c438ae9ce0d7
+# Source0-md5:	4459ea99e3a4ce2b767482f505724dcc
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
@@ -33,9 +33,7 @@ Source13:	http://mirrors.jenkins-ci.org/art/jenkins-logo/16x16/headshot.png?/jen
 # Source13-md5:	ae892e4ca43ffab88f6e3dca951f3e8a
 Patch66:	%{name}-config.patch
 Patch0:		%{name}-paths.patch
-Patch1:		autoload.patch
 Patch2:		style-width.patch
-Patch4:		%{name}-geshi.patch
 Patch5:		%{name}-http_auth-option.patch
 Patch8:		%{name}-notify-respect-minor.patch
 Patch10:	%{name}-mailtext.patch
@@ -77,8 +75,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_appdir		%{_datadir}/%{_webapp}
 %define		_localstatedir	/var/lib/%{name}
 %define		_cachedir		/var/cache/%{name}
+%define		_logdir			/var/log/php/%{name}
 
-%define		_noautoreq_pear /usr/share/php/geshi.php lib/byte_safe_strings.php lib/cast_to_int.php lib/error_polyfill.php lib/random.php other/ide_stubs/libsodium.php
+%define		_noautoreq_pear lib/byte_safe_strings.php lib/cast_to_int.php lib/error_polyfill.php lib/random.php other/ide_stubs/libsodium.php
 
 # exclude optional php dependencies
 %define		_noautophp	php-bzip2 php-bcmath php-zip php-date php-ftp php-hash php-ldap php-mbstring php-mysql php-pgsql php-tokenizer
@@ -129,15 +128,13 @@ test -e data/pages/playground/playground.txt || \
 echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
-%patch4 -p1
 %patch5 -p1
 %patch8 -p1
 %patch10 -p1
 %patch11 -p1
 %patch19 -p1
-%patch21 -p1
+#%patch21 -p1
 #%patch24 -p1
 %patch27 -p1
 %patch66 -p1
@@ -152,6 +149,9 @@ find -name _dummy | xargs %{__rm}
 %{__rm} lib/index.html lib/plugins/index.html lib/images/index.html
 %{__rm} {conf,inc,bin,data}/.htaccess
 %{__rm} vendor/.htaccess
+%{__rm} lib/plugins/styling/.travis.yml
+%{__rm} -r lib/plugins/testing
+%{__rm} -r lib/plugins/*/_test
 
 # we just don't package deleted files, these get removed automatically on rpm upgrades
 %{__rm} data/deleted.files
@@ -162,7 +162,8 @@ find -name _dummy | xargs %{__rm}
 
 # use system geshi package
 %{__rm} -r vendor/geshi/geshi
-rmdir vendor/geshi
+install -d vendor/geshi/geshi/src
+%{__ln} -snf %{php_data_dir}/geshi.php vendor/geshi/geshi/src/geshi.php
 
 # use system simplepie package
 #%{__rm} inc/SimplePie.php
@@ -178,7 +179,7 @@ find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{lang,plugin_lang},%{_localstatedir},%{_cachedir},%{_appdir}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{lang,plugin_lang},%{_localstatedir},%{_cachedir},%{_appdir},%{_logdir}}
 
 # hardlink test
 cp -al VERSION $RPM_BUILD_ROOT%{_appdir} 2>/dev/null && l=l
@@ -340,7 +341,9 @@ exit 0
 %{_appdir}/inc/Cache
 %{_appdir}/inc/ChangeLog
 %{_appdir}/inc/Debug
+%{_appdir}/inc/Exception
 %{_appdir}/inc/Extension
+%{_appdir}/inc/File
 %{_appdir}/inc/Form
 %{_appdir}/inc/HTTP
 %{_appdir}/inc/Input
@@ -363,20 +366,23 @@ exit 0
 # bundled packages
 # verbose files to detect new addons
 %dir %{_appdir}/vendor/aziraphale
+%dir %{_appdir}/vendor/geshi
+%dir %{_appdir}/vendor/kissifrot
 %dir %{_appdir}/vendor/marcusschwarz
 %dir %{_appdir}/vendor/openpsa
-%dir %{_appdir}/vendor/paragonie
 %dir %{_appdir}/vendor/phpseclib
 %dir %{_appdir}/vendor/simplepie
 %dir %{_appdir}/vendor/splitbrain
 %{_appdir}/vendor/aziraphale/email-address-validator
+%{_appdir}/vendor/geshi/geshi
+%{_appdir}/vendor/kissifrot/php-ixr
 %{_appdir}/vendor/marcusschwarz/lesserphp
 %{_appdir}/vendor/openpsa/universalfeedcreator
-%{_appdir}/vendor/paragonie/random_compat
 %{_appdir}/vendor/phpseclib/phpseclib
 %{_appdir}/vendor/simplepie/simplepie
 %{_appdir}/vendor/splitbrain/php-archive
 %{_appdir}/vendor/splitbrain/php-cli
+%{_appdir}/vendor/splitbrain/slika
 
 %dir %{_appdir}/lib
 # allow plugins dir permission change to allow installation of plugins from admin
@@ -413,6 +419,8 @@ exit 0
 %{_appdir}/lib/plugins/extension/*.*
 %{_appdir}/lib/plugins/extension/helper
 %{_appdir}/lib/plugins/extension/images
+%dir %{_appdir}/lib/plugins/logviewer
+%{_appdir}/lib/plugins/logviewer/*.*
 %dir %{_appdir}/lib/plugins/revert
 %{_appdir}/lib/plugins/revert/*.*
 %dir %{_appdir}/lib/plugins/safefnrecode
@@ -467,6 +475,7 @@ exit 0
 %attr(660,root,http) %config(noreplace,missingok) %verify(not md5 mtime size) %{_localstatedir}/dont-panic-if-you-see-this-in-your-logs-it-means-your-directory-permissions-are-correct.png
 
 %dir %attr(770,root,http) %{_cachedir}
+%dir %attr(770,root,http) %{_logdir}
 
 %files setup
 %defattr(644,root,root,755)

@@ -1,10 +1,12 @@
---- dokuwiki-2013-02-01/inc/common.php~	2013-01-28 00:59:02.000000000 +0200
-+++ dokuwiki-2013-02-01/inc/common.php	2013-02-01 01:29:08.204212401 +0200
-@@ -1110,6 +1110,7 @@
+Upstream: https://github.com/dokuwiki/dokuwiki/pull/2651
+
+--- dokuwiki-2022-07-31a/inc/common.php~	2022-09-03 20:15:22.000000000 +0300
++++ dokuwiki-2022-07-31a/inc/common.php	2023-03-30 18:03:39.419419351 +0300
+@@ -1319,6 +1319,7 @@
      // decide if there is something to do, eg. whom to mail
-     if($who == 'admin') {
-         if(empty($conf['notify'])) return false; //notify enabled?
-+        if($conf['useacl'] && $_SERVER['REMOTE_USER'] && $minor) return; //skip minors
+     if ($who == 'admin') {
+         if (empty($conf['notify'])) return false; //notify enabled?
++        if ($conf['useacl'] && $INPUT->server->str('REMOTE_USER') && $minor) return false; //skip minors
          $tpl = 'mailtext';
          $to  = $conf['notify'];
-     } elseif($who == 'subscribers') {
+     } elseif ($who == 'subscribers') {
