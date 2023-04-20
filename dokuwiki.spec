@@ -7,7 +7,7 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: https://download.dokuwiki.org/archive
@@ -37,7 +37,6 @@ Patch2:		style-width.patch
 Patch5:		%{name}-http_auth-option.patch
 Patch8:		%{name}-notify-respect-minor.patch
 Patch10:	%{name}-mailtext.patch
-Patch11:	%{name}-notifyns.patch
 Patch19:	pld-branding.patch
 Patch21:	task-1821.patch
 Patch24:	more-buttons.patch
@@ -132,7 +131,6 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 %patch5 -p1
 %patch8 -p1
 %patch10 -p1
-%patch11 -p1
 %patch19 -p1
 #%patch21 -p1
 #%patch24 -p1
