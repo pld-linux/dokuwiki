@@ -18,6 +18,7 @@ Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
 # Source3-md5:	623344128960e18f86097dfee213ad4a
 Source4:	eventum.gif
+Source5:	preload.php
 Source6:	pld_button.png
 # Source6-md5:	185afa921e81bd726b9f0f9f0909dc6e
 Source7:	cacti.gif
@@ -217,6 +218,7 @@ cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/jude.png
 cp -p %{SOURCE11} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/asta.png
 
 cp -p %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/tpl/dokuwiki/images/button-pld.png
+cp -p %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/inc/preload.php
 
 # hardlink identical icons.
 findup -m $RPM_BUILD_ROOT
