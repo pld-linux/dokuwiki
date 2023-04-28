@@ -220,6 +220,11 @@ cp -p %{SOURCE11} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/asta.png
 cp -p %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/tpl/dokuwiki/images/button-pld.png
 cp -p %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/inc/preload.php
 
+# Move back to conf, to be readonly
+install -d $RPM_BUILD_ROOT%{_appdir}/conf
+set -- acronyms.conf dokuwiki.php entities.conf interwiki.conf license.php mediameta.php mime.conf mysql.conf.php scheme.conf smileys.conf wordblock.conf
+(cd $RPM_BUILD_ROOT%{_sysconfdir} && mv "$@" $RPM_BUILD_ROOT%{_appdir}/conf)
+
 # hardlink identical icons.
 findup -m $RPM_BUILD_ROOT
 
@@ -289,10 +294,7 @@ exit 0
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
 
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mediameta.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/plugins.php
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/scheme.conf
-
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acl.auth.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/entities.local.conf
@@ -300,7 +302,6 @@ exit 0
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/license.local.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.protected.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.local.conf
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mysql.conf.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/users.auth.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/userscript.js
@@ -310,16 +311,7 @@ exit 0
 %attr(640,root,http) %config(noreplace) %verify(not md5 mode mtime size) %{_sysconfdir}/plugins.local.php
 
 # use local.php, local.protected.php, etc for local changes
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/entities.conf
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/interwiki.conf
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/mime.conf
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/smileys.conf
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/wordblock.conf
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/manifest.json
-
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/license.php
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/plugins.required.php
 
 %dir %{_appdir}
@@ -327,6 +319,7 @@ exit 0
 %{_appdir}/doku.php
 %{_appdir}/feed.php
 %{_appdir}/index.php
+%{_appdir}/conf
 %dir %{_appdir}/bin
 %attr(755,root,root) %{_appdir}/bin/dwpage.php
 %attr(755,root,root) %{_appdir}/bin/gittool.php
