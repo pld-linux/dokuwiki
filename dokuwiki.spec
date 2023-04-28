@@ -50,7 +50,7 @@ BuildRequires:	rpmbuild(macros) >= 1.693
 Requires:	php(core) >= %{php_min_version}
 Requires:	php(session)
 Requires:	php(xml)
-Requires:	php-geshi >= 1.0.7.19
+Requires:	php-geshi >= 1.0.9.1
 Requires:	webapps
 Requires:	webserver(access)
 Requires:	webserver(alias)
