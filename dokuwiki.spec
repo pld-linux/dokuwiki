@@ -44,6 +44,7 @@ Patch24:	more-buttons.patch
 Patch27:	iconsizes-dump.patch
 Patch28:	https://github.com/dokuwiki/dokuwiki/pull/2432.diff
 # Patch28-md5:	5afbddfdd2b5c3a72377ead41da555af
+Patch29:	tokenauth-lowercase-header.patch
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
@@ -137,6 +138,7 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 #%patch24 -p1
 %patch27 -p1
 %patch28 -p1
+%patch29 -p1
 %patch66 -p1
 
 # package as basenames, upgrade overwrite protected with .rpmnew
