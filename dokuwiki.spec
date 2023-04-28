@@ -40,7 +40,6 @@ Patch8:		%{name}-notify-respect-minor.patch
 Patch10:	%{name}-mailtext.patch
 Patch19:	pld-branding.patch
 Patch21:	task-1821.patch
-Patch24:	more-buttons.patch
 Patch27:	iconsizes-dump.patch
 Patch28:	https://github.com/dokuwiki/dokuwiki/pull/2432.diff
 # Patch28-md5:	5afbddfdd2b5c3a72377ead41da555af
@@ -135,7 +134,6 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 %patch10 -p1
 %patch19 -p1
 #%patch21 -p1
-#%patch24 -p1
 %patch27 -p1
 %patch28 -p1
 %patch29 -p1
