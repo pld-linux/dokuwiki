@@ -1,0 +1,10 @@
+--- dokuwiki-2023-04-04/inc/auth.php~	2023-04-28 23:43:03.000000000 +0300
++++ dokuwiki-2023-04-04/inc/auth.php	2023-04-29 00:53:43.324078441 +0300
+@@ -177,6 +177,7 @@
+         // Authorization headers are not in $_SERVER for mod_php
+         $headers = apache_request_headers();
+         if(isset($headers['Authorization'])) $header = $headers['Authorization'];
++        if(!$header && isset($headers['authorization'])) $header = $headers['authorization'];
+     } else {
+         $header = $INPUT->server->str('HTTP_AUTHORIZATION');
+     }

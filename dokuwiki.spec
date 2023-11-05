@@ -1,4 +1,4 @@
-%define		subver	2022-07-31a
+%define		subver	2023-04-04
 %define		ver		%(echo %{subver} | tr -d -)
 #define		snap	1
 #define		rc_	1
@@ -7,17 +7,18 @@ Summary:	PHP-based Wiki webapplication
 Summary(pl.UTF-8):	Aplikacja WWW Wiki oparta na PHP
 Name:		dokuwiki
 Version:	%{ver}
-Release:	2
+Release:	1
 License:	GPL v2
 Group:		Applications/WWW
 # Source0Download: https://download.dokuwiki.org/archive
-Source0:	https://download.dokuwiki.org/src/dokuwiki/%{name}-%{subver}.tgz
-# Source0-md5:	4459ea99e3a4ce2b767482f505724dcc
+Source0:	https://github.com/dokuwiki/dokuwiki/releases/download/release-%{subver}/dokuwiki-%{subver}.tgz
+# Source0-md5:	a112952394f3d4b76efb9dc2f985f99f
 Source1:	%{name}-apache.conf
 Source2:	%{name}-lighttpd.conf
 Source3:	http://glen.alkohol.ee/pld/jude.png
 # Source3-md5:	623344128960e18f86097dfee213ad4a
 Source4:	eventum.gif
+Source5:	preload.php
 Source6:	pld_button.png
 # Source6-md5:	185afa921e81bd726b9f0f9f0909dc6e
 Source7:	cacti.gif
@@ -39,8 +40,10 @@ Patch8:		%{name}-notify-respect-minor.patch
 Patch10:	%{name}-mailtext.patch
 Patch19:	pld-branding.patch
 Patch21:	task-1821.patch
-Patch24:	more-buttons.patch
 Patch27:	iconsizes-dump.patch
+Patch28:	https://github.com/dokuwiki/dokuwiki/pull/2432.diff
+# Patch28-md5:	5afbddfdd2b5c3a72377ead41da555af
+Patch29:	tokenauth-lowercase-header.patch
 URL:		https://www.dokuwiki.org/
 BuildRequires:	fslint
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
@@ -49,9 +52,7 @@ BuildRequires:	rpmbuild(macros) >= 1.693
 Requires:	php(core) >= %{php_min_version}
 Requires:	php(session)
 Requires:	php(xml)
-Requires:	php-geshi >= 1.0.7.19
-Requires:	php-seclib >= 0.3.5
-Requires:	php-simplepie >= 1.0.1
+Requires:	php-geshi >= 1.0.9.1
 Requires:	webapps
 Requires:	webserver(access)
 Requires:	webserver(alias)
@@ -133,8 +134,9 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 %patch10 -p1
 %patch19 -p1
 #%patch21 -p1
-#%patch24 -p1
 %patch27 -p1
+%patch28 -p1
+%patch29 -p1
 %patch66 -p1
 
 # package as basenames, upgrade overwrite protected with .rpmnew
@@ -148,7 +150,6 @@ find -name _dummy | xargs %{__rm}
 %{__rm} {conf,inc,bin,data}/.htaccess
 %{__rm} vendor/.htaccess
 %{__rm} lib/plugins/styling/.travis.yml
-%{__rm} -r lib/plugins/testing
 %{__rm} -r lib/plugins/*/_test
 
 # we just don't package deleted files, these get removed automatically on rpm upgrades
@@ -162,6 +163,9 @@ find -name _dummy | xargs %{__rm}
 %{__rm} -r vendor/geshi/geshi
 install -d vendor/geshi/geshi/src
 %{__ln} -snf %{php_data_dir}/geshi.php vendor/geshi/geshi/src/geshi.php
+
+# generic vendor cleanup
+%{__rm} -v vendor/*/*/composer.*
 
 # use system simplepie package
 #%{__rm} inc/SimplePie.php
@@ -215,6 +219,12 @@ cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/jude.png
 cp -p %{SOURCE11} $RPM_BUILD_ROOT%{_appdir}/lib/images/fileicons/asta.png
 
 cp -p %{SOURCE6} $RPM_BUILD_ROOT%{_appdir}/lib/tpl/dokuwiki/images/button-pld.png
+cp -p %{SOURCE5} $RPM_BUILD_ROOT%{_appdir}/inc/preload.php
+
+# Move back to conf, to be readonly
+install -d $RPM_BUILD_ROOT%{_appdir}/conf
+set -- acronyms.conf dokuwiki.php entities.conf interwiki.conf license.php mediameta.php mime.conf mysql.conf.php scheme.conf smileys.conf wordblock.conf
+(cd $RPM_BUILD_ROOT%{_sysconfdir} && mv "$@" $RPM_BUILD_ROOT%{_appdir}/conf)
 
 # hardlink identical icons.
 findup -m $RPM_BUILD_ROOT
@@ -285,10 +295,7 @@ exit 0
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
 
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mediameta.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/plugins.php
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/scheme.conf
-
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acl.auth.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/acronyms.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/entities.local.conf
@@ -296,7 +303,6 @@ exit 0
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/license.local.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/local.protected.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mime.local.conf
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mysql.conf.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/smileys.local.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/users.auth.php
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/userscript.js
@@ -306,16 +312,7 @@ exit 0
 %attr(640,root,http) %config(noreplace) %verify(not md5 mode mtime size) %{_sysconfdir}/plugins.local.php
 
 # use local.php, local.protected.php, etc for local changes
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/acronyms.conf
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/entities.conf
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/interwiki.conf
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/mime.conf
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/smileys.conf
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/wordblock.conf
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/manifest.json
-
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/dokuwiki.php
-%attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/license.php
 %attr(640,root,http) %config %verify(not md5 mtime size) %{_sysconfdir}/plugins.required.php
 
 %dir %{_appdir}
@@ -323,6 +320,7 @@ exit 0
 %{_appdir}/doku.php
 %{_appdir}/feed.php
 %{_appdir}/index.php
+%{_appdir}/conf
 %dir %{_appdir}/bin
 %attr(755,root,root) %{_appdir}/bin/dwpage.php
 %attr(755,root,root) %{_appdir}/bin/gittool.php
@@ -380,6 +378,7 @@ exit 0
 %{_appdir}/vendor/simplepie/simplepie
 %{_appdir}/vendor/splitbrain/php-archive
 %{_appdir}/vendor/splitbrain/php-cli
+%{_appdir}/vendor/splitbrain/php-jsstrip
 %{_appdir}/vendor/splitbrain/slika
 
 %dir %{_appdir}/lib
