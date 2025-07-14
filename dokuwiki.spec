@@ -127,17 +127,17 @@ install -d data/pages/playground
 test -e data/pages/playground/playground.txt || \
 echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 
-%patch0 -p1
-%patch2 -p1
-%patch5 -p1
-%patch8 -p1
-%patch10 -p1
-%patch19 -p1
+%patch -P0 -p1
+%patch -P2 -p1
+%patch -P5 -p1
+%patch -P8 -p1
+%patch -P10 -p1
+%patch -P19 -p1
 #%patch21 -p1
-%patch27 -p1
-%patch28 -p1
-%patch29 -p1
-%patch66 -p1
+%patch -P27 -p1
+%patch -P28 -p1
+%patch -P29 -p1
+%patch -P66 -p1
 
 # package as basenames, upgrade overwrite protected with .rpmnew
 mv conf/local.php{.dist,}
