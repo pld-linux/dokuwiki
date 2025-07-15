@@ -133,7 +133,7 @@ echo '====== PlayGround ======' >  data/pages/playground/playground.txt
 %patch -P8 -p1
 %patch -P10 -p1
 %patch -P19 -p1
-#%patch21 -p1
+#%%patch21 -p1
 %patch -P27 -p1
 %patch -P28 -p1
 %patch -P29 -p1
